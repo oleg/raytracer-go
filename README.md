@@ -1,1 +1,1 @@
-# incubator
+# Ray Tracer in Go

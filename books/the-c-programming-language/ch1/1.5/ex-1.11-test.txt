@@ -1,4 +1,0 @@
-multiple spaces and tabs between words
-multiple lines without letters
-single character
-empty string

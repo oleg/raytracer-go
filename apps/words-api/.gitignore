@@ -1,8 +1,0 @@
-.idea
-target
-*.iml
-*.ipr
-*.iws
-/src/main/resources/appjs/node_modules
-.ideaDataSources/
-dataSources/

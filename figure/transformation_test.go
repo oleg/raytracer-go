@@ -1,9 +1,9 @@
 package figure
 
 import (
-	"github.com/stretchr/testify/assert"
 	"github.com/oleg/graytracer/multid"
 	"github.com/oleg/graytracer/oned"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
@@ -44,7 +44,7 @@ func Test_arbitrary_view_transformation(t *testing.T) {
 
 	tr := ViewTransform(from, to, up)
 
-	expected := multid.NewMatrix4(
+	expected := multid.NewMatrix(
 		`| -0.50709 | 0.50709 |  0.67612 | -2.36643 |  
 		 |  0.76772 | 0.60609 |  0.12122 | -2.82843 |
 		 | -0.35857 | 0.59761 | -0.71714 |  0.00000 |

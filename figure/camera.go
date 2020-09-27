@@ -11,7 +11,7 @@ type Camera struct {
 	HalfWidth, HalfHeight float64
 	FieldOfView           float64
 	PixelSize             float64
-	Transform             multid.Matrix4
+	Transform             multid.Matrix
 }
 
 func (camera Camera) RayForPixel(x, y int) Ray {
@@ -43,7 +43,7 @@ func MakeCameraD(hSize, vSize int, fieldOfView float64) Camera {
 	return MakeCamera(hSize, vSize, fieldOfView, multid.IdentityMatrix)
 }
 
-func MakeCamera(hSize, vSize int, fieldOfView float64, transform multid.Matrix4) Camera {
+func MakeCamera(hSize, vSize int, fieldOfView float64, transform multid.Matrix) Camera {
 	halfView := math.Tan(fieldOfView / 2.)
 	aspect := float64(hSize) / float64(vSize)
 	var halfWidth, halfHeight float64

@@ -1,9 +1,9 @@
 package figure
 
 import (
-	"github.com/stretchr/testify/assert"
 	"github.com/oleg/graytracer/multid"
 	"github.com/oleg/graytracer/oned"
+	"github.com/stretchr/testify/assert"
 	"math"
 	"testing"
 )
@@ -323,6 +323,6 @@ type TestPattern struct {
 func (t TestPattern) PatternAt(point oned.Point) oned.Color {
 	return oned.Color{point.X, point.Y, point.Z}
 }
-func (t TestPattern) Transform() multid.Matrix4 {
+func (t TestPattern) Transform() multid.Matrix {
 	return multid.IdentityMatrix
 }

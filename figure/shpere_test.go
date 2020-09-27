@@ -1,9 +1,9 @@
 package figure
 
 import (
-	"github.com/stretchr/testify/assert"
 	"github.com/oleg/graytracer/multid"
 	"github.com/oleg/graytracer/oned"
+	"github.com/stretchr/testify/assert"
 	"math"
 	"testing"
 )
@@ -163,4 +163,3 @@ func Test_helper_for_producing_sphere_with_glassy_material(t *testing.T) {
 	assert.Equal(t, 1.0, s.Material().Transparency)
 	assert.Equal(t, 1.5, s.Material().RefractiveIndex)
 }
-

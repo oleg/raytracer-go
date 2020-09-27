@@ -1,8 +1,8 @@
 package figure
 
 import (
-	"github.com/stretchr/testify/assert"
 	"github.com/oleg/graytracer/oned"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 

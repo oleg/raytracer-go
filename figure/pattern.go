@@ -8,7 +8,7 @@ import (
 
 type Pattern interface {
 	PatternAt(point oned.Point) oned.Color
-	Transform() multid.Matrix4
+	Transform() multid.Matrix
 }
 
 func PatternAtShape(pattern Pattern, shape Shape, worldPoint oned.Point) oned.Color {
@@ -20,13 +20,13 @@ func PatternAtShape(pattern Pattern, shape Shape, worldPoint oned.Point) oned.Co
 //todo refactor: remove duplicates
 type StripePattern struct {
 	A, B      oned.Color
-	transform multid.Matrix4
+	transform multid.Matrix
 }
 
 func MakeStripePattern(A, B oned.Color) StripePattern {
 	return StripePattern{A, B, multid.IdentityMatrix}
 }
-func MakeStripePatternT(A, B oned.Color, transform multid.Matrix4) StripePattern {
+func MakeStripePatternT(A, B oned.Color, transform multid.Matrix) StripePattern {
 	return StripePattern{A, B, transform}
 }
 
@@ -36,19 +36,19 @@ func (p StripePattern) PatternAt(point oned.Point) oned.Color {
 	}
 	return p.B
 }
-func (p StripePattern) Transform() multid.Matrix4 {
+func (p StripePattern) Transform() multid.Matrix {
 	return p.transform
 }
 
 type GradientPattern struct {
 	A, B      oned.Color
-	transform multid.Matrix4
+	transform multid.Matrix
 }
 
 func MakeGradientPattern(a, b oned.Color) GradientPattern {
 	return GradientPattern{a, b, multid.IdentityMatrix}
 }
-func MakeGradientPatternT(a, b oned.Color, transform multid.Matrix4) GradientPattern {
+func MakeGradientPatternT(a, b oned.Color, transform multid.Matrix) GradientPattern {
 	return GradientPattern{a, b, transform}
 }
 
@@ -58,20 +58,20 @@ func (p GradientPattern) PatternAt(point oned.Point) oned.Color {
 	return p.A.Add(distance.MultiplyByScalar(fraction))
 }
 
-func (p GradientPattern) Transform() multid.Matrix4 {
+func (p GradientPattern) Transform() multid.Matrix {
 	return p.transform
 }
 
 type RingPattern struct {
 	A, B      oned.Color
-	transform multid.Matrix4
+	transform multid.Matrix
 }
 
 func MakeRingPattern(a, b oned.Color) RingPattern {
 	return RingPattern{a, b, multid.IdentityMatrix}
 }
 
-func MakeRingPatternT(a, b oned.Color, transform multid.Matrix4) RingPattern {
+func MakeRingPatternT(a, b oned.Color, transform multid.Matrix) RingPattern {
 	return RingPattern{a, b, transform}
 }
 
@@ -83,20 +83,20 @@ func (p RingPattern) PatternAt(point oned.Point) oned.Color {
 	return p.B
 }
 
-func (p RingPattern) Transform() multid.Matrix4 {
+func (p RingPattern) Transform() multid.Matrix {
 	return p.transform
 }
 
 type CheckersPattern struct {
 	A, B      oned.Color
-	transform multid.Matrix4
+	transform multid.Matrix
 }
 
 func MakeCheckersPattern(a, b oned.Color) CheckersPattern {
 	return CheckersPattern{a, b, multid.IdentityMatrix}
 }
 
-func MakeCheckersPatternT(a, b oned.Color, transform multid.Matrix4) CheckersPattern {
+func MakeCheckersPatternT(a, b oned.Color, transform multid.Matrix) CheckersPattern {
 	return CheckersPattern{a, b, transform}
 }
 
@@ -108,6 +108,6 @@ func (p CheckersPattern) PatternAt(point oned.Point) oned.Color {
 	return p.B
 }
 
-func (p CheckersPattern) Transform() multid.Matrix4 {
+func (p CheckersPattern) Transform() multid.Matrix {
 	return p.transform
 }

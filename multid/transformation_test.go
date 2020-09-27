@@ -1,8 +1,8 @@
 package multid
 
 import (
-	"github.com/stretchr/testify/assert"
 	"github.com/oleg/graytracer/oned"
+	"github.com/stretchr/testify/assert"
 	"math"
 	"testing"
 )
@@ -137,7 +137,7 @@ func Test_inverse_of_x_rotation_rotates_in_opposite_direction(t *testing.T) {
 func Test_shearing_transformation(t *testing.T) {
 	tests := []struct {
 		name           string
-		transformation Matrix4
+		transformation Matrix
 		expected       oned.Point
 	}{
 		{"x in proportion to y", Shearing(1, 0, 0, 0, 0, 0), oned.Point{5, 3, 4}},

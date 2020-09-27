@@ -5,12 +5,12 @@ import (
 	"github.com/oleg/graytracer/oned"
 )
 
-func ViewTransform(from, to oned.Point, up oned.Vector) multid.Matrix4 {
+func ViewTransform(from, to oned.Point, up oned.Vector) multid.Matrix {
 	forward := to.SubtractPoint(from).Normalize()
 	left := forward.Cross(up.Normalize())
 	trueUp := left.Cross(forward)
 
-	orientation := multid.Matrix4{
+	orientation := multid.Matrix{
 		{left.X, left.Y, left.Z, 0},
 		{trueUp.X, trueUp.Y, trueUp.Z, 0},
 		{-forward.X, -forward.Y, -forward.Z, 0},

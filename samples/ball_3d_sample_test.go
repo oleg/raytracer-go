@@ -20,7 +20,7 @@ func Test_ball_3d_sample(t *testing.T) {
 	canvas := multid.MakeCanvas(width, height)
 	//white := oned.Color{1, 1, 1}
 
-	transform := multid.IdentityMatrixF() //Matrix4x4.Shearing(1, 0, 0, 0, 0, 0) * Matrix4x4.Scaling(0.5, 1, 1)
+	transform := multid.IdentityMatrix //Matrix4x4.Shearing(1, 0, 0, 0, 0, 0) * Matrix4x4.Scaling(0.5, 1, 1)
 	//material := figure.Material{Color: oned.Color{0.2, 0.8, 0.3}}
 	material := figure.DefaultMaterial()
 	material.Color = oned.Color{0.2, 0.8, 0.3}

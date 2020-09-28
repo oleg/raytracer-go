@@ -70,16 +70,12 @@ func (m Matrix) MultiplyVector(o oned.Vector) oned.Vector {
 	return oned.Vector(m.multiplyTuple(oned.Tuple(o), 0.))
 }
 
-func (m Matrix) multiplyTuple(t oned.Tuple, x float64) oned.Tuple {
-	//todo: refactor
-	r := [4]float64{}
-	o := [4]float64{t.X, t.Y, t.Z, x}
-	for i := 0; i < L4; i++ {
-		for k := 0; k < L4; k++ {
-			r[i] += m[i][k] * o[k]
-		}
+func (m Matrix) multiplyTuple(t oned.Tuple, w float64) oned.Tuple {
+	return oned.Tuple{
+		m[0][0]*t.X + m[0][1]*t.Y + m[0][2]*t.Z + m[0][3]*w,
+		m[1][0]*t.X + m[1][1]*t.Y + m[1][2]*t.Z + m[1][3]*w,
+		m[2][0]*t.X + m[2][1]*t.Y + m[2][2]*t.Z + m[2][3]*w,
 	}
-	return oned.Tuple{r[0], r[1], r[2]}
 }
 
 func (m Matrix) Transpose() Matrix {

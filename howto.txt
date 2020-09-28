@@ -1,9 +1,9 @@
-go test -cpuprofile=x.prof samples/ball_scene_sample_test.go
+go test -cpuprofile=x.prof samples/refraction_sample_test.go
 go tool pprof x.prof
 top10
 web
 
-go test -memprofile=x.mprof samples/ball_scene_sample_test.go
+go test -memprofile=x.mprof samples/refraction_sample_test.go
 go tool pprof x.mprof
 top10
 list <name>

@@ -23,8 +23,8 @@ func Test_default_world(t *testing.T) {
 	w := defaultWorld()
 
 	assert.Equal(t, light, w.Light)
-	assert.Equal(t, s1, w.Objects[0])
-	assert.Equal(t, s2, w.Objects[1])
+	assert.Equal(t, s1.Material(), w.Objects[0].Material())
+	assert.Equal(t, s2.Material(), w.Objects[1].Material())
 }
 
 func Test_Intersect_world_with_ray(t *testing.T) {

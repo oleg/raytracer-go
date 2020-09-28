@@ -12,18 +12,31 @@ import (
 //todo add iterate function that accept function
 const L4 = 4
 
-type Matrix [L4][L4]float64
+var ids int
+
+type Matrix struct {
+	id   int
+	data [4][4]float64
+}
 
 var IdentityMatrix = Matrix{
-	{1, 0, 0, 0},
-	{0, 1, 0, 0},
-	{0, 0, 1, 0},
-	{0, 0, 0, 1},
+	id: 0,
+	data: [4][4]float64{
+		{1, 0, 0, 0},
+		{0, 1, 0, 0},
+		{0, 0, 1, 0},
+		{0, 0, 0, 1}},
+}
+
+func NewMatrixAr(data [4][4]float64) Matrix {
+	ids++
+	return Matrix{id: ids, data: data}
 }
 
 //todo must?
 func NewMatrix(str string) Matrix {
-	m := Matrix{}
+	ids++
+	m := Matrix{id: ids}
 	rows := strings.Split(str, "\n")
 	if len(rows) != 4 {
 		log.Fatal("must have 4 rows")
@@ -34,18 +47,19 @@ func NewMatrix(str string) Matrix {
 			log.Fatal("must have 6 separators for 4 columns")
 		}
 		for j, s := range columns[1:5] {
-			m[i][j] = trimAndParseFloat(s)
+			m.data[i][j] = trimAndParseFloat(s)
 		}
 	}
 	return m
 }
 
 func (m Matrix) Multiply(o Matrix) Matrix {
-	r := Matrix{}
+	ids++
+	r := Matrix{id: ids}
 	for i := 0; i < L4; i++ {
 		for j := 0; j < L4; j++ {
 			for k := 0; k < L4; k++ {
-				r[i][j] += m[i][k] * o[k][j]
+				r.data[i][j] += m.data[i][k] * o.data[k][j]
 			}
 		}
 	}
@@ -63,37 +77,39 @@ func (m Matrix) MultiplyVector(o oned.Vector) oned.Vector {
 
 func (m Matrix) multiplyTuple(t oned.Tuple, w float64) oned.Tuple {
 	return oned.Tuple{
-		m[0][0]*t.X + m[0][1]*t.Y + m[0][2]*t.Z + m[0][3]*w,
-		m[1][0]*t.X + m[1][1]*t.Y + m[1][2]*t.Z + m[1][3]*w,
-		m[2][0]*t.X + m[2][1]*t.Y + m[2][2]*t.Z + m[2][3]*w,
+		m.data[0][0]*t.X + m.data[0][1]*t.Y + m.data[0][2]*t.Z + m.data[0][3]*w,
+		m.data[1][0]*t.X + m.data[1][1]*t.Y + m.data[1][2]*t.Z + m.data[1][3]*w,
+		m.data[2][0]*t.X + m.data[2][1]*t.Y + m.data[2][2]*t.Z + m.data[2][3]*w,
 	}
 }
 
 func (m Matrix) Transpose() Matrix {
 	//todo or implement as loops?
-	return Matrix{
-		{m[0][0], m[1][0], m[2][0], m[3][0]},
-		{m[0][1], m[1][1], m[2][1], m[3][1]},
-		{m[0][2], m[1][2], m[2][2], m[3][2]},
-		{m[0][3], m[1][3], m[2][3], m[3][3]},
-	}
+	ids++
+	return Matrix{id: ids, data: [4][4]float64{
+		{m.data[0][0], m.data[1][0], m.data[2][0], m.data[3][0]},
+		{m.data[0][1], m.data[1][1], m.data[2][1], m.data[3][1]},
+		{m.data[0][2], m.data[1][2], m.data[2][2], m.data[3][2]},
+		{m.data[0][3], m.data[1][3], m.data[2][3], m.data[3][3]},
+	}}
 }
 
 //todo: quick fix gives 10x improvements
-var cache = make(map[Matrix]Matrix)
+var cache = make(map[int]Matrix)
 
 func (m Matrix) Inverse() Matrix {
-	if cached, ok := cache[m]; ok {
+	if cached, ok := cache[m.id]; ok {
 		return cached
 	}
 	determinant := determinant4x4(m)
-	inverse := Matrix{}
+	ids++
+	inverse := Matrix{id: ids}
 	for i := 0; i < L4; i++ {
 		for j := 0; j < L4; j++ {
-			inverse[j][i] = cofactor4x4(m, i, j) / determinant
+			inverse.data[j][i] = cofactor4x4(m, i, j) / determinant
 		}
 	}
-	cache[m] = inverse
+	cache[m.id] = inverse
 	return inverse
 }
 

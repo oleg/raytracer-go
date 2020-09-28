@@ -3,7 +3,6 @@ package figure
 import (
 	"github.com/oleg/graytracer/multid"
 	"github.com/oleg/graytracer/oned"
-	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
@@ -14,7 +13,7 @@ func Test_transformation_matrix_for_default_orientation(t *testing.T) {
 
 	tr := ViewTransform(from, to, up)
 
-	assert.Equal(t, multid.IdentityMatrix, tr)
+	multid.AssertMatrixEqualInDelta(t, multid.IdentityMatrix, tr)
 }
 
 func Test_view_transformation_matrix_looking_in_positive_z_direction(t *testing.T) {
@@ -24,7 +23,7 @@ func Test_view_transformation_matrix_looking_in_positive_z_direction(t *testing.
 
 	tr := ViewTransform(from, to, up)
 
-	assert.Equal(t, multid.Scaling(-1, 1, -1), tr)
+	multid.AssertMatrixEqualInDelta(t, multid.Scaling(-1, 1, -1), tr)
 }
 
 func Test_view_transformation_moves_the_world(t *testing.T) {
@@ -34,7 +33,7 @@ func Test_view_transformation_moves_the_world(t *testing.T) {
 
 	tr := ViewTransform(from, to, up)
 
-	assert.Equal(t, multid.Translation(0, 0, -8), tr)
+	multid.AssertMatrixEqualInDelta(t, multid.Translation(0, 0, -8), tr)
 }
 
 func Test_arbitrary_view_transformation(t *testing.T) {

@@ -13,12 +13,12 @@ func Test_create_matrix(t *testing.T) {
 		 | 9    | 10   | 11   | 12   |
 		 | 13.5 | 14.5 | 15.5 | 16.5 |`)
 
-	assert.Equal(t, 1., m[0][0])
-	assert.Equal(t, 4., m[0][3])
-	assert.Equal(t, 5.5, m[1][0])
-	assert.Equal(t, 7.5, m[1][2])
-	assert.Equal(t, 13.5, m[3][0])
-	assert.Equal(t, 16.5, m[3][3])
+	assert.Equal(t, 1., m.data[0][0])
+	assert.Equal(t, 4., m.data[0][3])
+	assert.Equal(t, 5.5, m.data[1][0])
+	assert.Equal(t, 7.5, m.data[1][2])
+	assert.Equal(t, 13.5, m.data[3][0])
+	assert.Equal(t, 16.5, m.data[3][3])
 }
 
 func Test_matrices_equal(t *testing.T) {
@@ -33,7 +33,7 @@ func Test_matrices_equal(t *testing.T) {
 	     | 9 | 8 | 7 | 6 |
 	     | 5 | 4 | 3 | 2 |`)
 
-	assert.Equal(t, m1, m2)
+	AssertMatrixEqualInDelta(t, m1, m2)
 }
 
 func Test_matrices_not_equal(t *testing.T) {
@@ -71,7 +71,7 @@ func Test_multiply_matrices(t *testing.T) {
 	     | 40|  58 | 110 | 102 |
 	     | 16|  26 |  46 |  42 |`)
 
-	assert.Equal(t, expected, result)
+	AssertMatrixEqualInDelta(t, expected, result)
 }
 
 func Test_multiply_matrix_and_point(t *testing.T) {
@@ -111,7 +111,7 @@ func Test_multiply_matrix_by_identity_matrix(t *testing.T) {
 
 	r := m.Multiply(IdentityMatrix)
 
-	assert.Equal(t, m, r)
+	AssertMatrixEqualInDelta(t, m, r)
 }
 
 func Test_multiply_identity_matrix_by_point(t *testing.T) {
@@ -136,7 +136,7 @@ func Test_transpose_matrix(t *testing.T) {
 		 | 3 | 0 | 5 | 5 |
 		 | 0 | 8 | 3 | 8 |`)
 
-	assert.Equal(t, expected, r)
+	AssertMatrixEqualInDelta(t, expected, r)
 }
 
 func Test_transpose_does_not_change_original(t *testing.T) {
@@ -150,7 +150,7 @@ func Test_transpose_does_not_change_original(t *testing.T) {
 	m.Transpose()
 
 	expected := NewMatrix(data)
-	assert.Equal(t, expected, m)
+	AssertMatrixEqualInDelta(t, expected, m)
 }
 
 func Test_calculating_inverse_of_matrix(t *testing.T) {

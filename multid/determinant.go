@@ -3,7 +3,7 @@ package multid
 //is it copying?
 func determinant4x4(m Matrix) float64 {
 	r := 0.
-	for i, v := range m[0] {
+	for i, v := range m.data[0] {
 		r += v * cofactor4x4(m, 0, i)
 	}
 	return r
@@ -29,7 +29,7 @@ func submatrix4x4(m Matrix, row, column int) [3][3]float64 {
 			if mj == column {
 				continue
 			}
-			r[ri][rj] = m[mi][mj]
+			r[ri][rj] = m.data[mi][mj]
 			rj++
 		}
 		ri++

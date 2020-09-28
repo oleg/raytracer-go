@@ -14,7 +14,7 @@ func AssertMatrixEqualInDelta(t *testing.T, expected, actual Matrix) {
 }
 func matrixToMap(m Matrix) map[string]float64 {
 	r := map[string]float64{}
-	for i, col := range m {
+	for i, col := range m.data {
 		for j, e := range col {
 			k := fmt.Sprintf("%d:%d", i, j)
 			r[k] = e

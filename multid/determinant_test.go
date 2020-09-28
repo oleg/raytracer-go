@@ -9,7 +9,7 @@ func Test_transpose_identity_matrix(t *testing.T) {
 
 	m := IdentityMatrix.Transpose()
 
-	assert.Equal(t, IdentityMatrix, m)
+	AssertMatrixEqualInDelta(t, IdentityMatrix, m)
 }
 
 func Test_calculate_determinant_of_2x2_matrix(t *testing.T) {

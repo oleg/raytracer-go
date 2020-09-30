@@ -109,7 +109,7 @@ func Test_multiply_matrix_by_identity_matrix(t *testing.T) {
 		 | 2 | 4 |  8 | 16 |
 		 | 4 | 8 | 16 | 32 |`)
 
-	r := m.Multiply(IdentityMatrix)
+	r := m.Multiply(IdentityMatrixF())
 
 	assert.Equal(t, m, r)
 }
@@ -157,7 +157,7 @@ func Test_transpose_identity_matrix(t *testing.T) {
 
 	m := IdentityMatrix.Transpose()
 
-	assert.Equal(t, IdentityMatrix, m)
+	assert.Equal(t, IdentityMatrixF(), m)
 }
 
 func Test_calculate_determinant_of_2x2_matrix(t *testing.T) {

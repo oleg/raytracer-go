@@ -14,7 +14,7 @@ type World struct {
 }
 
 func (w World) Intersect(ray Ray) Inters {
-	r := Inters{}
+	r := make([]Inter, 0, 10)
 	for _, shape := range w.Objects {
 		r = append(r, Intersect(shape, ray)...)
 	}

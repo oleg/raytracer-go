@@ -5,7 +5,7 @@ import (
 	"github.com/oleg/graytracer/oned"
 )
 
-func ViewTransform(from, to oned.Point, up oned.Vector) multid.Matrix4 {
+func ViewTransform(from, to oned.Point, up oned.Vector) *multid.Matrix4 {
 	forward := to.SubtractPoint(from).Normalize()
 	left := forward.Cross(up.Normalize())
 	trueUp := left.Cross(forward)

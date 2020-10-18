@@ -21,18 +21,13 @@ var IdentityMatrix = Matrix4{
 	{0, 0, 0, 1},
 }
 
-func IdentityMatrixF() Matrix4 {
-	return Matrix4{
-		{1, 0, 0, 0},
-		{0, 1, 0, 0},
-		{0, 0, 1, 0},
-		{0, 0, 0, 1},
-	}
+func IdentityMatrixF() *Matrix4 {
+	return &IdentityMatrix
 }
 
 //todo must?
-func NewMatrix4(str string) Matrix4 {
-	m := Matrix4{}
+func NewMatrix4(str string) *Matrix4 {
+	m := &Matrix4{}
 	rows := strings.Split(str, "\n")
 	if len(rows) != 4 {
 		log.Fatal("must have 4 rows")
@@ -49,8 +44,8 @@ func NewMatrix4(str string) Matrix4 {
 	return m
 }
 
-func (m Matrix4) Multiply(o Matrix4) Matrix4 {
-	r := Matrix4{}
+func (m *Matrix4) Multiply(o *Matrix4) *Matrix4 {
+	r := &Matrix4{}
 	for i := 0; i < L4; i++ {
 		for j := 0; j < L4; j++ {
 			for k := 0; k < L4; k++ {
@@ -61,30 +56,27 @@ func (m Matrix4) Multiply(o Matrix4) Matrix4 {
 	return r
 }
 
-func (m Matrix4) MultiplyPoint(o oned.Point) oned.Point {
+func (m *Matrix4) MultiplyPoint(o oned.Point) oned.Point {
 	return oned.Point(m.multiplyTuple(oned.Tuple(o), 1.))
 }
 
 //todo: remove duplication
-func (m Matrix4) MultiplyVector(o oned.Vector) oned.Vector {
+func (m *Matrix4) MultiplyVector(o oned.Vector) oned.Vector {
 	return oned.Vector(m.multiplyTuple(oned.Tuple(o), 0.))
 }
 
-func (m Matrix4) multiplyTuple(t oned.Tuple, x float64) oned.Tuple {
-	//todo: refactor
-	r := [4]float64{}
-	o := [4]float64{t.X, t.Y, t.Z, x}
-	for i := 0; i < L4; i++ {
-		for k := 0; k < L4; k++ {
-			r[i] += m[i][k] * o[k]
-		}
+func (m *Matrix4) multiplyTuple(t oned.Tuple, w float64) oned.Tuple {
+	return oned.Tuple{
+		m[0][0]*t.X + m[0][1]*t.Y + m[0][2]*t.Z + m[0][3]*w,
+		m[1][0]*t.X + m[1][1]*t.Y + m[1][2]*t.Z + m[1][3]*w,
+		m[2][0]*t.X + m[2][1]*t.Y + m[2][2]*t.Z + m[2][3]*w,
 	}
-	return oned.Tuple{r[0], r[1], r[2]}
 }
 
-func (m Matrix4) Transpose() Matrix4 {
+func (m *Matrix4) Transpose() *Matrix4 {
+	//todo also cache?
 	//todo or implement as loops?
-	return Matrix4{
+	return &Matrix4{
 		{m[0][0], m[1][0], m[2][0], m[3][0]},
 		{m[0][1], m[1][1], m[2][1], m[3][1]},
 		{m[0][2], m[1][2], m[2][2], m[3][2]},
@@ -92,19 +84,19 @@ func (m Matrix4) Transpose() Matrix4 {
 	}
 }
 
-func (m Matrix4) determinant() float64 {
+func (m *Matrix4) determinant() float64 {
 	return determinant4x4(m)
 }
 
 //todo: quick fix gives 10x improvements
-var cache = make(map[Matrix4]Matrix4)
+var cache = make(map[*Matrix4]*Matrix4)
 
-func (m Matrix4) Inverse() Matrix4 {
+func (m *Matrix4) Inverse() *Matrix4 {
 	if cached, ok := cache[m]; ok {
 		return cached
 	}
 	determinant := m.determinant()
-	inverse := Matrix4{}
+	inverse := &Matrix4{}
 	for i := 0; i < L4; i++ {
 		for j := 0; j < L4; j++ {
 			inverse[j][i] = cofactor4x4(m, i, j) / determinant
@@ -124,7 +116,7 @@ func trimAndParseFloat(s string) float64 {
 }
 
 //is it copying?
-func determinant4x4(m Matrix4) float64 {
+func determinant4x4(m *Matrix4) float64 {
 	r := 0.
 	for i, v := range m[0] {
 		r += v * cofactor4x4(m, 0, i)
@@ -133,16 +125,16 @@ func determinant4x4(m Matrix4) float64 {
 }
 
 //todo:test
-func cofactor4x4(m Matrix4, row, column int) float64 {
+func cofactor4x4(m *Matrix4, row, column int) float64 {
 	return minor4x4(m, row, column) * sign(row, column)
 }
 
-func minor4x4(m Matrix4, row, column int) float64 {
+func minor4x4(m *Matrix4, row, column int) float64 {
 	sm := submatrix4x4(m, row, column)
 	return determinant3x3(&sm)
 }
 
-func submatrix4x4(m Matrix4, row, column int) [3][3]float64 {
+func submatrix4x4(m *Matrix4, row, column int) [3][3]float64 {
 	r := [3][3]float64{}
 	for ri, mi := 0, 0; mi < L4; mi++ {
 		if mi == row {

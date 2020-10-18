@@ -10,7 +10,7 @@ import (
 
 func Test_refraction_sample(t *testing.T) {
 	floor := figure.MakePlaneTM(
-		multid.IdentityMatrix,
+		multid.IdentityMatrixF(),
 		figure.MakeMaterialBuilder().
 			SetReflective(0.7).
 			SetTransparency(0.2).
@@ -18,7 +18,7 @@ func Test_refraction_sample(t *testing.T) {
 			SetPattern(figure.MakeCheckersPatternT(
 				oned.Black,
 				oned.White,
-				multid.IdentityMatrix)).
+				multid.IdentityMatrixF())).
 			Build())
 
 	back := figure.MakePlaneTM(
@@ -31,7 +31,7 @@ func Test_refraction_sample(t *testing.T) {
 			SetPattern(figure.MakeCheckersPatternT(
 				oned.Black,
 				oned.White,
-				multid.IdentityMatrix)).
+				multid.IdentityMatrixF())).
 			Build())
 	left := figure.MakeSphereTM(
 		multid.Translation(-2.4, 1, 0.2),

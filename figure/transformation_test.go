@@ -1,9 +1,9 @@
 package figure
 
 import (
-	"github.com/stretchr/testify/assert"
 	"github.com/oleg/graytracer/multid"
 	"github.com/oleg/graytracer/oned"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
@@ -14,7 +14,7 @@ func Test_transformation_matrix_for_default_orientation(t *testing.T) {
 
 	tr := ViewTransform(from, to, up)
 
-	assert.Equal(t, multid.IdentityMatrix, tr)
+	assert.Equal(t, multid.IdentityMatrixF(), tr)
 }
 
 func Test_view_transformation_matrix_looking_in_positive_z_direction(t *testing.T) {

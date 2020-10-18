@@ -7,14 +7,14 @@ import (
 )
 
 type Plane struct {
-	transform multid.Matrix4 //todo test
+	transform *multid.Matrix4 //todo test
 	material  Material       //todo test
 }
 
 func MakePlane() Plane {
-	return Plane{multid.IdentityMatrix, DefaultMaterial()}
+	return Plane{multid.IdentityMatrixF(), DefaultMaterial()}
 }
-func MakePlaneTM(transform multid.Matrix4, material Material) Plane {
+func MakePlaneTM(transform *multid.Matrix4, material Material) Plane {
 	return Plane{transform, material}
 }
 
@@ -30,7 +30,7 @@ func (p Plane) LocalNormalAt(point oned.Point) oned.Vector {
 	return oned.Vector{0, 1, 0}
 }
 
-func (p Plane) Transform() multid.Matrix4 {
+func (p Plane) Transform() *multid.Matrix4 {
 	return p.transform
 }
 func (p Plane) Material() Material {

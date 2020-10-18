@@ -7,33 +7,33 @@ import (
 )
 
 type Sphere struct {
-	transform multid.Matrix4
+	transform *multid.Matrix4
 	material  Material
 }
 
 func MakeSphere() Sphere {
-	return Sphere{multid.IdentityMatrix, DefaultMaterial()}
+	return Sphere{multid.IdentityMatrixF(), DefaultMaterial()}
 }
 
-func MakeSphereTM(transform multid.Matrix4, material Material) Sphere {
+func MakeSphereTM(transform *multid.Matrix4, material Material) Sphere {
 	return Sphere{transform, material}
 }
 
-func MakeSphereT(transform multid.Matrix4) Sphere {
+func MakeSphereT(transform *multid.Matrix4) Sphere {
 	return Sphere{transform, DefaultMaterial()}
 }
 
 func MakeSphereM(material Material) Sphere {
-	return Sphere{multid.IdentityMatrix, material}
+	return Sphere{multid.IdentityMatrixF(), material}
 }
 
 func MakeGlassSphere() Sphere {
 	return Sphere{
-		multid.IdentityMatrix,
+		multid.IdentityMatrixF(),
 		GlassMaterialBuilder().Build()}
 }
 
-func (sphere Sphere) Transform() multid.Matrix4 {
+func (sphere Sphere) Transform() *multid.Matrix4 {
 	return sphere.transform
 }
 func (sphere Sphere) Material() Material {

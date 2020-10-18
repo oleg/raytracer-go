@@ -60,7 +60,7 @@ func Test_sphere_default_transformation(t *testing.T) {
 
 	r := s.Transform()
 
-	assert.Equal(t, multid.IdentityMatrix, r)
+	assert.Equal(t, multid.IdentityMatrixF(), r)
 }
 func Test_changing_sphere_transformation(t *testing.T) {
 	tr := multid.Translation(2, 3, 4)
@@ -81,6 +81,7 @@ func Test_intersecting_scaled_sphere_with_ray(t *testing.T) {
 	assert.Equal(t, 3., xs[0].Distance)
 	assert.Equal(t, 7., xs[1].Distance)
 }
+
 func Test_intersecting_translated_sphere_with_ray(t *testing.T) {
 	r := Ray{oned.Point{0, 0, -5}, oned.Vector{0, 0, 1}}
 	s := MakeSphereT(multid.Translation(5, 0, 0))
@@ -159,7 +160,7 @@ func Test_sphere_may_be_assigned_material(t *testing.T) {
 func Test_helper_for_producing_sphere_with_glassy_material(t *testing.T) {
 	s := MakeGlassSphere()
 
-	assert.Equal(t, multid.IdentityMatrix, s.Transform())
+	assert.Equal(t, multid.IdentityMatrixF(), s.Transform())
 	assert.Equal(t, 1.0, s.Material().Transparency)
 	assert.Equal(t, 1.5, s.Material().RefractiveIndex)
 }

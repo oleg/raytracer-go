@@ -38,7 +38,7 @@ func (i Inter) PrepareComputationsEx(r Ray, xs Inters) Computations {
 }
 
 func calcNs(hit Inter, xs Inters) (n1 float64, n2 float64) {
-	var shapes []Shape
+	var shapes = make([]Shape, 0, 10)
 	for _, i := range xs {
 		if i == hit {
 			n1 = refractiveIndex(shapes)

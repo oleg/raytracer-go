@@ -1,14 +1,14 @@
 package figure
 
 import (
-	"github.com/oleg/graytracer/multid"
-	"github.com/oleg/graytracer/oned"
+	"github.com/oleg/raytracer-go/multid"
+	"github.com/oleg/raytracer-go/oned"
 	"math"
 )
 
 type Plane struct {
 	transform *multid.Matrix4 //todo test
-	material  Material       //todo test
+	material  Material        //todo test
 }
 
 func MakePlane() Plane {

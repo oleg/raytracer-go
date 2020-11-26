@@ -2,8 +2,8 @@ package multid
 
 import (
 	"fmt"
+	"github.com/oleg/raytracer-go/oned"
 	"github.com/stretchr/testify/assert"
-	"github.com/oleg/graytracer/oned"
 	"testing"
 )
 

@@ -1,8 +1,8 @@
 package figure
 
 import (
-	"github.com/oleg/graytracer/multid"
-	"github.com/oleg/graytracer/oned"
+	"github.com/oleg/raytracer-go/multid"
+	"github.com/oleg/raytracer-go/oned"
 )
 
 func ViewTransform(from, to oned.Point, up oned.Vector) *multid.Matrix4 {

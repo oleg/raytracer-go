@@ -1,6 +1,6 @@
 package samples
 
-import "github.com/oleg/graytracer/oned"
+import "github.com/oleg/raytracer-go/oned"
 
 type projectile struct {
 	position oned.Point

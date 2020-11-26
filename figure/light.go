@@ -1,6 +1,6 @@
 package figure
 
-import "github.com/oleg/graytracer/oned"
+import "github.com/oleg/raytracer-go/oned"
 
 type PointLight struct {
 	Position  oned.Point

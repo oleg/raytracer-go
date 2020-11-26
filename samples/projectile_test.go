@@ -1,7 +1,7 @@
 package samples
 
 import (
-	"github.com/oleg/graytracer/oned"
+	"github.com/oleg/raytracer-go/oned"
 	"testing"
 )
 

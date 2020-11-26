@@ -1,9 +1,9 @@
 package figure
 
 import (
+	"github.com/oleg/raytracer-go/multid"
+	"github.com/oleg/raytracer-go/oned"
 	"github.com/stretchr/testify/assert"
-	"github.com/oleg/graytracer/multid"
-	"github.com/oleg/graytracer/oned"
 	"testing"
 )
 

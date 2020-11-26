@@ -1,4 +1,4 @@
-module github.com/oleg/graytracer
+module github.com/oleg/raytracer-go
 
 go 1.14
 

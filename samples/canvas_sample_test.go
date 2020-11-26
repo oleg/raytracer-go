@@ -1,8 +1,8 @@
 package samples
 
 import (
-	"github.com/oleg/graytracer/multid"
-	"github.com/oleg/graytracer/oned"
+	"github.com/oleg/raytracer-go/multid"
+	"github.com/oleg/raytracer-go/oned"
 	"testing"
 )
 

@@ -1,7 +1,7 @@
 package multid
 
 import (
-	"github.com/oleg/graytracer/oned"
+	"github.com/oleg/raytracer-go/oned"
 	"log"
 	"strconv"
 	"strings"

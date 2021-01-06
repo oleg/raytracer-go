@@ -24,7 +24,7 @@ type StripePattern struct {
 }
 
 func MakeStripePattern(A, B oned.Color) StripePattern {
-	return StripePattern{A, B, multid.IdentityMatrixF()}
+	return StripePattern{A, B, multid.IdentityMatrix()}
 }
 func MakeStripePatternT(A, B oned.Color, transform *multid.Matrix4) StripePattern {
 	return StripePattern{A, B, transform}
@@ -46,7 +46,7 @@ type GradientPattern struct {
 }
 
 func MakeGradientPattern(a, b oned.Color) GradientPattern {
-	return GradientPattern{a, b, multid.IdentityMatrixF()}
+	return GradientPattern{a, b, multid.IdentityMatrix()}
 }
 func MakeGradientPatternT(a, b oned.Color, transform *multid.Matrix4) GradientPattern {
 	return GradientPattern{a, b, transform}
@@ -68,7 +68,7 @@ type RingPattern struct {
 }
 
 func MakeRingPattern(a, b oned.Color) RingPattern {
-	return RingPattern{a, b, multid.IdentityMatrixF()}
+	return RingPattern{a, b, multid.IdentityMatrix()}
 }
 
 func MakeRingPatternT(a, b oned.Color, transform *multid.Matrix4) RingPattern {
@@ -93,7 +93,7 @@ type CheckersPattern struct {
 }
 
 func MakeCheckersPattern(a, b oned.Color) CheckersPattern {
-	return CheckersPattern{a, b, multid.IdentityMatrixF()}
+	return CheckersPattern{a, b, multid.IdentityMatrix()}
 }
 
 func MakeCheckersPatternT(a, b oned.Color, transform *multid.Matrix4) CheckersPattern {

@@ -60,7 +60,7 @@ func Test_sphere_default_transformation(t *testing.T) {
 
 	r := s.Transform()
 
-	assert.Equal(t, multid.IdentityMatrixF(), r)
+	assert.Equal(t, multid.IdentityMatrix(), r)
 }
 func Test_changing_sphere_transformation(t *testing.T) {
 	tr := multid.Translation(2, 3, 4)
@@ -160,7 +160,7 @@ func Test_sphere_may_be_assigned_material(t *testing.T) {
 func Test_helper_for_producing_sphere_with_glassy_material(t *testing.T) {
 	s := MakeGlassSphere()
 
-	assert.Equal(t, multid.IdentityMatrixF(), s.Transform())
+	assert.Equal(t, multid.IdentityMatrix(), s.Transform())
 	assert.Equal(t, 1.0, s.Material().Transparency)
 	assert.Equal(t, 1.5, s.Material().RefractiveIndex)
 }

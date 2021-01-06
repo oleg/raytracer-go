@@ -12,7 +12,7 @@ type Sphere struct {
 }
 
 func MakeSphere() Sphere {
-	return Sphere{multid.IdentityMatrixF(), DefaultMaterial()}
+	return Sphere{multid.IdentityMatrix(), DefaultMaterial()}
 }
 
 func MakeSphereTM(transform *multid.Matrix4, material Material) Sphere {
@@ -24,12 +24,12 @@ func MakeSphereT(transform *multid.Matrix4) Sphere {
 }
 
 func MakeSphereM(material Material) Sphere {
-	return Sphere{multid.IdentityMatrixF(), material}
+	return Sphere{multid.IdentityMatrix(), material}
 }
 
 func MakeGlassSphere() Sphere {
 	return Sphere{
-		multid.IdentityMatrixF(),
+		multid.IdentityMatrix(),
 		GlassMaterialBuilder().Build()}
 }
 

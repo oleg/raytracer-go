@@ -13,12 +13,12 @@ func Test_create_matrix(t *testing.T) {
 		 | 9    | 10   | 11   | 12   |
 		 | 13.5 | 14.5 | 15.5 | 16.5 |`)
 
-	assert.Equal(t, 1., m[0][0])
-	assert.Equal(t, 4., m[0][3])
-	assert.Equal(t, 5.5, m[1][0])
-	assert.Equal(t, 7.5, m[1][2])
-	assert.Equal(t, 13.5, m[3][0])
-	assert.Equal(t, 16.5, m[3][3])
+	assert.Equal(t, 1., m.Data[0][0])
+	assert.Equal(t, 4., m.Data[0][3])
+	assert.Equal(t, 5.5, m.Data[1][0])
+	assert.Equal(t, 7.5, m.Data[1][2])
+	assert.Equal(t, 13.5, m.Data[3][0])
+	assert.Equal(t, 16.5, m.Data[3][3])
 }
 
 func Test_matrices_equal(t *testing.T) {
@@ -109,7 +109,7 @@ func Test_multiply_matrix_by_identity_matrix(t *testing.T) {
 		 | 2 | 4 |  8 | 16 |
 		 | 4 | 8 | 16 | 32 |`)
 
-	r := m.Multiply(IdentityMatrixF())
+	r := m.Multiply(IdentityMatrix())
 
 	assert.Equal(t, m, r)
 }
@@ -117,7 +117,7 @@ func Test_multiply_matrix_by_identity_matrix(t *testing.T) {
 func Test_multiply_identity_matrix_by_point(t *testing.T) {
 	p := oned.Point{1, 2, 3}
 
-	r := IdentityMatrix.MultiplyPoint(p)
+	r := IdentityMatrix().MultiplyPoint(p)
 
 	assert.Equal(t, p, r)
 }
@@ -155,9 +155,9 @@ func Test_transpose_does_not_change_original(t *testing.T) {
 
 func Test_transpose_identity_matrix(t *testing.T) {
 
-	m := IdentityMatrix.Transpose()
+	m := IdentityMatrix().Transpose()
 
-	assert.Equal(t, IdentityMatrixF(), m)
+	assert.Equal(t, IdentityMatrix().Data, m.Data)
 }
 
 func Test_calculate_determinant_of_2x2_matrix(t *testing.T) {

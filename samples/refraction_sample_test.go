@@ -50,7 +50,7 @@ func Test_refraction_sample(t *testing.T) {
 			SetTransparency(0.5).
 			SetReflective(0.3).
 			SetRefractiveIndex(1.2).
-			SetColor(oned.Color{0, 0, 0.4}).
+			SetColor(oned.Color{0.4, 0, 0}).
 			Build())
 
 	right := figure.MakeSphereTM(
@@ -59,7 +59,7 @@ func Test_refraction_sample(t *testing.T) {
 			SetTransparency(0.7).
 			SetReflective(0.3).
 			SetRefractiveIndex(1.5).
-			SetColor(oned.Color{0.4, 0, 0}).
+			SetColor(oned.Color{0, 0, 0.4}).
 			Build())
 
 	light := figure.PointLight{oned.Point{10, 10, -10}, oned.White}

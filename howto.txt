@@ -1,6 +1,9 @@
-go test -cpuprofile=x.prof samples/refraction_sample_test.go
-go tool pprof x.prof
+go test samples/refraction_sample_test.go -cpuprofile=cpu.prof
+go tool pprof -http=":8081" samples.test cpu.prof
+
+go tool pprof cput.prof
 top10
+svg
 web
 
 go test -memprofile=x.mprof samples/refraction_sample_test.go

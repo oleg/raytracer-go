@@ -9,12 +9,12 @@ import (
 
 func Test(t *testing.T) {
 	//todo: do I want to export this methods?
-	start := oned.Point{0, 1, 0}
-	velocity := oned.Vector{1, 1.8, 0}.Normalize().MultiplyScalar(11.25)
+	start := oned.Point{X: 0, Y: 1, Z: 0}
+	velocity := oned.Vector{X: 1, Y: 1.8, Z: 0}.Normalize().MultiplyScalar(11.25)
 	p := projectile{start, velocity}
 
-	gravity := oned.Vector{0, -0.1, 0}
-	wind := oned.Vector{-0.01, 0, 0}
+	gravity := oned.Vector{X: 0, Y: -0.1, Z: 0}
+	wind := oned.Vector{X: -0.01, Y: 0, Z: 0}
 	e := environment{gravity, wind}
 
 	width := 900
@@ -24,7 +24,7 @@ func Test(t *testing.T) {
 	for p.position.X >= 0 && p.position.Y > 0 {
 		x := int(p.position.X)
 		y := int(p.position.Y)
-		c.Pixels[x][height-y] = oned.Color{1, 0, 0}
+		c.Pixels[x][height-y] = oned.Color{R: 1, G: 0, B: 0}
 		p = p.tick(e)
 	}
 

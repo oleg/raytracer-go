@@ -11,7 +11,7 @@ import (
 
 func Test_ball_scene_sample(t *testing.T) {
 	floorMaterial := figure.MakeMaterialBuilder().
-		SetColor(oned.Color{1, 0.9, 0.9}).
+		SetColor(oned.Color{R: 1, G: 0.9, B: 0.9}).
 		SetSpecular(0).
 		Build()
 
@@ -36,7 +36,7 @@ func Test_ball_scene_sample(t *testing.T) {
 	middle := figure.MakeSphereTM(
 		multid.Translation(-0.5, 1, 0.5),
 		figure.MakeMaterialBuilder().
-			SetColor(oned.Color{0.1, 1, 0.5}).
+			SetColor(oned.Color{R: 0.1, G: 1, B: 0.5}).
 			SetDiffuse(0.7).
 			SetSpecular(0.3).Build())
 
@@ -44,7 +44,7 @@ func Test_ball_scene_sample(t *testing.T) {
 		multid.Translation(1.5, 0.5, -0.5).
 			Multiply(multid.Scaling(0.5, 0.5, 0.5)),
 		figure.MakeMaterialBuilder().
-			SetColor(oned.Color{0.5, 1, 0.1}).
+			SetColor(oned.Color{R: 0.5, G: 1, B: 0.1}).
 			SetDiffuse(0.7).
 			SetSpecular(0.3).Build())
 
@@ -52,16 +52,25 @@ func Test_ball_scene_sample(t *testing.T) {
 		multid.Translation(-1.5, 0.33, -0.75).
 			Multiply(multid.Scaling(0.33, 0.33, 0.33)),
 		figure.MakeMaterialBuilder().
-			SetColor(oned.Color{1, 0.8, 0.1}).
+			SetColor(oned.Color{R: 1, G: 0.8, B: 0.1}).
 			SetDiffuse(0.7).
 			SetSpecular(0.3).Build())
 
-	light := figure.PointLight{oned.Point{-10, 10, -10}, oned.White}
-	world := figure.World{light, []figure.Shape{
-		floor, leftWall, rightWall, middle, right, left,
-	}}
+	light := figure.PointLight{
+		Position:  oned.Point{X: -10, Y: 10, Z: -10},
+		Intensity: oned.White,
+	}
+	world := figure.World{
+		Light: light,
+		Objects: []figure.Shape{
+			floor, leftWall, rightWall, middle, right, left,
+		},
+	}
 	camera := figure.NewCamera(500, 250, math.Pi/3,
-		figure.ViewTransform(oned.Point{0, 1.5, -5}, oned.Point{0, 1, 0}, oned.Vector{0, 1, 0}))
+		figure.ViewTransform(
+			oned.Point{X: 0, Y: 1.5, Z: -5},
+			oned.Point{X: 0, Y: 1, Z: 0},
+			oned.Vector{X: 0, Y: 1, Z: 0}))
 
 	canvas := camera.Render(world)
 

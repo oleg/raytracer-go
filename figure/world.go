@@ -13,7 +13,15 @@ type World struct {
 	Objects []Shape
 }
 
-func (w World) Intersect(ray Ray) Inters {
+func (w *World) ColorAt(r Ray, remaining uint8) oned.Color {
+	xs := w.Intersect(r)
+	if ok, hit := xs.Hit(); ok {
+		return w.ShadeHit(hit.PrepareComputationsEx(r, xs), remaining)
+	}
+	return oned.Black
+}
+
+func (w *World) Intersect(ray Ray) Inters {
 	r := make([]Inter, 0, 10)
 	for _, shape := range w.Objects {
 		r = append(r, Intersect(shape, ray)...)
@@ -24,15 +32,7 @@ func (w World) Intersect(ray Ray) Inters {
 	return r
 }
 
-func (w World) ColorAt(r Ray, remaining uint8) oned.Color {
-	xs := w.Intersect(r)
-	if ok, hit := xs.Hit(); ok {
-		return w.ShadeHit(hit.PrepareComputationsEx(r, xs), remaining)
-	}
-	return oned.Black
-}
-
-func (w World) ShadeHit(comps Computations, remaining uint8) oned.Color {
+func (w *World) ShadeHit(comps Computations, remaining uint8) oned.Color {
 	shadowed := w.IsShadowed(comps.OverPoint)
 	surface := Lighting(
 		comps.Object.Material(),
@@ -56,7 +56,7 @@ func (w World) ShadeHit(comps Computations, remaining uint8) oned.Color {
 		Add(refracted)
 }
 
-func (w World) IsShadowed(point oned.Point) bool {
+func (w *World) IsShadowed(point oned.Point) bool {
 	v := w.Light.Position.SubtractPoint(point)
 	distance := v.Magnitude()
 	direction := v.Normalize()
@@ -65,7 +65,7 @@ func (w World) IsShadowed(point oned.Point) bool {
 	return hit && inter.Distance < distance
 }
 
-func (w World) ReflectedColor(comps Computations, remaining uint8) oned.Color {
+func (w *World) ReflectedColor(comps Computations, remaining uint8) oned.Color {
 	if remaining <= 0 {
 		return oned.Black
 	}
@@ -78,7 +78,7 @@ func (w World) ReflectedColor(comps Computations, remaining uint8) oned.Color {
 	return color.MultiplyByScalar(reflective)
 }
 
-func (w World) RefractedColor(comps Computations, remaining uint8) oned.Color {
+func (w *World) RefractedColor(comps Computations, remaining uint8) oned.Color {
 	if remaining <= 0 {
 		return oned.Black
 	}

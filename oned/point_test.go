@@ -5,13 +5,6 @@ import (
 	"testing"
 )
 
-func Test_make_point_from_tuple(t *testing.T) {
-	point := Point{1.1, 2.1, 3.1}
-	tuple := Tuple{1.1, 2.1, 3.1}
-
-	assert.Equal(t, point, Point(tuple))
-}
-
 func Test_addVector_gives_point(t *testing.T) {
 	p1 := Point{1, 2, 3}
 	v1 := Vector{2, 3, 4}

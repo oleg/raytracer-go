@@ -5,6 +5,8 @@ import (
 	"testing"
 )
 
+const Delta = 0.000009
+
 //todo move to test file?
 func AssertVectorEqualInDelta(t *testing.T, expected, actual Vector) {
 	assert.InDeltaMapValues(t, vectorToMap(expected), vectorToMap(actual), Delta)

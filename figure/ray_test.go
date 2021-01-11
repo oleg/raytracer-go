@@ -8,8 +8,8 @@ import (
 )
 
 func Test_creating_and_querying_a_ray(t *testing.T) {
-	origin := oned.Point{1, 2, 3}
-	direction := oned.Vector{4, 5, 6}
+	origin := oned.Point{X: 1, Y: 2, Z: 3}
+	direction := oned.Vector{X: 4, Y: 5, Z: 6}
 
 	ray := Ray{origin, direction}
 
@@ -24,14 +24,14 @@ func Test_Computing_point_from_distance(t *testing.T) {
 		distance float64
 		expected oned.Point
 	}{
-		{"0", 0, oned.Point{2, 3, 4}},
-		{"1", 1, oned.Point{3, 3, 4}},
-		{"-1", -1, oned.Point{1, 3, 4}},
-		{"2.5", 2.5, oned.Point{4.5, 3, 4}},
+		{"0", 0, oned.Point{X: 2, Y: 3, Z: 4}},
+		{"1", 1, oned.Point{X: 3, Y: 3, Z: 4}},
+		{"-1", -1, oned.Point{X: 1, Y: 3, Z: 4}},
+		{"2.5", 2.5, oned.Point{X: 4.5, Y: 3, Z: 4}},
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			r := Ray{oned.Point{2, 3, 4}, oned.Vector{1, 0, 0}}
+			r := Ray{oned.Point{X: 2, Y: 3, Z: 4}, oned.Vector{X: 1, Y: 0, Z: 0}}
 			p := r.Position(test.distance)
 			assert.Equal(t, test.expected, p)
 		})
@@ -39,21 +39,21 @@ func Test_Computing_point_from_distance(t *testing.T) {
 }
 
 func Test_translating_ray(t *testing.T) {
-	r := Ray{oned.Point{1, 2, 3}, oned.Vector{0, 1, 0}}
+	r := Ray{oned.Point{X: 1, Y: 2, Z: 3}, oned.Vector{X: 0, Y: 1, Z: 0}}
 	m := multid.Translation(3, 4, 5)
 
 	r2 := r.Transform(m)
 
-	assert.Equal(t, oned.Point{4, 6, 8}, r2.Origin)
-	assert.Equal(t, oned.Vector{0, 1, 0}, r2.Direction)
+	assert.Equal(t, oned.Point{X: 4, Y: 6, Z: 8}, r2.Origin)
+	assert.Equal(t, oned.Vector{X: 0, Y: 1, Z: 0}, r2.Direction)
 }
 
 func Test_scaling_ray(t *testing.T) {
-	r := Ray{oned.Point{1, 2, 3}, oned.Vector{0, 1, 0}}
+	r := Ray{oned.Point{X: 1, Y: 2, Z: 3}, oned.Vector{X: 0, Y: 1, Z: 0}}
 	m := multid.Scaling(2, 3, 4)
 
 	r2 := r.Transform(m)
 
-	assert.Equal(t, oned.Point{2, 6, 12}, r2.Origin)
-	assert.Equal(t, oned.Vector{0, 3, 0}, r2.Direction)
+	assert.Equal(t, oned.Point{X: 2, Y: 6, Z: 12}, r2.Origin)
+	assert.Equal(t, oned.Vector{X: 0, Y: 3, Z: 0}, r2.Direction)
 }

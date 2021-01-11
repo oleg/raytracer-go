@@ -51,7 +51,7 @@ func Test_refraction_sample(t *testing.T) {
 			SetTransparency(0.5).
 			SetReflective(0.3).
 			SetRefractiveIndex(1.2).
-			SetColor(oned.Color{0.4, 0, 0}).
+			SetColor(oned.Color{R: 0.4, G: 0, B: 0}).
 			Build())
 
 	right := figure.MakeSphereTM(
@@ -60,13 +60,19 @@ func Test_refraction_sample(t *testing.T) {
 			SetTransparency(0.7).
 			SetReflective(0.3).
 			SetRefractiveIndex(1.5).
-			SetColor(oned.Color{0, 0, 0.4}).
+			SetColor(oned.Color{R: 0, G: 0, B: 0.4}).
 			Build())
 
-	light := figure.PointLight{oned.Point{10, 10, -10}, oned.White}
-	world := figure.World{light, []figure.Shape{floor, back, left, middle, right}}
+	light := figure.PointLight{
+		Position:  oned.Point{X: 10, Y: 10, Z: -10},
+		Intensity: oned.White,
+	}
+	world := figure.World{
+		Light:   light,
+		Objects: []figure.Shape{floor, back, left, middle, right},
+	}
 	camera := figure.NewCamera(500, 250, math.Pi/3,
-		figure.ViewTransform(oned.Point{0, 3, -6}, oned.Point{0, 1, 0}, oned.Vector{0, 1, 0}))
+		figure.ViewTransform(oned.Point{X: 0, Y: 3, Z: -6}, oned.Point{X: 0, Y: 1, Z: 0}, oned.Vector{X: 0, Y: 1, Z: 0}))
 
 	canvas := camera.Render(world)
 

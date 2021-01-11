@@ -8,7 +8,7 @@ import (
 
 func Test_point_light_has_position_and_intensity(t *testing.T) {
 	intensity := oned.White
-	position := oned.Point{0, 0, 0}
+	position := oned.Point{X: 0, Y: 0, Z: 0}
 
 	light := PointLight{position, intensity}
 

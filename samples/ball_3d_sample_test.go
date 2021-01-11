@@ -9,7 +9,7 @@ import (
 )
 
 func Test_ball_3d_sample(t *testing.T) {
-	rayOrigin := oned.Point{0, 0, -5}
+	rayOrigin := oned.Point{X: 0, Y: 0, Z: -5}
 	wallZ := 10.
 	wallSize := 7.0
 	canvasPixels := 500 //300 //100
@@ -24,22 +24,25 @@ func Test_ball_3d_sample(t *testing.T) {
 	transform := multid.IdentityMatrix() //Matrix4x4.Shearing(1, 0, 0, 0, 0, 0) * Matrix4x4.Scaling(0.5, 1, 1)
 	//material := figure.Material{Color: oned.Color{0.2, 0.8, 0.3}}
 	material := figure.DefaultMaterial()
-	material.Color = oned.Color{0.2, 0.8, 0.3}
+	material.Color = oned.Color{R: 0.2, G: 0.8, B: 0.3}
 
 	sphere := figure.MakeSphereTM(transform, material)
 
-	lightPosition := oned.Point{-10, 10, -10}
+	lightPosition := oned.Point{X: -10, Y: 10, Z: -10}
 	lightColor := oned.White
-	light := figure.PointLight{lightPosition, lightColor}
+	light := figure.PointLight{Position: lightPosition, Intensity: lightColor}
 
 	for y := 0; y < canvasPixels; y++ {
 		worldY := half - pixelSize*float64(y)
 		for x := 0; x < canvasPixels; x++ {
 
 			worldX := -half + pixelSize*float64(x)
-			position := oned.Point{worldX, worldY, wallZ}
+			position := oned.Point{X: worldX, Y: worldY, Z: wallZ}
 
-			ray := figure.Ray{rayOrigin, (position.SubtractPoint(rayOrigin)).Normalize()}
+			ray := figure.Ray{
+				Origin:    rayOrigin,
+				Direction: (position.SubtractPoint(rayOrigin)).Normalize(),
+			}
 
 			if ok, h := figure.Intersect(sphere, ray).Hit(); ok {
 				point := ray.Position(h.Distance)

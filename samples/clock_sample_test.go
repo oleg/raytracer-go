@@ -15,12 +15,12 @@ func Test_clock_example_test(t *testing.T) {
 	rotationY := multid.RotationY(math.Pi / 6)
 
 	points := make([]oned.Point, 12, 12)
-	points[0] = oned.Point{0, 0, 1}
+	points[0] = oned.Point{X: 0, Y: 0, Z: 1}
 	for i := 1; i < 12; i++ {
 		points[i] = rotationY.MultiplyPoint(points[i-1])
 	}
 
-	white := oned.Color{1, 1, 1}
+	white := oned.Color{R: 1, G: 1, B: 1}
 	for _, p := range points {
 		x := int(p.X*radius + 250)
 		y := int(p.Z*radius + 250)

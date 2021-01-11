@@ -80,10 +80,10 @@ func Test_multiply_matrix_and_point(t *testing.T) {
 	     | 2 | 4 | 4 | 2 |
 	     | 8 | 6 | 4 | 1 |
 	     | 0 | 0 | 0 | 1 |`)
-	p := oned.Point{1, 2, 3}
+	p := oned.Point{X: 1, Y: 2, Z: 3}
 	result := m.MultiplyPoint(p)
 
-	expected := oned.Point{18, 24, 33}
+	expected := oned.Point{X: 18, Y: 24, Z: 33}
 
 	assert.Equal(t, expected, result)
 }
@@ -94,11 +94,11 @@ func Test_multiply_matrix_and_vector(t *testing.T) {
 	     | 2 | 4 | 4 | 2 |
 	     | 8 | 6 | 4 | 1 |
 	     | 0 | 0 | 0 | 1 |`)
-	v := oned.Vector{1, 2, 3}
+	v := oned.Vector{X: 1, Y: 2, Z: 3}
 
 	result := m.MultiplyVector(v)
 
-	expected := oned.Vector{14, 22, 32}
+	expected := oned.Vector{X: 14, Y: 22, Z: 32}
 	assert.Equal(t, expected, result)
 }
 
@@ -115,7 +115,7 @@ func Test_multiply_matrix_by_identity_matrix(t *testing.T) {
 }
 
 func Test_multiply_identity_matrix_by_point(t *testing.T) {
-	p := oned.Point{1, 2, 3}
+	p := oned.Point{X: 1, Y: 2, Z: 3}
 
 	r := IdentityMatrix().MultiplyPoint(p)
 

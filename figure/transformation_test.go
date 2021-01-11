@@ -16,9 +16,9 @@ func Test_inverse_matrix(t *testing.T) {
 }
 
 func Test_transformation_matrix_for_default_orientation(t *testing.T) {
-	from := oned.Point{0, 0, 0}
-	to := oned.Point{0, 0, -1}
-	up := oned.Vector{0, 1, 0}
+	from := oned.Point{X: 0, Y: 0, Z: 0}
+	to := oned.Point{X: 0, Y: 0, Z: -1}
+	up := oned.Vector{X: 0, Y: 1, Z: 0}
 
 	tr := ViewTransform(from, to, up)
 
@@ -26,9 +26,9 @@ func Test_transformation_matrix_for_default_orientation(t *testing.T) {
 }
 
 func Test_view_transformation_matrix_looking_in_positive_z_direction(t *testing.T) {
-	from := oned.Point{0, 0, 0}
-	to := oned.Point{0, 0, 1}
-	up := oned.Vector{0, 1, 0}
+	from := oned.Point{X: 0, Y: 0, Z: 0}
+	to := oned.Point{X: 0, Y: 0, Z: 1}
+	up := oned.Vector{X: 0, Y: 1, Z: 0}
 
 	tr := ViewTransform(from, to, up)
 
@@ -36,9 +36,9 @@ func Test_view_transformation_matrix_looking_in_positive_z_direction(t *testing.
 }
 
 func Test_view_transformation_moves_the_world(t *testing.T) {
-	from := oned.Point{0, 0, 8}
-	to := oned.Point{0, 0, 0}
-	up := oned.Vector{0, 1, 0}
+	from := oned.Point{X: 0, Y: 0, Z: 8}
+	to := oned.Point{X: 0, Y: 0, Z: 0}
+	up := oned.Vector{X: 0, Y: 1, Z: 0}
 
 	tr := ViewTransform(from, to, up)
 
@@ -46,9 +46,9 @@ func Test_view_transformation_moves_the_world(t *testing.T) {
 }
 
 func Test_arbitrary_view_transformation(t *testing.T) {
-	from := oned.Point{1, 3, 2}
-	to := oned.Point{4, -2, 8}
-	up := oned.Vector{1, 1, 0}
+	from := oned.Point{X: 1, Y: 3, Z: 2}
+	to := oned.Point{X: 4, Y: -2, Z: 8}
+	up := oned.Vector{X: 1, Y: 1, Z: 0}
 
 	tr := ViewTransform(from, to, up)
 

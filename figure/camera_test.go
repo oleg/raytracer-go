@@ -43,17 +43,17 @@ func Test_constructing_ray_with_camera(t *testing.T) {
 		{"Constructing a ray through the center of the canvas",
 			NewCameraDefault(201, 101, math.Pi/2),
 			100, 50,
-			Ray{oned.Point{0, 0, 0}, oned.Vector{0, 0, -1}},
+			Ray{oned.Point{X: 0, Y: 0, Z: 0}, oned.Vector{X: 0, Y: 0, Z: -1}},
 		},
 		{"Constructing a ray through a corner of the canvas",
 			NewCameraDefault(201, 101, math.Pi/2),
 			0, 0,
-			Ray{oned.Point{0, 0, 0}, oned.Vector{0.66519, 0.33259, -0.66851}},
+			Ray{oned.Point{X: 0, Y: 0, Z: 0}, oned.Vector{X: 0.66519, Y: 0.33259, Z: -0.66851}},
 		},
 		{"Constructing a ray when the camera is transformed",
 			NewCamera(201, 101, math.Pi/2, multid.RotationY(math.Pi/4).Multiply(multid.Translation(0, -2, 5))),
 			100, 50,
-			Ray{oned.Point{0, 2, -5}, oned.Vector{math.Sqrt2 / 2, 0, -math.Sqrt2 / 2}},
+			Ray{oned.Point{X: 0, Y: 2, Z: -5}, oned.Vector{X: math.Sqrt2 / 2, Y: 0, Z: -math.Sqrt2 / 2}},
 		},
 	}
 	for _, test := range tests {
@@ -68,12 +68,12 @@ func Test_constructing_ray_with_camera(t *testing.T) {
 
 func Test_rendering_world_with_camera(t *testing.T) {
 	w := defaultWorld()
-	from := oned.Point{0, 0, -5}
-	to := oned.Point{0, 0, 0}
-	up := oned.Vector{0, 1, 0}
+	from := oned.Point{X: 0, Y: 0, Z: -5}
+	to := oned.Point{X: 0, Y: 0, Z: 0}
+	up := oned.Vector{X: 0, Y: 1, Z: 0}
 	c := NewCamera(11, 11, math.Pi/2, ViewTransform(from, to, up))
 
 	image := c.Render(w)
 
-	oned.AssertColorEqualInDelta(t, oned.Color{0.38066, 0.47583, 0.2855}, image.Pixels[5][5])
+	oned.AssertColorEqualInDelta(t, oned.Color{R: 0.38066, G: 0.47583, B: 0.2855}, image.Pixels[5][5])
 }

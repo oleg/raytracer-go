@@ -7,7 +7,7 @@ import (
 )
 
 func Test_canvas(t *testing.T) {
-	c := MakeCanvas(10, 20)
+	c := NewCanvas(10, 20)
 
 	assert.Equal(t, 10, c.Width)
 	assert.Equal(t, 20, c.Height)
@@ -19,7 +19,7 @@ func Test_canvas(t *testing.T) {
 }
 
 func Test_write_pixel(t *testing.T) {
-	c := MakeCanvas(10, 20)
+	c := NewCanvas(10, 20)
 	red := oned.Color{1, 0, 0}
 
 	c.Pixels[2][3] = red
@@ -28,7 +28,7 @@ func Test_write_pixel(t *testing.T) {
 }
 
 func Test_canvas_to_png(t *testing.T) {
-	c := MakeCanvas(5, 3)
+	c := NewCanvas(5, 3)
 	c.Pixels[0][0] = oned.Color{1, 0, 0}
 	c.Pixels[0][1] = oned.Color{1, 0, 0}
 	c.Pixels[0][2] = oned.Color{1, 0, 0}

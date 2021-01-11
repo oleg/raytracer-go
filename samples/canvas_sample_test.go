@@ -19,7 +19,7 @@ func Test(t *testing.T) {
 
 	width := 900
 	height := 500
-	c := multid.MakeCanvas(width, height)
+	c := multid.NewCanvas(width, height)
 
 	for p.position.X >= 0 && p.position.Y > 0 {
 		x := int(p.position.X)

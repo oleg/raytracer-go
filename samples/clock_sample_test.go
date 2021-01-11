@@ -9,7 +9,7 @@ import (
 )
 
 func Test_clock_example_test(t *testing.T) {
-	canvas := multid.MakeCanvas(500, 500)
+	canvas := multid.NewCanvas(500, 500)
 	radius := float64(canvas.Width * 3 / 8)
 
 	rotationY := multid.RotationY(math.Pi / 6)

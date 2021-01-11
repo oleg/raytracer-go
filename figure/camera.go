@@ -27,16 +27,16 @@ func (camera Camera) RayForPixel(x, y int) Ray {
 	return Ray{origin, direction}
 }
 
-func (camera Camera) Render(w World) multid.Canvas {
-	image := multid.MakeCanvas(camera.HSize, camera.VSize)
+func (camera Camera) Render(w World) *multid.Canvas {
+	canvas := multid.NewCanvas(camera.HSize, camera.VSize)
 	for y := 0; y < camera.VSize; y++ {
 		for x := 0; x < camera.HSize; x++ {
 			ray := camera.RayForPixel(x, y)
 			color := w.ColorAt(ray, MaxDepth)
-			image.Pixels[x][y] = color
+			canvas.Pixels[x][y] = color
 		}
 	}
-	return image
+	return canvas
 }
 
 func MakeCameraD(hSize, vSize int, fieldOfView float64) Camera {

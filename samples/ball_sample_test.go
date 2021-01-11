@@ -15,7 +15,7 @@ func Test_ball_sample(t *testing.T) {
 	canvasPixels := 100
 	pixelSize := wallSize / float64(canvasPixels)
 	half := wallSize / 2.
-	canvas := multid.MakeCanvas(canvasPixels, canvasPixels)
+	canvas := multid.NewCanvas(canvasPixels, canvasPixels)
 	red := oned.Color{1, 0, 0}
 	transform := multid.Shearing(1, 0, 0, 0, 0, 0).Multiply(multid.Scaling(0.5, 1, 1))
 	sphere := figure.MakeSphereT(transform)

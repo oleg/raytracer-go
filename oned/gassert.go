@@ -5,6 +5,8 @@ import (
 	"testing"
 )
 
+const Delta = 0.000009
+
 //todo move to test file?
 func AssertVectorEqualInDelta(t *testing.T, expected, actual Vector) {
 	assert.InDeltaMapValues(t, vectorToMap(expected), vectorToMap(actual), Delta)
@@ -18,5 +20,5 @@ func AssertColorEqualInDelta(t *testing.T, expected, actual Color) {
 	assert.InDeltaMapValues(t, colorToMap(expected), colorToMap(actual), Delta)
 }
 func colorToMap(v Color) map[string]float64 {
-	return map[string]float64{"R": v.R(), "G": v.G(), "B": v.B()}
+	return map[string]float64{"R": v.R, "G": v.G, "B": v.B}
 }

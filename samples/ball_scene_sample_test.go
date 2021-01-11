@@ -5,6 +5,7 @@ import (
 	"github.com/oleg/raytracer-go/multid"
 	"github.com/oleg/raytracer-go/oned"
 	"math"
+	"os"
 	"testing"
 )
 
@@ -59,10 +60,15 @@ func Test_ball_scene_sample(t *testing.T) {
 	world := figure.World{light, []figure.Shape{
 		floor, leftWall, rightWall, middle, right, left,
 	}}
-	camera := figure.MakeCamera(500, 250, math.Pi/3,
+	camera := figure.NewCamera(500, 250, math.Pi/3,
 		figure.ViewTransform(oned.Point{0, 1.5, -5}, oned.Point{0, 1, 0}, oned.Vector{0, 1, 0}))
 
 	canvas := camera.Render(world)
 
-	canvas.MustToPNG("ball_scene_sample_test.png")
+	outFile := "ball_scene_sample_test.png"
+	canvas.MustToPNG(outFile)
+
+	if AssertFilesEqual(t, "testdata/"+outFile, outFile) {
+		_ = os.Remove(outFile)
+	}
 }

@@ -4,6 +4,7 @@ import (
 	"github.com/oleg/raytracer-go/figure"
 	"github.com/oleg/raytracer-go/multid"
 	"github.com/oleg/raytracer-go/oned"
+	"os"
 	"testing"
 )
 
@@ -17,7 +18,7 @@ func Test_ball_3d_sample(t *testing.T) {
 
 	pixelSize := wallSize / float64(canvasPixels)
 	half := wallSize / 2.
-	canvas := multid.MakeCanvas(width, height)
+	canvas := multid.NewCanvas(width, height)
 	//white := oned.Color{1, 1, 1}
 
 	transform := multid.IdentityMatrix() //Matrix4x4.Shearing(1, 0, 0, 0, 0, 0) * Matrix4x4.Scaling(0.5, 1, 1)
@@ -50,5 +51,10 @@ func Test_ball_3d_sample(t *testing.T) {
 		}
 	}
 
-	canvas.MustToPNG("ball_3d_sample_test.png")
+	outFile := "ball_3d_sample_test.png"
+	canvas.MustToPNG(outFile)
+
+	if AssertFilesEqual(t, "testdata/"+outFile, outFile) {
+		_ = os.Remove(outFile)
+	}
 }

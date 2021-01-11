@@ -4,12 +4,12 @@ import (
 	"github.com/oleg/raytracer-go/multid"
 	"github.com/oleg/raytracer-go/oned"
 	"math"
+	"os"
 	"testing"
 )
 
-//todo add assert
 func Test_clock_example_test(t *testing.T) {
-	canvas := multid.MakeCanvas(500, 500)
+	canvas := multid.NewCanvas(500, 500)
 	radius := float64(canvas.Width * 3 / 8)
 
 	rotationY := multid.RotationY(math.Pi / 6)
@@ -27,5 +27,10 @@ func Test_clock_example_test(t *testing.T) {
 		canvas.Pixels[x][y] = white
 	}
 
-	canvas.MustToPNG("clock_sample_test.png")
+	outFile := "clock_sample_test.png"
+	canvas.MustToPNG(outFile)
+
+	if AssertFilesEqual(t, "testdata/"+outFile, outFile) {
+		_ = os.Remove(outFile)
+	}
 }

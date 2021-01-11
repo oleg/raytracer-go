@@ -67,22 +67,24 @@ func (m *Matrix4) Multiply(o *Matrix4) *Matrix4 {
 	return r
 }
 
-func (m *Matrix4) MultiplyPoint(o oned.Point) oned.Point {
-	return oned.Point(m.multiplyTuple(oned.Tuple(o), 1.))
+func (m *Matrix4) MultiplyPoint(t oned.Point) oned.Point {
+	d := m.Data
+	return oned.Point{
+		X: d[0][0]*t.X + d[0][1]*t.Y + d[0][2]*t.Z + d[0][3]*1.,
+		Y: d[1][0]*t.X + d[1][1]*t.Y + d[1][2]*t.Z + d[1][3]*1.,
+		Z: d[2][0]*t.X + d[2][1]*t.Y + d[2][2]*t.Z + d[2][3]*1.,
+	}
 }
 
 //todo: remove duplication
-func (m *Matrix4) MultiplyVector(o oned.Vector) oned.Vector {
-	return oned.Vector(m.multiplyTuple(oned.Tuple(o), 0.))
-}
-
-func (m *Matrix4) multiplyTuple(t oned.Tuple, w float64) oned.Tuple {
+func (m *Matrix4) MultiplyVector(t oned.Vector) oned.Vector {
 	d := m.Data
-	return oned.Tuple{
-		X: d[0][0]*t.X + d[0][1]*t.Y + d[0][2]*t.Z + d[0][3]*w,
-		Y: d[1][0]*t.X + d[1][1]*t.Y + d[1][2]*t.Z + d[1][3]*w,
-		Z: d[2][0]*t.X + d[2][1]*t.Y + d[2][2]*t.Z + d[2][3]*w,
+	return oned.Vector{
+		X: d[0][0]*t.X + d[0][1]*t.Y + d[0][2]*t.Z + d[0][3]*0.,
+		Y: d[1][0]*t.X + d[1][1]*t.Y + d[1][2]*t.Z + d[1][3]*0.,
+		Z: d[2][0]*t.X + d[2][1]*t.Y + d[2][2]*t.Z + d[2][3]*0.,
 	}
+
 }
 
 func (m *Matrix4) Transpose() *Matrix4 {

@@ -6,12 +6,6 @@ import (
 	"testing"
 )
 
-func Test_convert_tuple_to_vector(t *testing.T) {
-	vector := Vector{1.1, 2.1, 3.1}
-	tuple := Tuple{1.1, 2.1, 3.1}
-	assert.Equal(t, vector, Vector(tuple))
-}
-
 func Test_addVector_gives_vector(t *testing.T) {
 	v1 := Vector{1, 2, 3}
 	v2 := Vector{2, 3, 4}

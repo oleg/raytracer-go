@@ -5,6 +5,7 @@ import (
 	"github.com/oleg/raytracer-go/multid"
 	"github.com/oleg/raytracer-go/oned"
 	"math"
+	"os"
 	"testing"
 )
 
@@ -64,10 +65,15 @@ func Test_refraction_sample(t *testing.T) {
 
 	light := figure.PointLight{oned.Point{10, 10, -10}, oned.White}
 	world := figure.World{light, []figure.Shape{floor, back, left, middle, right}}
-	camera := figure.MakeCamera(500, 250, math.Pi/3,
+	camera := figure.NewCamera(500, 250, math.Pi/3,
 		figure.ViewTransform(oned.Point{0, 3, -6}, oned.Point{0, 1, 0}, oned.Vector{0, 1, 0}))
 
 	canvas := camera.Render(world)
 
-	canvas.MustToPNG("refraction_sample_test.png")
+	outFile := "refraction_sample_test.png"
+	canvas.MustToPNG(outFile)
+
+	if AssertFilesEqual(t, "testdata/"+outFile, outFile) {
+		_ = os.Remove(outFile)
+	}
 }

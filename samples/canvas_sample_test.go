@@ -3,6 +3,7 @@ package samples
 import (
 	"github.com/oleg/raytracer-go/multid"
 	"github.com/oleg/raytracer-go/oned"
+	"os"
 	"testing"
 )
 
@@ -18,14 +19,19 @@ func Test(t *testing.T) {
 
 	width := 900
 	height := 500
-	c := multid.MakeCanvas(width, height)
+	c := multid.NewCanvas(width, height)
 
 	for p.position.X >= 0 && p.position.Y > 0 {
 		x := int(p.position.X)
 		y := int(p.position.Y)
-		c.Pixels[x][height-y] = oned.NewColor(1, 0, 0)
+		c.Pixels[x][height-y] = oned.Color{1, 0, 0}
 		p = p.tick(e)
 	}
 
-	c.MustToPNG("canvas_sample_test.png")
+	outFile := "canvas_sample_test.png"
+	c.MustToPNG(outFile)
+
+	if AssertFilesEqual(t, "testdata/"+outFile, outFile) {
+		_ = os.Remove(outFile)
+	}
 }

@@ -1,15 +1,19 @@
 package oned
 
-type Point Tuple //w = 1
+//w = 1
+type Point struct {
+	X, Y, Z float64
+}
+
 //todo: use link
 func (t Point) AddVector(o Vector) Point {
-	return Point(Tuple(t).add(Tuple(o)))
+	return Point{t.X + o.X, t.Y + o.Y, t.Z + o.Z}
 }
 
 func (t Point) SubtractVector(o Vector) Point {
-	return Point(Tuple(t).subtract(Tuple(o)))
+	return Point{t.X - o.X, t.Y - o.Y, t.Z - o.Z}
 }
 
 func (t Point) SubtractPoint(o Point) Vector {
-	return Vector(Tuple(t).subtract(Tuple(o)))
+	return Vector{t.X - o.X, t.Y - o.Y, t.Z - o.Z}
 }

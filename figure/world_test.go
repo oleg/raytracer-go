@@ -87,7 +87,7 @@ func Test_color_with_intersection_behind_ray(t *testing.T) {
 	w := World{pointLightSample(), []Shape{
 		MakeSphereM(testMaterialBuilder().SetAmbient(1).Build()),
 		MakeSphereTM(multid.Scaling(0.5, 0.5, 0.5), testMaterialBuilder().SetAmbient(1).Build())}}
-	r := Ray{oned.Point{0, 0, 0.75}, oned.Vector{0, 0, -1}}
+	r := Ray{oned.Point{X: 0, Y: 0, Z: 0.75}, oned.Vector{X: 0, Y: 0, Z: -1}}
 
 	c := w.ColorAt(r, MaxDepth)
 

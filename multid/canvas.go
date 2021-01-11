@@ -36,9 +36,9 @@ func (c Canvas) ToPNG(filename string) error {
 		for j, px := range p {
 
 			img.Set(i, j, color.RGBA{ //todo (Height-j)?
-				R: uint8(clamp(px.R()) * 255),
-				G: uint8(clamp(px.G()) * 255),
-				B: uint8(clamp(px.B()) * 255),
+				R: uint8(clamp(px.R) * 255),
+				G: uint8(clamp(px.G) * 255),
+				B: uint8(clamp(px.B) * 255),
 				A: 255})
 		}
 	}

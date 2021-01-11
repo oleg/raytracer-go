@@ -20,7 +20,7 @@ func AssertFilesEqual(t *testing.T, expected, actual string) bool {
 	}
 
 	if !bytes.Equal(expectedFile, actualFile) {
-		t.Errorf("Files '%v' and '%v' are different", expectedFile, actualFile)
+		t.Errorf("Files '%v' and '%v' are different", expected, actual)
 		return false
 	}
 

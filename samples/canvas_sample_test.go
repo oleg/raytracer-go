@@ -24,7 +24,7 @@ func Test(t *testing.T) {
 	for p.position.X >= 0 && p.position.Y > 0 {
 		x := int(p.position.X)
 		y := int(p.position.Y)
-		c.Pixels[x][height-y] = oned.NewColor(1, 0, 0)
+		c.Pixels[x][height-y] = oned.Color{1, 0, 0}
 		p = p.tick(e)
 	}
 

@@ -26,8 +26,8 @@ func (p Plane) LocalIntersect(ray Ray) Inters {
 	return Inters{Inter{t, p}}
 }
 
-func (p Plane) LocalNormalAt(point oned.Point) oned.Vector {
-	return oned.Vector{0, 1, 0}
+func (p Plane) LocalNormalAt(oned.Point) oned.Vector {
+	return oned.Vector{X: 0, Y: 1, Z: 0}
 }
 
 func (p Plane) Transform() *multid.Matrix4 {

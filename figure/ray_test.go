@@ -9,7 +9,7 @@ import (
 
 func Test_creating_and_querying_a_ray(t *testing.T) {
 	origin := oned.Point{X: 1, Y: 2, Z: 3}
-	direction := oned.Vector{X:4, Y:5, Z:6}
+	direction := oned.Vector{X: 4, Y: 5, Z: 6}
 
 	ray := Ray{origin, direction}
 

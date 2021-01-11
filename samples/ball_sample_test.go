@@ -26,7 +26,7 @@ func Test_ball_sample(t *testing.T) {
 			worldX := -half + pixelSize*float64(x)
 			position := oned.Point{X: worldX, Y: worldY, Z: 10}
 			ray := figure.Ray{
-				Origin: rayOrigin,
+				Origin:    rayOrigin,
 				Direction: position.SubtractPoint(rayOrigin).Normalize(),
 			}
 			if hit, _ := figure.Intersect(sphere, ray).Hit(); hit {

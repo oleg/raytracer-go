@@ -41,8 +41,8 @@ func (camera *Camera) RayForPixel(x, y int) Ray {
 	worldX := camera.HalfWidth - xOffset
 	worldY := camera.HalfHeight - yOffset
 
-	pixel := camera.Transform.Inverse().MultiplyPoint(oned.Point{worldX, worldY, -1})
-	origin := camera.Transform.Inverse().MultiplyPoint(oned.Point{0, 0, 0})
+	pixel := camera.Transform.Inverse().MultiplyPoint(oned.Point{X: worldX, Y: worldY, Z: -1})
+	origin := camera.Transform.Inverse().MultiplyPoint(oned.Point{X: 0, Y: 0, Z: 0})
 	direction := pixel.SubtractPoint(origin).Normalize()
 	return Ray{origin, direction}
 }

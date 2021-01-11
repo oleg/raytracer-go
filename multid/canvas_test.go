@@ -20,7 +20,7 @@ func Test_canvas(t *testing.T) {
 
 func Test_write_pixel(t *testing.T) {
 	c := NewCanvas(10, 20)
-	red := oned.Color{1, 0, 0}
+	red := oned.Color{R: 1, G: 0, B: 0}
 
 	c.Pixels[2][3] = red
 
@@ -29,9 +29,9 @@ func Test_write_pixel(t *testing.T) {
 
 func Test_canvas_to_png(t *testing.T) {
 	c := NewCanvas(5, 3)
-	c.Pixels[0][0] = oned.Color{1, 0, 0}
-	c.Pixels[0][1] = oned.Color{1, 0, 0}
-	c.Pixels[0][2] = oned.Color{1, 0, 0}
+	c.Pixels[0][0] = oned.Color{R: 1, G: 0, B: 0}
+	c.Pixels[0][1] = oned.Color{R: 1, G: 0, B: 0}
+	c.Pixels[0][2] = oned.Color{R: 1, G: 0, B: 0}
 	err := c.ToPNG("canvas_test.png")
 
 	assert.Nil(t, err)

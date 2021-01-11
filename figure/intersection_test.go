@@ -70,7 +70,7 @@ func Test_hit_intersections(t *testing.T) {
 }
 
 func Test_precomputing_state_of_intersection(t *testing.T) {
-	r := Ray{oned.Point{0, 0, -5}, oned.Vector{0, 0, 1}}
+	r := Ray{oned.Point{X: 0, Y: 0, Z: -5}, oned.Vector{X: 0, Y: 0, Z: 1}}
 	shape := MakeSphere()
 	i := Inter{4, shape}
 

@@ -40,7 +40,7 @@ func (camera Camera) Render(w World) multid.Canvas {
 }
 
 func MakeCameraD(hSize, vSize int, fieldOfView float64) Camera {
-	return MakeCamera(hSize, vSize, fieldOfView, multid.IdentityMatrixF())
+	return MakeCamera(hSize, vSize, fieldOfView, multid.IdentityMatrix())
 }
 
 func MakeCamera(hSize, vSize int, fieldOfView float64, transform *multid.Matrix4) Camera {

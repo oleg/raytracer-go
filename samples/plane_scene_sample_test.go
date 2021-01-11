@@ -10,7 +10,7 @@ import (
 
 func Test_plane_scene_sample(t *testing.T) {
 	floor := figure.MakePlaneTM(
-		multid.IdentityMatrixF(),
+		multid.IdentityMatrix(),
 		figure.MakeMaterialBuilder().
 			SetReflective(0.1).
 			SetPattern(figure.MakeCheckersPatternT(

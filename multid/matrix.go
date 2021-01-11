@@ -12,17 +12,28 @@ import (
 //todo add iterate function that accept function
 const L4 = 4
 
-type Matrix4 [L4][L4]float64
+type Matrix4 struct {
+	Data    [4][4]float64
+	inverse *Matrix4
+}
 
-var IdentityMatrix = Matrix4{
+var identityMatrixData = [4][4]float64{
 	{1, 0, 0, 0},
 	{0, 1, 0, 0},
 	{0, 0, 1, 0},
 	{0, 0, 0, 1},
 }
 
-func IdentityMatrixF() *Matrix4 {
-	return &IdentityMatrix
+var identityMatrixRef = createInvertedMatrix()
+
+func createInvertedMatrix() *Matrix4 {
+	m1 := &Matrix4{Data: identityMatrixData}
+	m1.inverse = m1
+	return m1
+}
+
+func IdentityMatrix() *Matrix4 {
+	return identityMatrixRef
 }
 
 //todo must?
@@ -38,7 +49,7 @@ func NewMatrix4(str string) *Matrix4 {
 			log.Fatal("must have 6 separators for 4 columns")
 		}
 		for j, s := range columns[1:5] {
-			m[i][j] = trimAndParseFloat(s)
+			m.Data[i][j] = trimAndParseFloat(s)
 		}
 	}
 	return m
@@ -49,7 +60,7 @@ func (m *Matrix4) Multiply(o *Matrix4) *Matrix4 {
 	for i := 0; i < L4; i++ {
 		for j := 0; j < L4; j++ {
 			for k := 0; k < L4; k++ {
-				r[i][j] += m[i][k] * o[k][j]
+				r.Data[i][j] += m.Data[i][k] * o.Data[k][j]
 			}
 		}
 	}
@@ -66,21 +77,25 @@ func (m *Matrix4) MultiplyVector(o oned.Vector) oned.Vector {
 }
 
 func (m *Matrix4) multiplyTuple(t oned.Tuple, w float64) oned.Tuple {
+	d := m.Data
 	return oned.Tuple{
-		m[0][0]*t.X + m[0][1]*t.Y + m[0][2]*t.Z + m[0][3]*w,
-		m[1][0]*t.X + m[1][1]*t.Y + m[1][2]*t.Z + m[1][3]*w,
-		m[2][0]*t.X + m[2][1]*t.Y + m[2][2]*t.Z + m[2][3]*w,
+		X: d[0][0]*t.X + d[0][1]*t.Y + d[0][2]*t.Z + d[0][3]*w,
+		Y: d[1][0]*t.X + d[1][1]*t.Y + d[1][2]*t.Z + d[1][3]*w,
+		Z: d[2][0]*t.X + d[2][1]*t.Y + d[2][2]*t.Z + d[2][3]*w,
 	}
 }
 
 func (m *Matrix4) Transpose() *Matrix4 {
 	//todo also cache?
 	//todo or implement as loops?
+	d := m.Data
 	return &Matrix4{
-		{m[0][0], m[1][0], m[2][0], m[3][0]},
-		{m[0][1], m[1][1], m[2][1], m[3][1]},
-		{m[0][2], m[1][2], m[2][2], m[3][2]},
-		{m[0][3], m[1][3], m[2][3], m[3][3]},
+		Data: [4][4]float64{
+			{d[0][0], d[1][0], d[2][0], d[3][0]},
+			{d[0][1], d[1][1], d[2][1], d[3][1]},
+			{d[0][2], d[1][2], d[2][2], d[3][2]},
+			{d[0][3], d[1][3], d[2][3], d[3][3]},
+		},
 	}
 }
 
@@ -89,21 +104,20 @@ func (m *Matrix4) determinant() float64 {
 }
 
 //todo: quick fix gives 10x improvements
-var cache = make(map[*Matrix4]*Matrix4)
-
 func (m *Matrix4) Inverse() *Matrix4 {
-	if cached, ok := cache[m]; ok {
-		return cached
+	if m.inverse != nil {
+		return m.inverse
 	}
 	determinant := m.determinant()
 	inverse := &Matrix4{}
 	for i := 0; i < L4; i++ {
 		for j := 0; j < L4; j++ {
-			inverse[j][i] = cofactor4x4(m, i, j) / determinant
+			inverse.Data[j][i] = cofactor4x4(m, i, j) / determinant
 		}
 	}
-	cache[m] = inverse
-	return inverse
+	inverse.inverse = m
+	m.inverse = inverse
+	return m.inverse
 }
 
 func trimAndParseFloat(s string) float64 {
@@ -118,13 +132,13 @@ func trimAndParseFloat(s string) float64 {
 //is it copying?
 func determinant4x4(m *Matrix4) float64 {
 	r := 0.
-	for i, v := range m[0] {
+	for i, v := range m.Data[0] {
 		r += v * cofactor4x4(m, 0, i)
 	}
 	return r
 }
 
-//todo:test
+//todo:testgassert.go
 func cofactor4x4(m *Matrix4, row, column int) float64 {
 	return minor4x4(m, row, column) * sign(row, column)
 }
@@ -144,7 +158,7 @@ func submatrix4x4(m *Matrix4, row, column int) [3][3]float64 {
 			if mj == column {
 				continue
 			}
-			r[ri][rj] = m[mi][mj]
+			r[ri][rj] = m.Data[mi][mj]
 			rj++
 		}
 		ri++

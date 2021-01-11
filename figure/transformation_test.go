@@ -7,6 +7,14 @@ import (
 	"testing"
 )
 
+func Test_inverse_matrix(t *testing.T) {
+	m := multid.IdentityMatrix()
+
+	mInverted := m.Inverse()
+
+	assert.Equal(t, multid.IdentityMatrix(), mInverted)
+}
+
 func Test_transformation_matrix_for_default_orientation(t *testing.T) {
 	from := oned.Point{0, 0, 0}
 	to := oned.Point{0, 0, -1}
@@ -14,7 +22,7 @@ func Test_transformation_matrix_for_default_orientation(t *testing.T) {
 
 	tr := ViewTransform(from, to, up)
 
-	assert.Equal(t, multid.IdentityMatrixF(), tr)
+	assert.Equal(t, multid.IdentityMatrix().Data, tr.Data)
 }
 
 func Test_view_transformation_matrix_looking_in_positive_z_direction(t *testing.T) {

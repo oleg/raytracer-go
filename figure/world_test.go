@@ -324,5 +324,5 @@ func (t TestPattern) PatternAt(point oned.Point) oned.Color {
 	return oned.Color{point.X, point.Y, point.Z}
 }
 func (t TestPattern) Transform() *multid.Matrix4 {
-	return multid.IdentityMatrixF()
+	return multid.IdentityMatrix()
 }

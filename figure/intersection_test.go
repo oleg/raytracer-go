@@ -160,7 +160,7 @@ func Test_under_point_is_offset_below_surface(t *testing.T) {
 }
 
 func Test_schlick_approximation_under_total_internal_reflection(t *testing.T) {
-	s := MakeSphereTM(multid.IdentityMatrixF(), GlassMaterialBuilder().Build())
+	s := MakeSphereTM(multid.IdentityMatrix(), GlassMaterialBuilder().Build())
 	r := Ray{oned.Point{0, 0, math.Sqrt2 / 2}, oned.Vector{0, 1, 0}}
 	xs := Inters{Inter{-math.Sqrt2 / 2, s}, Inter{math.Sqrt2 / 2, s}}
 	comps := xs[1].PrepareComputationsEx(r, xs)
@@ -171,7 +171,7 @@ func Test_schlick_approximation_under_total_internal_reflection(t *testing.T) {
 }
 
 func Test_schlick_approximation_with_perpendicular_viewing_angle(t *testing.T) {
-	s := MakeSphereTM(multid.IdentityMatrixF(), GlassMaterialBuilder().Build())
+	s := MakeSphereTM(multid.IdentityMatrix(), GlassMaterialBuilder().Build())
 	r := Ray{oned.Point{0, 0, 0}, oned.Vector{0, 1, 0}}
 	xs := Inters{Inter{-1, s}, Inter{1, s}}
 	comps := xs[1].PrepareComputationsEx(r, xs)
@@ -182,7 +182,7 @@ func Test_schlick_approximation_with_perpendicular_viewing_angle(t *testing.T) {
 }
 
 func Test_schlick_approximation_with_small_angle_and_n2_gt_n1(t *testing.T) {
-	s := MakeSphereTM(multid.IdentityMatrixF(), GlassMaterialBuilder().Build())
+	s := MakeSphereTM(multid.IdentityMatrix(), GlassMaterialBuilder().Build())
 	r := Ray{oned.Point{0, 0.99, -2}, oned.Vector{0, 0, 1}}
 	xs := Inters{Inter{1.8589, s}}
 	comps := xs[0].PrepareComputationsEx(r, xs)

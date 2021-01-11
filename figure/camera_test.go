@@ -18,7 +18,7 @@ func Test_constructing_camera(t *testing.T) {
 	assert.Equal(t, 160, c.HSize)
 	assert.Equal(t, 120, c.VSize)
 	assert.Equal(t, math.Pi/2, c.FieldOfView)
-	assert.Equal(t, multid.IdentityMatrixF(), c.Transform)
+	assert.Equal(t, multid.IdentityMatrix(), c.Transform)
 }
 
 func Test_pixel_size_for_horizontal_canvas(t *testing.T) {

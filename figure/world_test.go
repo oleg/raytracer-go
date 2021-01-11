@@ -42,7 +42,7 @@ func Test_Intersect_world_with_ray(t *testing.T) {
 
 func Test_shading_intersection(t *testing.T) {
 	w := defaultWorld()
-	r := Ray{oned.Point{0, 0, -5}, oned.Vector{0, 0, 1}}
+	r := Ray{oned.Point{X: 0, Y: 0, Z: -5}, oned.Vector{X: 0, Y: 0, Z: 1}}
 	shape := w.Objects[0]
 	i := Inter{4, shape}
 	comps := i.prepareComputations(r)
@@ -54,8 +54,8 @@ func Test_shading_intersection(t *testing.T) {
 
 func Test_shading_intersection_from_inside(t *testing.T) {
 	w := defaultWorld()
-	w.Light = PointLight{oned.Point{0, 0.25, 0}, oned.White}
-	r := Ray{oned.Point{0, 0, 0}, oned.Vector{0, 0, 1}}
+	w.Light = PointLight{oned.Point{X: 0, Y: 0.25, Z: 0}, oned.White}
+	r := Ray{oned.Point{X: 0, Y: 0, Z: 0}, oned.Vector{X: 0, Y: 0, Z: 1}}
 	shape := w.Objects[1]
 	i := Inter{0.5, shape}
 	comps := i.prepareComputations(r)
@@ -67,7 +67,7 @@ func Test_shading_intersection_from_inside(t *testing.T) {
 
 func Test_color_when_ray_misses(t *testing.T) {
 	w := defaultWorld()
-	r := Ray{oned.Point{0, 0, -5}, oned.Vector{0, 1, 0}}
+	r := Ray{oned.Point{X: 0, Y: 0, Z: -5}, oned.Vector{X: 0, Y: 1, Z: 0}}
 
 	c := w.ColorAt(r, MaxDepth)
 
@@ -76,7 +76,7 @@ func Test_color_when_ray_misses(t *testing.T) {
 
 func Test_color_when_ray_hits(t *testing.T) {
 	w := defaultWorld()
-	r := Ray{oned.Point{0, 0, -5}, oned.Vector{0, 0, 1}}
+	r := Ray{oned.Point{X: 0, Y: 0, Z: -5}, oned.Vector{X: 0, Y: 0, Z: 1}}
 
 	c := w.ColorAt(r, MaxDepth)
 
@@ -98,10 +98,10 @@ func Test_shade_hit_is_given_intersection_in_shadow(t *testing.T) {
 	s1 := MakeSphere()
 	s2 := MakeSphereT(multid.Translation(0, 0, 10))
 	w := World{
-		PointLight{oned.Point{0, 0, -10}, oned.White},
+		PointLight{oned.Point{X: 0, Y: 0, Z: -10}, oned.White},
 		[]Shape{s1, s2},
 	}
-	r := Ray{oned.Point{0, 0, 5}, oned.Vector{0, 0, 1}}
+	r := Ray{oned.Point{X: 0, Y: 0, Z: 5}, oned.Vector{X: 0, Y: 0, Z: 1}}
 	i := Inter{4, s2}
 	comps := i.prepareComputations(r)
 
@@ -131,7 +131,7 @@ func Test_reflected_color_for_non_reflective_material(t *testing.T) {
 
 	color := w.ReflectedColor(comps, 5)
 
-	assert.Equal(t, oned.Color{0, 0, 0}, color)
+	assert.Equal(t, oned.Color{R: 0, G: 0, B: 0}, color)
 }
 
 func Test_reflected_color_for_reflective_material(t *testing.T) {
@@ -179,13 +179,13 @@ func Test_reflected_color_at_maximum_recursive_depth(t *testing.T) {
 	s2 := MakeSphereTM(multid.Scaling(0.5, 0.5, 0.5), testMaterialBuilder().SetAmbient(1).Build())
 	s3 := MakePlaneTM(multid.Translation(0, -1, 0), MakeMaterialBuilder().SetReflective(0.5).Build())
 	w := World{pointLightSample(), []Shape{s1, s2, s3}}
-	r := Ray{oned.Point{0, 0, -3}, oned.Vector{0, -math.Sqrt2 / 2, math.Sqrt2 / 2}}
+	r := Ray{oned.Point{X: 0, Y: 0, Z: -3}, oned.Vector{X: 0, Y: -math.Sqrt2 / 2, Z: math.Sqrt2 / 2}}
 	i := Inter{math.Sqrt2, s3}
 	comps := i.prepareComputations(r)
 
 	color := w.ReflectedColor(comps, 0)
 
-	oned.AssertColorEqualInDelta(t, oned.Color{0, 0, 0}, color)
+	oned.AssertColorEqualInDelta(t, oned.Color{R: 0, G: 0, B: 0}, color)
 }
 
 func Test_refracted_color_with_opaque_surface(t *testing.T) {
@@ -245,7 +245,7 @@ func Test_refracted_color_with_refracted_ray(t *testing.T) {
 
 	c := w.RefractedColor(comps, MaxDepth)
 
-	oned.AssertColorEqualInDelta(t, oned.Color{0, 0.99888, 0.04721}, c)
+	oned.AssertColorEqualInDelta(t, oned.Color{R: 0, G: 0.99888, B: 0.04721}, c)
 }
 
 func Test_shade_hit_with_transparent_material(t *testing.T) {
@@ -292,7 +292,7 @@ func Test_shade_hit_with_reflective_transparent_material(t *testing.T) {
 
 	color := w.ShadeHit(comps, MaxDepth)
 
-	oned.AssertColorEqualInDelta(t, oned.Color{0.93391, 0.69643, 0.69243}, color)
+	oned.AssertColorEqualInDelta(t, oned.Color{R: 0.93391, G: 0.69643, B: 0.69243}, color)
 }
 
 //util

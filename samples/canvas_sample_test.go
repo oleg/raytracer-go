@@ -3,6 +3,7 @@ package samples
 import (
 	"github.com/oleg/raytracer-go/multid"
 	"github.com/oleg/raytracer-go/oned"
+	"os"
 	"testing"
 )
 
@@ -27,5 +28,10 @@ func Test(t *testing.T) {
 		p = p.tick(e)
 	}
 
-	c.MustToPNG("canvas_sample_test.png")
+	outFile := "canvas_sample_test.png"
+	c.MustToPNG(outFile)
+
+	if AssertFilesEqual(t, "testdata/"+outFile, outFile) {
+		_ = os.Remove(outFile)
+	}
 }

@@ -4,6 +4,7 @@ import (
 	"github.com/oleg/raytracer-go/figure"
 	"github.com/oleg/raytracer-go/multid"
 	"github.com/oleg/raytracer-go/oned"
+	"os"
 	"testing"
 )
 
@@ -50,5 +51,10 @@ func Test_ball_3d_sample(t *testing.T) {
 		}
 	}
 
-	canvas.MustToPNG("ball_3d_sample_test.png")
+	outFile := "ball_3d_sample_test.png"
+	canvas.MustToPNG(outFile)
+
+	if AssertFilesEqual(t, "testdata/"+outFile, outFile) {
+		_ = os.Remove(outFile)
+	}
 }

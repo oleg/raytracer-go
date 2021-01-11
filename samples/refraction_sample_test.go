@@ -5,6 +5,7 @@ import (
 	"github.com/oleg/raytracer-go/multid"
 	"github.com/oleg/raytracer-go/oned"
 	"math"
+	"os"
 	"testing"
 )
 
@@ -69,5 +70,10 @@ func Test_refraction_sample(t *testing.T) {
 
 	canvas := camera.Render(world)
 
-	canvas.MustToPNG("refraction_sample_test.png")
+	outFile := "refraction_sample_test.png"
+	canvas.MustToPNG(outFile)
+
+	if AssertFilesEqual(t, "testdata/"+outFile, outFile) {
+		_ = os.Remove(outFile)
+	}
 }

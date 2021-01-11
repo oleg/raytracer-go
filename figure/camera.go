@@ -14,7 +14,27 @@ type Camera struct {
 	Transform             *multid.Matrix4
 }
 
-func (camera Camera) RayForPixel(x, y int) Ray {
+func NewCameraDefault(hSize, vSize int, fieldOfView float64) *Camera {
+	return NewCamera(hSize, vSize, fieldOfView, multid.IdentityMatrix())
+}
+
+func NewCamera(hSize, vSize int, fieldOfView float64, transform *multid.Matrix4) *Camera {
+	halfView := math.Tan(fieldOfView / 2.)
+	aspect := float64(hSize) / float64(vSize)
+	var halfWidth, halfHeight float64
+	if aspect >= 1 {
+		halfWidth, halfHeight = halfView, halfView/aspect
+	} else {
+		halfWidth, halfHeight = halfView*aspect, halfView
+	}
+	pixelSize := halfWidth * 2 / float64(hSize)
+	return &Camera{
+		hSize, vSize,
+		halfWidth, halfHeight,
+		fieldOfView, pixelSize, transform}
+}
+
+func (camera *Camera) RayForPixel(x, y int) Ray {
 	xOffset := (float64(x) + 0.5) * camera.PixelSize
 	yOffset := (float64(y) + 0.5) * camera.PixelSize
 
@@ -27,7 +47,7 @@ func (camera Camera) RayForPixel(x, y int) Ray {
 	return Ray{origin, direction}
 }
 
-func (camera Camera) Render(w World) *multid.Canvas {
+func (camera *Camera) Render(w World) *multid.Canvas {
 	canvas := multid.NewCanvas(camera.HSize, camera.VSize)
 	for y := 0; y < camera.VSize; y++ {
 		for x := 0; x < camera.HSize; x++ {
@@ -37,24 +57,4 @@ func (camera Camera) Render(w World) *multid.Canvas {
 		}
 	}
 	return canvas
-}
-
-func MakeCameraD(hSize, vSize int, fieldOfView float64) Camera {
-	return MakeCamera(hSize, vSize, fieldOfView, multid.IdentityMatrix())
-}
-
-func MakeCamera(hSize, vSize int, fieldOfView float64, transform *multid.Matrix4) Camera {
-	halfView := math.Tan(fieldOfView / 2.)
-	aspect := float64(hSize) / float64(vSize)
-	var halfWidth, halfHeight float64
-	if aspect >= 1 {
-		halfWidth, halfHeight = halfView, halfView/aspect
-	} else {
-		halfWidth, halfHeight = halfView*aspect, halfView
-	}
-	pixelSize := halfWidth * 2 / float64(hSize)
-	return Camera{
-		hSize, vSize,
-		halfWidth, halfHeight,
-		fieldOfView, pixelSize, transform}
 }

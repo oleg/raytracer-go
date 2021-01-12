@@ -12,7 +12,7 @@ import (
 func Test_intersection_encapsulates_distance_and_object(t *testing.T) {
 	s := shapes.NewSphere(geom.IdentityMatrix(), physic.DefaultMaterial())
 
-	i := shapes.Inter{3.5, s}
+	i := shapes.Inter{Distance: 3.5, Object: s}
 
 	assert.Equal(t, 3.5, i.Distance)
 	assert.Equal(t, s, i.Object)
@@ -21,8 +21,8 @@ func Test_intersection_encapsulates_distance_and_object(t *testing.T) {
 func Test_aggregating_intersections(t *testing.T) {
 	s := shapes.NewSphere(geom.IdentityMatrix(), physic.DefaultMaterial())
 
-	i1 := shapes.Inter{1, s}
-	i2 := shapes.Inter{2, s}
+	i1 := shapes.Inter{Distance: 1, Object: s}
+	i2 := shapes.Inter{Distance: 2, Object: s}
 
 	xs := shapes.Inters{i1, i2}
 
@@ -33,8 +33,8 @@ func Test_aggregating_intersections(t *testing.T) {
 func Test_hit_when_all_intersections_have_positive_distance(t *testing.T) {
 	s := shapes.NewSphere(geom.IdentityMatrix(), physic.DefaultMaterial())
 
-	i1 := shapes.Inter{1, s}
-	i2 := shapes.Inter{2, s}
+	i1 := shapes.Inter{Distance: 1, Object: s}
+	i2 := shapes.Inter{Distance: 2, Object: s}
 	xs := shapes.Inters{i2, i1}
 
 	_, i := Hit(xs)
@@ -51,13 +51,13 @@ func Test_hit_intersections(t *testing.T) {
 		expectedIntersection shapes.Inter
 	}{
 		{"all intersections have positive t",
-			shapes.Inters{shapes.Inter{2, s}, shapes.Inter{1, s}}, true, shapes.Inter{1, s}},
+			shapes.Inters{shapes.Inter{Distance: 2, Object: s}, shapes.Inter{Distance: 1, Object: s}}, true, shapes.Inter{Distance: 1, Object: s}},
 		{"some intersections have negative t",
-			shapes.Inters{shapes.Inter{1, s}, shapes.Inter{-1, s}}, true, shapes.Inter{1, s}},
+			shapes.Inters{shapes.Inter{Distance: 1, Object: s}, shapes.Inter{Distance: -1, Object: s}}, true, shapes.Inter{Distance: 1, Object: s}},
 		{"all intersections have negative t",
-			shapes.Inters{shapes.Inter{-1, s}, shapes.Inter{-2, s}}, false, shapes.Inter{}},
+			shapes.Inters{shapes.Inter{Distance: -1, Object: s}, shapes.Inter{Distance: -2, Object: s}}, false, shapes.Inter{}},
 		{"is always the lowest non negative intersection",
-			shapes.Inters{shapes.Inter{5, s}, shapes.Inter{7, s}, shapes.Inter{-3, s}, shapes.Inter{2, s}}, true, shapes.Inter{2, s}},
+			shapes.Inters{shapes.Inter{Distance: 5, Object: s}, shapes.Inter{Distance: 7, Object: s}, shapes.Inter{Distance: -3, Object: s}, shapes.Inter{Distance: 2, Object: s}}, true, shapes.Inter{Distance: 2, Object: s}},
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
@@ -71,9 +71,9 @@ func Test_hit_intersections(t *testing.T) {
 }
 
 func Test_precomputing_state_of_intersection(t *testing.T) {
-	r := shapes.Ray{geom.Point{X: 0, Y: 0, Z: -5}, geom.Vector{X: 0, Y: 0, Z: 1}}
+	r := shapes.Ray{Origin: geom.Point{X: 0, Y: 0, Z: -5}, Direction: geom.Vector{X: 0, Y: 0, Z: 1}}
 	shape := shapes.NewSphere(geom.IdentityMatrix(), physic.DefaultMaterial())
-	i := shapes.Inter{4, shape}
+	i := shapes.Inter{Distance: 4, Object: shape}
 
 	comps := NewComputations(i, r, shapes.Inters{i})
 
@@ -85,9 +85,9 @@ func Test_precomputing_state_of_intersection(t *testing.T) {
 }
 
 func Test_hit_when_intersection_occurs_on_outside(t *testing.T) {
-	r := shapes.Ray{geom.Point{X: 0, Y: 0, Z: -5}, geom.Vector{X: 0, Y: 0, Z: 1}}
+	r := shapes.Ray{Origin: geom.Point{X: 0, Y: 0, Z: -5}, Direction: geom.Vector{X: 0, Y: 0, Z: 1}}
 	shape := shapes.NewSphere(geom.IdentityMatrix(), physic.DefaultMaterial())
-	i := shapes.Inter{4, shape}
+	i := shapes.Inter{Distance: 4, Object: shape}
 
 	comps := NewComputations(i, r, shapes.Inters{i})
 
@@ -95,9 +95,9 @@ func Test_hit_when_intersection_occurs_on_outside(t *testing.T) {
 }
 
 func Test_hit_when_intersection_occurs_on_inside(t *testing.T) {
-	r := shapes.Ray{geom.Point{X: 0, Y: 0, Z: 0}, geom.Vector{X: 0, Y: 0, Z: 1}}
+	r := shapes.Ray{Origin: geom.Point{X: 0, Y: 0, Z: 0}, Direction: geom.Vector{X: 0, Y: 0, Z: 1}}
 	shape := shapes.NewSphere(geom.IdentityMatrix(), physic.DefaultMaterial())
-	i := shapes.Inter{1, shape}
+	i := shapes.Inter{Distance: 1, Object: shape}
 
 	comps := NewComputations(i, r, shapes.Inters{i})
 
@@ -109,8 +109,8 @@ func Test_hit_when_intersection_occurs_on_inside(t *testing.T) {
 
 func Test_precomputing_reflection_vector(t *testing.T) {
 	shape := shapes.NewPlane(geom.IdentityMatrix(), physic.DefaultMaterial())
-	ray := shapes.Ray{geom.Point{X: 0, Y: 1, Z: -1}, geom.Vector{X: 0, Y: -math.Sqrt2 / 2, Z: math.Sqrt2 / 2}}
-	i := shapes.Inter{math.Sqrt2, shape}
+	ray := shapes.Ray{Origin: geom.Point{X: 0, Y: 1, Z: -1}, Direction: geom.Vector{X: 0, Y: -math.Sqrt2 / 2, Z: math.Sqrt2 / 2}}
+	i := shapes.Inter{Distance: math.Sqrt2, Object: shape}
 
 	comps := NewComputations(i, ray, shapes.Inters{i})
 
@@ -137,8 +137,8 @@ func Test_finding_n1_and_n2_at_various_intersections(t *testing.T) {
 			b := shapes.NewSphere(geom.Translation(0, 0, -0.25), physic.GlassMaterialBuilder().SetRefractiveIndex(2.0).Build())
 			c := shapes.NewSphere(geom.Translation(0, 0, 0.25), physic.GlassMaterialBuilder().SetRefractiveIndex(2.5).Build())
 
-			r := shapes.Ray{geom.Point{X: 0, Y: 0, Z: -4}, geom.Vector{X: 0, Y: 0, Z: 1}}
-			xs := shapes.Inters{shapes.Inter{2, a}, shapes.Inter{2.75, b}, shapes.Inter{3.25, c}, shapes.Inter{4.75, b}, shapes.Inter{5.25, c}, shapes.Inter{6, a}}
+			r := shapes.Ray{Origin: geom.Point{X: 0, Y: 0, Z: -4}, Direction: geom.Vector{X: 0, Y: 0, Z: 1}}
+			xs := shapes.Inters{shapes.Inter{Distance: 2, Object: a}, shapes.Inter{Distance: 2.75, Object: b}, shapes.Inter{Distance: 3.25, Object: c}, shapes.Inter{Distance: 4.75, Object: b}, shapes.Inter{Distance: 5.25, Object: c}, shapes.Inter{Distance: 6, Object: a}}
 
 			comps := NewComputations(xs[test.index], r, xs)
 
@@ -149,9 +149,9 @@ func Test_finding_n1_and_n2_at_various_intersections(t *testing.T) {
 }
 
 func Test_under_point_is_offset_below_surface(t *testing.T) {
-	ray := shapes.Ray{geom.Point{X: 0, Y: 0, Z: -5}, geom.Vector{X: 0, Y: 0, Z: 1}}
+	ray := shapes.Ray{Origin: geom.Point{X: 0, Y: 0, Z: -5}, Direction: geom.Vector{X: 0, Y: 0, Z: 1}}
 	shape := shapes.NewSphere(geom.Translation(0, 0, 1), physic.GlassMaterialBuilder().Build())
-	i := shapes.Inter{5, shape}
+	i := shapes.Inter{Distance: 5, Object: shape}
 	xs := shapes.Inters{i}
 
 	comps := NewComputations(i, ray, xs)
@@ -162,8 +162,8 @@ func Test_under_point_is_offset_below_surface(t *testing.T) {
 
 func Test_schlick_approximation_under_total_internal_reflection(t *testing.T) {
 	s := shapes.NewSphere(geom.IdentityMatrix(), physic.GlassMaterialBuilder().Build())
-	r := shapes.Ray{geom.Point{X: 0, Y: 0, Z: math.Sqrt2 / 2}, geom.Vector{X: 0, Y: 1, Z: 0}}
-	xs := shapes.Inters{shapes.Inter{-math.Sqrt2 / 2, s}, shapes.Inter{math.Sqrt2 / 2, s}}
+	r := shapes.Ray{Origin: geom.Point{X: 0, Y: 0, Z: math.Sqrt2 / 2}, Direction: geom.Vector{X: 0, Y: 1, Z: 0}}
+	xs := shapes.Inters{shapes.Inter{Distance: -math.Sqrt2 / 2, Object: s}, shapes.Inter{Distance: math.Sqrt2 / 2, Object: s}}
 	comps := NewComputations(xs[1], r, xs)
 
 	reflectance := Schlick(comps)
@@ -173,8 +173,8 @@ func Test_schlick_approximation_under_total_internal_reflection(t *testing.T) {
 
 func Test_schlick_approximation_with_perpendicular_viewing_angle(t *testing.T) {
 	s := shapes.NewSphere(geom.IdentityMatrix(), physic.GlassMaterialBuilder().Build())
-	r := shapes.Ray{geom.Point{X: 0, Y: 0, Z: 0}, geom.Vector{X: 0, Y: 1, Z: 0}}
-	xs := shapes.Inters{shapes.Inter{-1, s}, shapes.Inter{1, s}}
+	r := shapes.Ray{Origin: geom.Point{X: 0, Y: 0, Z: 0}, Direction: geom.Vector{X: 0, Y: 1, Z: 0}}
+	xs := shapes.Inters{shapes.Inter{Distance: -1, Object: s}, shapes.Inter{Distance: 1, Object: s}}
 	comps := NewComputations(xs[1], r, xs)
 
 	reflectance := Schlick(comps)
@@ -184,8 +184,8 @@ func Test_schlick_approximation_with_perpendicular_viewing_angle(t *testing.T) {
 
 func Test_schlick_approximation_with_small_angle_and_n2_gt_n1(t *testing.T) {
 	s := shapes.NewSphere(geom.IdentityMatrix(), physic.GlassMaterialBuilder().Build())
-	r := shapes.Ray{geom.Point{X: 0, Y: 0.99, Z: -2}, geom.Vector{X: 0, Y: 0, Z: 1}}
-	xs := shapes.Inters{shapes.Inter{1.8589, s}}
+	r := shapes.Ray{Origin: geom.Point{X: 0, Y: 0.99, Z: -2}, Direction: geom.Vector{X: 0, Y: 0, Z: 1}}
+	xs := shapes.Inters{shapes.Inter{Distance: 1.8589, Object: s}}
 	comps := NewComputations(xs[0], r, xs)
 
 	reflectance := Schlick(comps)

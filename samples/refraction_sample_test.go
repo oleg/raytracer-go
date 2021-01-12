@@ -18,9 +18,9 @@ func Test_refraction_sample(t *testing.T) {
 			SetTransparency(0.2).
 			SetRefractiveIndex(1.3).
 			SetPattern(physic.CheckersPattern{
-				geom.Black,
-				geom.White,
-				physic.NoTransformation}).
+				A:             geom.Black,
+				B:             geom.White,
+				Transformable: physic.NoTransformation}).
 			Build())
 
 	back := shapes.NewPlane(
@@ -31,9 +31,9 @@ func Test_refraction_sample(t *testing.T) {
 			SetTransparency(0.1).
 			SetRefractiveIndex(2).
 			SetPattern(physic.CheckersPattern{
-				geom.Black,
-				geom.White,
-				physic.NoTransformation}).
+				A:             geom.Black,
+				B:             geom.White,
+				Transformable: physic.NoTransformation}).
 			Build())
 	left := shapes.NewSphere(
 		geom.Translation(-2.4, 1, 0.2),

@@ -16,9 +16,9 @@ func Test_plane_scene_sample(t *testing.T) {
 		physic.NewMaterialBuilder().
 			SetReflective(0.1).
 			SetPattern(physic.CheckersPattern{
-				geom.Color{R: 0.5, G: 1, B: 0.1},
-				geom.Color{R: 0.7, G: 0.3, B: 1},
-				physic.Transformable{geom.Translation(1, 0, 0).
+				A: geom.Color{R: 0.5, G: 1, B: 0.1},
+				B: geom.Color{R: 0.7, G: 0.3, B: 1},
+				Transformable: physic.Transformable{Transform: geom.Translation(1, 0, 0).
 					Multiply(geom.Scaling(0.5, 0.5, 0.5))}}).
 			Build())
 
@@ -28,9 +28,9 @@ func Test_plane_scene_sample(t *testing.T) {
 		physic.NewMaterialBuilder().
 			SetReflective(0.3).
 			SetPattern(physic.RingPattern{
-				geom.Color{R: 0.8, G: 0.9, B: 0.5},
-				geom.Color{R: 0.5, G: 0.2, B: 0.3},
-				physic.Transformable{geom.Translation(0, 0, 2).
+				A: geom.Color{R: 0.8, G: 0.9, B: 0.5},
+				B: geom.Color{R: 0.5, G: 0.2, B: 0.3},
+				Transformable: physic.Transformable{Transform: geom.Translation(0, 0, 2).
 					Multiply(geom.Scaling(0.2, 0.2, 0.2))}}).
 			Build())
 
@@ -39,9 +39,9 @@ func Test_plane_scene_sample(t *testing.T) {
 			Multiply(geom.Scaling(1, 0.33, 0.33)),
 		physic.NewMaterialBuilder().
 			SetPattern(physic.GradientPattern{
-				geom.Color{R: 0.3, G: 1, B: 0.7},
-				geom.Color{R: 0.7, G: 0.3, B: 1},
-				physic.Transformable{geom.Translation(1, 0, 0).
+				A: geom.Color{R: 0.3, G: 1, B: 0.7},
+				B: geom.Color{R: 0.7, G: 0.3, B: 1},
+				Transformable: physic.Transformable{Transform: geom.Translation(1, 0, 0).
 					Multiply(geom.Scaling(2, 1, 1))}}).
 			SetDiffuse(0.7).
 			SetSpecular(0.3).Build())
@@ -57,9 +57,9 @@ func Test_plane_scene_sample(t *testing.T) {
 			Multiply(geom.Scaling(0.5, 0.8, 0.5)),
 		physic.NewMaterialBuilder().
 			SetPattern(physic.StripePattern{
-				geom.Color{R: 0.7, G: 0.9, B: 0.8},
-				geom.Color{R: 0.2, G: 0.4, B: 0.1},
-				physic.Transformable{geom.RotationZ(math.Pi / 4).
+				A: geom.Color{R: 0.7, G: 0.9, B: 0.8},
+				B: geom.Color{R: 0.2, G: 0.4, B: 0.1},
+				Transformable: physic.Transformable{Transform: geom.RotationZ(math.Pi / 4).
 					Multiply(geom.Scaling(0.3, 0.3, 0.3))}}).
 			SetDiffuse(0.7).
 			SetSpecular(0.3).Build())

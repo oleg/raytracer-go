@@ -1,8 +1,8 @@
 package scene
 
 import (
-	"github.com/oleg/raytracer-go/shapes"
 	"github.com/oleg/raytracer-go/geom"
+	"github.com/oleg/raytracer-go/shapes"
 	"math"
 )
 
@@ -45,7 +45,7 @@ func (camera *Camera) RayForPixel(x, y int) shapes.Ray {
 	pixel := camera.Transform.Inverse().MultiplyPoint(geom.Point{X: worldX, Y: worldY, Z: -1})
 	origin := camera.Transform.Inverse().MultiplyPoint(geom.Point{X: 0, Y: 0, Z: 0})
 	direction := pixel.SubtractPoint(origin).Normalize()
-	return shapes.Ray{origin, direction}
+	return shapes.Ray{Origin: origin, Direction: direction}
 }
 
 func (camera *Camera) Render(w World) *Canvas {

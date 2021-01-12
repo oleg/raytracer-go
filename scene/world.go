@@ -68,7 +68,7 @@ func (w *World) IsShadowed(point geom.Point) bool {
 	v := w.Light.Position.SubtractPoint(point)
 	distance := v.Magnitude()
 	direction := v.Normalize()
-	intersections := w.Intersect(shapes.Ray{point, direction})
+	intersections := w.Intersect(shapes.Ray{Origin: point, Direction: direction})
 	hit, inter := Hit(intersections)
 	return hit && inter.Distance < distance
 }
@@ -81,7 +81,7 @@ func (w *World) ReflectedColor(comps Computations, remaining uint8) geom.Color {
 	if reflective == 0 {
 		return geom.Black
 	}
-	reflectRay := shapes.Ray{comps.OverPoint, comps.ReflectV}
+	reflectRay := shapes.Ray{Origin: comps.OverPoint, Direction: comps.ReflectV}
 	color := w.ColorAt(reflectRay, remaining-1)
 	return color.MultiplyByScalar(reflective)
 }
@@ -105,7 +105,7 @@ func (w *World) RefractedColor(comps Computations, remaining uint8) geom.Color {
 	direction := comps.NormalV.MultiplyScalar(nRatio*cosI - cosT).
 		SubtractVector(comps.EyeV.MultiplyScalar(nRatio))
 
-	refractRay := shapes.Ray{comps.UnderPoint, direction}
+	refractRay := shapes.Ray{Origin: comps.UnderPoint, Direction: direction}
 	return w.ColorAt(refractRay, remaining-1).MultiplyByScalar(transparency)
 }
 

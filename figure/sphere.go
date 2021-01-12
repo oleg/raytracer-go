@@ -6,25 +6,18 @@ import (
 )
 
 type Sphere struct {
-	transform *geom.Matrix
-	material  *Material
+	ShapePhysics
 }
 
 func NewSphere(transform *geom.Matrix, material *Material) Sphere {
-	return Sphere{transform, material}
+	return Sphere{ShapePhysics{transform, material}}
 }
 
 func NewGlassSphere() Sphere {
-	return Sphere{
+	return Sphere{ShapePhysics{
 		geom.IdentityMatrix(),
-		GlassMaterialBuilder().Build()}
-}
-
-func (sphere Sphere) Transformation() *geom.Matrix {
-	return sphere.transform
-}
-func (sphere Sphere) Material() *Material {
-	return sphere.material
+		GlassMaterialBuilder().Build(),
+	}}
 }
 
 //todo or Sphere?

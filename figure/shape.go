@@ -8,13 +8,24 @@ type HasTransformation interface { //todo try to convert to an action
 	Transformation() *geom.Matrix
 }
 
-
 type Intersecter interface {
 	Intersect(ray Ray) Inters //todo fix this
 }
 
 type NormalFinder interface {
 	NormalAt(point geom.Point) geom.Vector
+}
+
+type ShapePhysics struct {
+	transform *geom.Matrix //todo test
+	material  *Material    //todo test
+}
+
+func (p ShapePhysics) Transformation() *geom.Matrix {
+	return p.transform
+}
+func (p ShapePhysics) Material() *Material {
+	return p.material
 }
 
 type Shape interface {

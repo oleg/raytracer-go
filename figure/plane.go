@@ -6,15 +6,14 @@ import (
 )
 
 type Plane struct {
-	transform *geom.Matrix //todo test
-	material  *Material    //todo test
+	ShapePhysics
 }
 
 func MakePlane() Plane {
-	return Plane{geom.IdentityMatrix(), DefaultMaterial()}
+	return Plane{ShapePhysics{geom.IdentityMatrix(), DefaultMaterial()}}
 }
-func MakePlaneTM(transform *geom.Matrix, material *Material) Plane {
-	return Plane{transform, material}
+func NewPlane(transform *geom.Matrix, material *Material) Plane {
+	return Plane{ShapePhysics{transform, material}}
 }
 
 func (p Plane) Intersect(ray Ray) Inters {
@@ -27,11 +26,4 @@ func (p Plane) Intersect(ray Ray) Inters {
 
 func (p Plane) NormalAt(geom.Point) geom.Vector {
 	return geom.Vector{X: 0, Y: 1, Z: 0}
-}
-
-func (p Plane) Transformation() *geom.Matrix {
-	return p.transform
-}
-func (p Plane) Material() *Material {
-	return p.material
 }

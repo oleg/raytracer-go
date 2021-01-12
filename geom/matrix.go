@@ -11,6 +11,7 @@ import (
 //todo add iterate function that accept function?
 const L4 = 4
 
+//todo implement HasTransformation?
 type Matrix struct {
 	Data    [L4][L4]float64
 	inverse *Matrix

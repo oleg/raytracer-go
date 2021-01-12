@@ -11,6 +11,7 @@ type HasMaterial interface { //todo try to convert to an action
 	Material() *Material
 }
 
+//todo implement HasMaterial
 type Material struct {
 	Color           geom.Color
 	Pattern         Pattern

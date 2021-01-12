@@ -9,7 +9,7 @@ import (
 )
 
 func Test_plane_scene_sample(t *testing.T) {
-	floor := figure.MakePlaneTM(
+	floor := figure.NewPlane(
 		geom.IdentityMatrix(),
 		figure.MakeMaterialBuilder().
 			SetReflective(0.1).
@@ -20,7 +20,7 @@ func Test_plane_scene_sample(t *testing.T) {
 					Multiply(geom.Scaling(0.5, 0.5, 0.5)))).
 			Build())
 
-	back := figure.MakePlaneTM(
+	back := figure.NewPlane(
 		geom.Translation(0, 0, 3).
 			Multiply(geom.RotationX(-math.Pi/2)),
 		figure.MakeMaterialBuilder().

@@ -9,7 +9,7 @@ import (
 )
 
 func Test_refraction_sample(t *testing.T) {
-	floor := figure.MakePlaneTM(
+	floor := figure.NewPlane(
 		geom.IdentityMatrix(),
 		figure.MakeMaterialBuilder().
 			SetReflective(0.7).
@@ -21,7 +21,7 @@ func Test_refraction_sample(t *testing.T) {
 				geom.IdentityMatrix())).
 			Build())
 
-	back := figure.MakePlaneTM(
+	back := figure.NewPlane(
 		geom.Translation(0, 0, 4).
 			Multiply(geom.RotationX(-math.Pi/2)),
 		figure.MakeMaterialBuilder().

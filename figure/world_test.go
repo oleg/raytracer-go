@@ -17,7 +17,7 @@ func Test_default_world(t *testing.T) {
 	s1 := NewSphere(geom.IdentityMatrix(), material)
 
 	transform := geom.Scaling(0.5, 0.5, 0.5)
-	s2 := MakeSphereT(transform)
+	s2 := NewSphere(transform, DefaultMaterial())
 
 	w := defaultWorld()
 
@@ -95,7 +95,7 @@ func Test_color_with_intersection_behind_ray(t *testing.T) {
 
 func Test_shade_hit_is_given_intersection_in_shadow(t *testing.T) {
 	s1 := NewSphere(geom.IdentityMatrix(), DefaultMaterial())
-	s2 := MakeSphereT(geom.Translation(0, 0, 10))
+	s2 := NewSphere(geom.Translation(0, 0, 10), DefaultMaterial())
 	w := World{
 		PointLight{geom.Point{X: 0, Y: 0, Z: -10}, geom.White},
 		[]Shape{s1, s2},
@@ -111,7 +111,7 @@ func Test_shade_hit_is_given_intersection_in_shadow(t *testing.T) {
 
 func Test_hit_should_offset_point(t *testing.T) {
 	r := Ray{geom.Point{X: 0, Y: 0, Z: -5}, geom.Vector{X: 0, Y: 0, Z: 1}}
-	s := MakeSphereT(geom.Translation(0, 0, 1))
+	s := NewSphere(geom.Translation(0, 0, 1), DefaultMaterial())
 	i := Inter{5, s}
 
 	comps := i.PrepareComputations(r, Inters{i})
@@ -201,7 +201,7 @@ func Test_refracted_color_with_opaque_surface(t *testing.T) {
 
 func Test_refracted_color_at_the_maximum_recursive_depth(t *testing.T) {
 	s1 := NewSphere(geom.IdentityMatrix(), testMaterialBuilder().SetTransparency(1.0).SetRefractiveIndex(1.5).Build())
-	s2 := MakeSphereT(geom.Scaling(0.5, 0.5, 0.5))
+	s2 := NewSphere(geom.Scaling(0.5, 0.5, 0.5), DefaultMaterial())
 	w := World{pointLightSample(), []Shape{s1, s2}}
 	r := Ray{geom.Point{X: 0, Y: 0, Z: -5}, geom.Vector{X: 0, Y: 0, Z: 1}}
 	xs := Inters{Inter{4, s1}, Inter{6, s1}}
@@ -214,7 +214,7 @@ func Test_refracted_color_at_the_maximum_recursive_depth(t *testing.T) {
 
 func Test_refracted_color_under_total_internal_reflection(t *testing.T) {
 	s1 := NewSphere(geom.IdentityMatrix(), testMaterialBuilder().SetTransparency(1.0).SetRefractiveIndex(1.5).Build())
-	s2 := MakeSphereT(geom.Scaling(0.5, 0.5, 0.5))
+	s2 := NewSphere(geom.Scaling(0.5, 0.5, 0.5), DefaultMaterial())
 	w := World{pointLightSample(), []Shape{s1, s2}}
 	r := Ray{geom.Point{X: 0, Y: 0, Z: math.Sqrt2 / 2}, geom.Vector{X: 0, Y: 1, Z: 0}}
 	xs := Inters{Inter{-math.Sqrt2 / 2, s1}, Inter{math.Sqrt2 / 2, s1}}
@@ -249,7 +249,7 @@ func Test_refracted_color_with_refracted_ray(t *testing.T) {
 
 func Test_shade_hit_with_transparent_material(t *testing.T) {
 	s1 := NewSphere(geom.IdentityMatrix(), testMaterialBuilder().Build())
-	s2 := MakeSphereT(geom.Scaling(0.5, 0.5, 0.5))
+	s2 := NewSphere(geom.Scaling(0.5, 0.5, 0.5), DefaultMaterial())
 	floor := MakePlaneTM(geom.Translation(0, -1, 0),
 		MakeMaterialBuilder().
 			SetTransparency(0.5).
@@ -272,7 +272,7 @@ func Test_shade_hit_with_transparent_material(t *testing.T) {
 
 func Test_shade_hit_with_reflective_transparent_material(t *testing.T) {
 	s1 := NewSphere(geom.IdentityMatrix(), testMaterialBuilder().Build())
-	s2 := MakeSphereT(geom.Scaling(0.5, 0.5, 0.5))
+	s2 := NewSphere(geom.Scaling(0.5, 0.5, 0.5), DefaultMaterial())
 	floor := MakePlaneTM(geom.Translation(0, -1, 0),
 		MakeMaterialBuilder().
 			SetReflective(0.5).
@@ -297,7 +297,7 @@ func Test_shade_hit_with_reflective_transparent_material(t *testing.T) {
 //util
 func defaultWorld() World {
 	s1 := NewSphere(geom.IdentityMatrix(), testMaterialBuilder().Build())
-	s2 := MakeSphereT(geom.Scaling(0.5, 0.5, 0.5))
+	s2 := NewSphere(geom.Scaling(0.5, 0.5, 0.5), DefaultMaterial())
 
 	return World{
 		pointLightSample(),

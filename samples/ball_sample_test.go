@@ -17,7 +17,7 @@ func Test_ball_sample(t *testing.T) {
 	canvas := figure.NewCanvas(canvasPixels, canvasPixels)
 	red := geom.Color{R: 1, G: 0, B: 0}
 	transform := geom.Shearing(1, 0, 0, 0, 0, 0).Multiply(geom.Scaling(0.5, 1, 1))
-	sphere := figure.MakeSphereT(transform)
+	sphere := figure.NewSphere(transform, figure.DefaultMaterial())
 
 	for y := 0; y < canvasPixels; y++ {
 		worldY := half - pixelSize*float64(y)

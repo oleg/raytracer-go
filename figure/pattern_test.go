@@ -43,7 +43,7 @@ func Test_stripe_pattern_alternates_in_x(t *testing.T) {
 }
 
 func Test_stripes_with_object_transformation(t *testing.T) {
-	object := MakeSphereT(geom.Scaling(2, 2, 2))
+	object := NewSphere(geom.Scaling(2, 2, 2), DefaultMaterial())
 	pattern := MakeStripePattern(geom.White, geom.Black)
 
 	c := PatternAtShape(pattern, object, geom.Point{X: 1.5, Y: 0, Z: 0})
@@ -61,7 +61,7 @@ func Test_stripes_with_pattern_transformation(t *testing.T) {
 }
 
 func Test_stripes_with_both_object_and_pattern_transformation(t *testing.T) {
-	object := MakeSphereT(geom.Scaling(2, 2, 2))
+	object := NewSphere(geom.Scaling(2, 2, 2), DefaultMaterial())
 	pattern := MakeStripePatternT(geom.White, geom.Black, geom.Translation(0.5, 0, 0))
 
 	c := PatternAtShape(pattern, object, geom.Point{X: 2.5, Y: 0, Z: 0})

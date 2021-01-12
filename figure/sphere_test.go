@@ -63,7 +63,7 @@ func Test_sphere_default_transformation(t *testing.T) {
 }
 func Test_changing_sphere_transformation(t *testing.T) {
 	tr := geom.Translation(2, 3, 4)
-	s := MakeSphereT(tr)
+	s := NewSphere(tr, DefaultMaterial())
 
 	r := s.Transform()
 
@@ -72,7 +72,7 @@ func Test_changing_sphere_transformation(t *testing.T) {
 
 func Test_intersecting_scaled_sphere_with_ray(t *testing.T) {
 	r := Ray{geom.Point{X: 0, Y: 0, Z: -5}, geom.Vector{X: 0, Y: 0, Z: 1}}
-	s := MakeSphereT(geom.Scaling(2, 2, 2))
+	s := NewSphere(geom.Scaling(2, 2, 2), DefaultMaterial())
 
 	xs := Intersect(s, r) //todo table test for intersect
 
@@ -83,7 +83,7 @@ func Test_intersecting_scaled_sphere_with_ray(t *testing.T) {
 
 func Test_intersecting_translated_sphere_with_ray(t *testing.T) {
 	r := Ray{geom.Point{X: 0, Y: 0, Z: -5}, geom.Vector{X: 0, Y: 0, Z: 1}}
-	s := MakeSphereT(geom.Translation(5, 0, 0))
+	s := NewSphere(geom.Translation(5, 0, 0), DefaultMaterial())
 
 	xs := Intersect(s, r)
 
@@ -128,7 +128,7 @@ func Test_normal_is_normalized_vector(t *testing.T) {
 }
 
 func Test_computing_normal_on_translated_sphere(t *testing.T) {
-	s := MakeSphereT(geom.Translation(0, 1, 0))
+	s := NewSphere(geom.Translation(0, 1, 0), DefaultMaterial())
 
 	n := NormalAt(s, geom.Point{X: 0, Y: 1.70711, Z: -0.70711})
 
@@ -136,7 +136,7 @@ func Test_computing_normal_on_translated_sphere(t *testing.T) {
 }
 
 func Test_computing_normal_on_transformed_sphere(t *testing.T) {
-	s := MakeSphereT(geom.Scaling(1, 0.5, 1).Multiply(geom.RotationZ(math.Pi / 5)))
+	s := NewSphere(geom.Scaling(1, 0.5, 1).Multiply(geom.RotationZ(math.Pi / 5)), DefaultMaterial())
 
 	n := NormalAt(s, geom.Point{X: 0, Y: math.Sqrt2 / 2, Z: -math.Sqrt2 / 2})
 
@@ -157,7 +157,7 @@ func Test_sphere_may_be_assigned_material(t *testing.T) {
 }
 
 func Test_helper_for_producing_sphere_with_glassy_material(t *testing.T) {
-	s := MakeGlassSphere()
+	s := NewGlassSphere()
 
 	assert.Equal(t, geom.IdentityMatrix(), s.Transform())
 	assert.Equal(t, 1.0, s.Material().Transparency)

@@ -14,11 +14,11 @@ func NewSphere(transform *geom.Matrix, material Material) Sphere {
 	return Sphere{transform, material}
 }
 
-func MakeSphereT(transform *geom.Matrix) Sphere {
+func NewSphereT(transform *geom.Matrix) Sphere {
 	return Sphere{transform, DefaultMaterial()}
 }
 
-func MakeGlassSphere() Sphere {
+func NewGlassSphere() Sphere {
 	return Sphere{
 		geom.IdentityMatrix(),
 		GlassMaterialBuilder().Build()}

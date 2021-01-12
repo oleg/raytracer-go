@@ -11,12 +11,7 @@ type Inter struct {
 	Object   Shape
 }
 
-//todo:oleg update tests and remove this method
-func (i Inter) prepareComputations(r Ray) Computations {
-	return i.PrepareComputationsEx(r, Inters{i})
-}
-
-func (i Inter) PrepareComputationsEx(r Ray, xs Inters) Computations {
+func (i Inter) PrepareComputations(r Ray, xs Inters) Computations {
 	comps := Computations{}
 	comps.Distance = i.Distance
 	comps.Object = i.Object

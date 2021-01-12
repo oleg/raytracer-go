@@ -44,7 +44,7 @@ func Test_shading_intersection(t *testing.T) {
 	r := Ray{geom.Point{X: 0, Y: 0, Z: -5}, geom.Vector{X: 0, Y: 0, Z: 1}}
 	shape := w.Objects[0]
 	i := Inter{4, shape}
-	comps := i.prepareComputations(r)
+	comps := i.PrepareComputations(r, Inters{i})
 
 	c := w.ShadeHit(comps, MaxDepth)
 
@@ -57,7 +57,7 @@ func Test_shading_intersection_from_inside(t *testing.T) {
 	r := Ray{geom.Point{X: 0, Y: 0, Z: 0}, geom.Vector{X: 0, Y: 0, Z: 1}}
 	shape := w.Objects[1]
 	i := Inter{0.5, shape}
-	comps := i.prepareComputations(r)
+	comps := i.PrepareComputations(r, Inters{i})
 
 	c := w.ShadeHit(comps, MaxDepth)
 
@@ -102,7 +102,7 @@ func Test_shade_hit_is_given_intersection_in_shadow(t *testing.T) {
 	}
 	r := Ray{geom.Point{X: 0, Y: 0, Z: 5}, geom.Vector{X: 0, Y: 0, Z: 1}}
 	i := Inter{4, s2}
-	comps := i.prepareComputations(r)
+	comps := i.PrepareComputations(r, Inters{i})
 
 	color := w.ShadeHit(comps, MaxDepth)
 
@@ -114,7 +114,7 @@ func Test_hit_should_offset_point(t *testing.T) {
 	s := MakeSphereT(geom.Translation(0, 0, 1))
 	i := Inter{5, s}
 
-	comps := i.prepareComputations(r)
+	comps := i.PrepareComputations(r, Inters{i})
 
 	assert.Less(t, comps.OverPoint.Z, -geom.Delta/2)
 	assert.Less(t, comps.OverPoint.Z, comps.Point.Z)
@@ -126,7 +126,7 @@ func Test_reflected_color_for_non_reflective_material(t *testing.T) {
 	w := World{pointLightSample(), []Shape{s1, s2}}
 	r := Ray{geom.Point{X: 0, Y: 0, Z: 0}, geom.Vector{X: 0, Y: 0, Z: 1}}
 	i := Inter{1, s2}
-	comps := i.prepareComputations(r)
+	comps := i.PrepareComputations(r, Inters{i})
 
 	color := w.ReflectedColor(comps, 5)
 
@@ -140,7 +140,7 @@ func Test_reflected_color_for_reflective_material(t *testing.T) {
 	w := World{pointLightSample(), []Shape{s1, s2, s3}}
 	r := Ray{geom.Point{X: 0, Y: 0, Z: -3}, geom.Vector{X: 0, Y: -math.Sqrt2 / 2, Z: math.Sqrt2 / 2}}
 	i := Inter{math.Sqrt2, s3}
-	comps := i.prepareComputations(r)
+	comps := i.PrepareComputations(r, Inters{i})
 
 	color := w.ReflectedColor(comps, 5)
 
@@ -154,7 +154,7 @@ func Test_shade_hit_with_reflective_material(t *testing.T) {
 	w := World{pointLightSample(), []Shape{s1, s2, s3}}
 	r := Ray{geom.Point{X: 0, Y: 0, Z: -3}, geom.Vector{X: 0, Y: -math.Sqrt2 / 2, Z: math.Sqrt2 / 2}}
 	i := Inter{math.Sqrt2, s3}
-	comps := i.prepareComputations(r)
+	comps := i.PrepareComputations(r, Inters{i})
 
 	color := w.ShadeHit(comps, MaxDepth)
 
@@ -180,7 +180,7 @@ func Test_reflected_color_at_maximum_recursive_depth(t *testing.T) {
 	w := World{pointLightSample(), []Shape{s1, s2, s3}}
 	r := Ray{geom.Point{X: 0, Y: 0, Z: -3}, geom.Vector{X: 0, Y: -math.Sqrt2 / 2, Z: math.Sqrt2 / 2}}
 	i := Inter{math.Sqrt2, s3}
-	comps := i.prepareComputations(r)
+	comps := i.PrepareComputations(r, Inters{i})
 
 	color := w.ReflectedColor(comps, 0)
 
@@ -192,7 +192,7 @@ func Test_refracted_color_with_opaque_surface(t *testing.T) {
 	s := w.Objects[0]
 	r := Ray{geom.Point{X: 0, Y: 0, Z: -5}, geom.Vector{X: 0, Y: 0, Z: 1}}
 	xs := Inters{Inter{4, s}, Inter{6, s}}
-	comps := xs[0].PrepareComputationsEx(r, xs)
+	comps := xs[0].PrepareComputations(r, xs)
 
 	c := w.RefractedColor(comps, MaxDepth)
 
@@ -205,7 +205,7 @@ func Test_refracted_color_at_the_maximum_recursive_depth(t *testing.T) {
 	w := World{pointLightSample(), []Shape{s1, s2}}
 	r := Ray{geom.Point{X: 0, Y: 0, Z: -5}, geom.Vector{X: 0, Y: 0, Z: 1}}
 	xs := Inters{Inter{4, s1}, Inter{6, s1}}
-	comps := xs[0].PrepareComputationsEx(r, xs)
+	comps := xs[0].PrepareComputations(r, xs)
 
 	c := w.RefractedColor(comps, 0)
 
@@ -218,7 +218,7 @@ func Test_refracted_color_under_total_internal_reflection(t *testing.T) {
 	w := World{pointLightSample(), []Shape{s1, s2}}
 	r := Ray{geom.Point{X: 0, Y: 0, Z: math.Sqrt2 / 2}, geom.Vector{X: 0, Y: 1, Z: 0}}
 	xs := Inters{Inter{-math.Sqrt2 / 2, s1}, Inter{math.Sqrt2 / 2, s1}}
-	comps := xs[1].PrepareComputationsEx(r, xs)
+	comps := xs[1].PrepareComputations(r, xs)
 
 	c := w.RefractedColor(comps, MaxDepth)
 
@@ -240,7 +240,7 @@ func Test_refracted_color_with_refracted_ray(t *testing.T) {
 	w := World{pointLightSample(), []Shape{s1, s2}}
 	r := Ray{geom.Point{X: 0, Y: 0, Z: 0.1}, geom.Vector{X: 0, Y: 1, Z: 0}}
 	xs := Inters{Inter{-0.9899, s1}, Inter{-0.4899, s2}, Inter{0.4899, s2}, Inter{0.9899, s1}}
-	comps := xs[2].PrepareComputationsEx(r, xs)
+	comps := xs[2].PrepareComputations(r, xs)
 
 	c := w.RefractedColor(comps, MaxDepth)
 
@@ -263,7 +263,7 @@ func Test_shade_hit_with_transparent_material(t *testing.T) {
 	w := World{pointLightSample(), []Shape{s1, s2, floor, ball}}
 	r := Ray{geom.Point{X: 0, Y: 0, Z: -3}, geom.Vector{X: 0, Y: -math.Sqrt2 / 2, Z: math.Sqrt2 / 2}}
 	xs := Inters{Inter{math.Sqrt2, floor}}
-	comps := xs[0].PrepareComputationsEx(r, xs)
+	comps := xs[0].PrepareComputations(r, xs)
 
 	color := w.ShadeHit(comps, MaxDepth)
 
@@ -287,7 +287,7 @@ func Test_shade_hit_with_reflective_transparent_material(t *testing.T) {
 	w := World{pointLightSample(), []Shape{s1, s2, floor, ball}}
 	r := Ray{geom.Point{X: 0, Y: 0, Z: -3}, geom.Vector{X: 0, Y: -math.Sqrt2 / 2, Z: math.Sqrt2 / 2}}
 	xs := Inters{Inter{math.Sqrt2, floor}}
-	comps := xs[0].PrepareComputationsEx(r, xs)
+	comps := xs[0].PrepareComputations(r, xs)
 
 	color := w.ShadeHit(comps, MaxDepth)
 

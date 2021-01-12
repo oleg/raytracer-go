@@ -16,7 +16,7 @@ type World struct {
 func (w *World) ColorAt(r Ray, remaining uint8) geom.Color {
 	xs := w.Intersect(r)
 	if ok, hit := xs.Hit(); ok {
-		return w.ShadeHit(hit.PrepareComputationsEx(r, xs), remaining)
+		return w.ShadeHit(hit.PrepareComputations(r, xs), remaining)
 	}
 	return geom.Black
 }

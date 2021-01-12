@@ -1,6 +1,7 @@
-package figure
+package ddddf
 
 import (
+	"github.com/oleg/raytracer-go/asdf"
 	"github.com/oleg/raytracer-go/geom"
 	"math"
 )
@@ -9,14 +10,14 @@ type Sphere struct {
 	ShapePhysics
 }
 
-func NewSphere(transform *geom.Matrix, material *Material) Sphere {
+func NewSphere(transform *geom.Matrix, material *asdf.Material) Sphere {
 	return Sphere{ShapePhysics{transform, material}}
 }
 
 func NewGlassSphere() Sphere {
 	return Sphere{ShapePhysics{
 		geom.IdentityMatrix(),
-		GlassMaterialBuilder().Build(),
+		asdf.GlassMaterialBuilder().Build(),
 	}}
 }
 

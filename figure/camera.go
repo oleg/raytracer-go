@@ -1,6 +1,7 @@
 package figure
 
 import (
+	"github.com/oleg/raytracer-go/ddddf"
 	"github.com/oleg/raytracer-go/geom"
 	"math"
 )
@@ -33,7 +34,7 @@ func NewCamera(hSize, vSize int, fieldOfView float64, transform *geom.Matrix) *C
 		fieldOfView, pixelSize, transform}
 }
 
-func (camera *Camera) RayForPixel(x, y int) Ray {
+func (camera *Camera) RayForPixel(x, y int) ddddf.Ray {
 	xOffset := (float64(x) + 0.5) * camera.PixelSize
 	yOffset := (float64(y) + 0.5) * camera.PixelSize
 
@@ -43,7 +44,7 @@ func (camera *Camera) RayForPixel(x, y int) Ray {
 	pixel := camera.Transform.Inverse().MultiplyPoint(geom.Point{X: worldX, Y: worldY, Z: -1})
 	origin := camera.Transform.Inverse().MultiplyPoint(geom.Point{X: 0, Y: 0, Z: 0})
 	direction := pixel.SubtractPoint(origin).Normalize()
-	return Ray{origin, direction}
+	return ddddf.Ray{origin, direction}
 }
 
 func (camera *Camera) Render(w World) *Canvas {

@@ -1,6 +1,8 @@
 package samples
 
 import (
+	"github.com/oleg/raytracer-go/asdf"
+	"github.com/oleg/raytracer-go/ddddf"
 	"github.com/oleg/raytracer-go/figure"
 	"github.com/oleg/raytracer-go/geom"
 	"math"
@@ -9,48 +11,48 @@ import (
 )
 
 func Test_ball_scene_sample(t *testing.T) {
-	floorMaterial := figure.MakeMaterialBuilder().
+	floorMaterial := asdf.MakeMaterialBuilder().
 		SetColor(geom.Color{R: 1, G: 0.9, B: 0.9}).
 		SetSpecular(0).
 		Build()
 
-	floor := figure.NewSphere(
+	floor := ddddf.NewSphere(
 		geom.Scaling(10, 0.01, 10),
 		floorMaterial)
 
-	leftWall := figure.NewSphere(
+	leftWall := ddddf.NewSphere(
 		geom.Translation(0, 0, 5).
 			Multiply(geom.RotationY(-math.Pi/4)).
 			Multiply(geom.RotationX(math.Pi/2)).
 			Multiply(geom.Scaling(10, 0.01, 10)),
 		floorMaterial)
 
-	rightWall := figure.NewSphere(
+	rightWall := ddddf.NewSphere(
 		geom.Translation(0, 0, 5).
 			Multiply(geom.RotationY(math.Pi/4)).
 			Multiply(geom.RotationX(math.Pi/2)).
 			Multiply(geom.Scaling(10, 0.01, 10)),
 		floorMaterial)
 
-	middle := figure.NewSphere(
+	middle := ddddf.NewSphere(
 		geom.Translation(-0.5, 1, 0.5),
-		figure.MakeMaterialBuilder().
+		asdf.MakeMaterialBuilder().
 			SetColor(geom.Color{R: 0.1, G: 1, B: 0.5}).
 			SetDiffuse(0.7).
 			SetSpecular(0.3).Build())
 
-	right := figure.NewSphere(
+	right := ddddf.NewSphere(
 		geom.Translation(1.5, 0.5, -0.5).
 			Multiply(geom.Scaling(0.5, 0.5, 0.5)),
-		figure.MakeMaterialBuilder().
+		asdf.MakeMaterialBuilder().
 			SetColor(geom.Color{R: 0.5, G: 1, B: 0.1}).
 			SetDiffuse(0.7).
 			SetSpecular(0.3).Build())
 
-	left := figure.NewSphere(
+	left := ddddf.NewSphere(
 		geom.Translation(-1.5, 0.33, -0.75).
 			Multiply(geom.Scaling(0.33, 0.33, 0.33)),
-		figure.MakeMaterialBuilder().
+		asdf.MakeMaterialBuilder().
 			SetColor(geom.Color{R: 1, G: 0.8, B: 0.1}).
 			SetDiffuse(0.7).
 			SetSpecular(0.3).Build())
@@ -61,7 +63,7 @@ func Test_ball_scene_sample(t *testing.T) {
 	}
 	world := figure.World{
 		Light: light,
-		Objects: []figure.Shape{
+		Objects: []ddddf.Shape{
 			floor, leftWall, rightWall, middle, right, left,
 		},
 	}

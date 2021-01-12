@@ -1,6 +1,8 @@
 package samples
 
 import (
+	"github.com/oleg/raytracer-go/asdf"
+	"github.com/oleg/raytracer-go/ddddf"
 	"github.com/oleg/raytracer-go/figure"
 	"github.com/oleg/raytracer-go/geom"
 	"math"
@@ -9,34 +11,34 @@ import (
 )
 
 func Test_plane_scene_sample(t *testing.T) {
-	floor := figure.NewPlane(
+	floor := ddddf.NewPlane(
 		geom.IdentityMatrix(),
-		figure.MakeMaterialBuilder().
+		asdf.MakeMaterialBuilder().
 			SetReflective(0.1).
-			SetPattern(figure.MakeCheckersPatternT(
+			SetPattern(asdf.MakeCheckersPatternT(
 				geom.Color{R: 0.5, G: 1, B: 0.1},
 				geom.Color{R: 0.7, G: 0.3, B: 1},
 				geom.Translation(1, 0, 0).
 					Multiply(geom.Scaling(0.5, 0.5, 0.5)))).
 			Build())
 
-	back := figure.NewPlane(
+	back := ddddf.NewPlane(
 		geom.Translation(0, 0, 3).
 			Multiply(geom.RotationX(-math.Pi/2)),
-		figure.MakeMaterialBuilder().
+		asdf.MakeMaterialBuilder().
 			SetReflective(0.3).
-			SetPattern(figure.MakeRingPatternT(
+			SetPattern(asdf.MakeRingPatternT(
 				geom.Color{R: 0.8, G: 0.9, B: 0.5},
 				geom.Color{R: 0.5, G: 0.2, B: 0.3},
 				geom.Translation(0, 0, 2).
 					Multiply(geom.Scaling(0.2, 0.2, 0.2)))).
 			Build())
 
-	left := figure.NewSphere(
+	left := ddddf.NewSphere(
 		geom.Translation(-1.5, 0.33, -0.75).
 			Multiply(geom.Scaling(1, 0.33, 0.33)),
-		figure.MakeMaterialBuilder().
-			SetPattern(figure.MakeGradientPatternT(
+		asdf.MakeMaterialBuilder().
+			SetPattern(asdf.MakeGradientPatternT(
 				geom.Color{R: 0.3, G: 1, B: 0.7},
 				geom.Color{R: 0.7, G: 0.3, B: 1},
 				geom.Translation(1, 0, 0).
@@ -44,17 +46,17 @@ func Test_plane_scene_sample(t *testing.T) {
 			SetDiffuse(0.7).
 			SetSpecular(0.3).Build())
 
-	middle := figure.NewSphere(
+	middle := ddddf.NewSphere(
 		geom.Translation(-0.5, 1, 0.2),
-		figure.MakeMaterialBuilder().
+		asdf.MakeMaterialBuilder().
 			SetDiffuse(0.7).
 			SetSpecular(0.3).Build())
 
-	right := figure.NewSphere(
+	right := ddddf.NewSphere(
 		geom.Translation(1.5, 0.5, -0.5).
 			Multiply(geom.Scaling(0.5, 0.8, 0.5)),
-		figure.MakeMaterialBuilder().
-			SetPattern(figure.MakeStripePatternT(
+		asdf.MakeMaterialBuilder().
+			SetPattern(asdf.MakeStripePatternT(
 				geom.Color{R: 0.7, G: 0.9, B: 0.8},
 				geom.Color{R: 0.2, G: 0.4, B: 0.1},
 				geom.RotationZ(math.Pi/4).
@@ -68,7 +70,7 @@ func Test_plane_scene_sample(t *testing.T) {
 	}
 	world := figure.World{
 		Light:   light,
-		Objects: []figure.Shape{floor, back, left, middle, right},
+		Objects: []ddddf.Shape{floor, back, left, middle, right},
 	}
 	camera := figure.NewCamera(500, 250, math.Pi/3,
 		figure.ViewTransform(geom.Point{X: 0, Y: 3, Z: -6}, geom.Point{X: 0, Y: 1, Z: 0}, geom.Vector{X: 0, Y: 1, Z: 0}))

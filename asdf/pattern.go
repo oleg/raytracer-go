@@ -1,4 +1,4 @@
-package figure
+package asdf
 
 import (
 	"github.com/oleg/raytracer-go/geom"
@@ -14,7 +14,7 @@ type Pattern interface {
 	PatternFinder
 }
 
-func PatternAtShape(pattern Pattern, shape Shape, worldPoint geom.Point) geom.Color {
+func PatternAtShape(pattern Pattern, shape HasTransformation, worldPoint geom.Point) geom.Color {
 	objectPoint := shape.Transformation().Inverse().MultiplyPoint(worldPoint)
 	patternPoint := pattern.Transformation().Inverse().MultiplyPoint(objectPoint)
 	return pattern.PatternAt(patternPoint)

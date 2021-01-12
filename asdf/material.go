@@ -1,9 +1,13 @@
-package figure
+package asdf
 
 import (
 	"github.com/oleg/raytracer-go/geom"
-	"math"
 )
+
+//todo move to shape
+type HasTransformation interface { //todo try to convert to an action
+	Transformation() *geom.Matrix
+}
 
 //todo change types?
 //todo reorder members
@@ -27,31 +31,6 @@ type Material struct {
 //todo change api, should accept overrides, use builder?
 func DefaultMaterial() *Material {
 	return MakeMaterialBuilder().Build()
-}
-
-func Lighting(material *Material, object Shape, light PointLight, point geom.Point, eyev geom.Vector, normalv geom.Vector, inShadow bool) geom.Color {
-	var color geom.Color
-	if material.Pattern != nil {
-		color = PatternAtShape(material.Pattern, object, point)
-	} else {
-		color = material.Color
-	}
-	effectiveColor := color.Multiply(light.Intensity)
-	lightv := light.Position.SubtractPoint(point).Normalize()
-	ambient := effectiveColor.MultiplyByScalar(material.Ambient)
-	lightDotNormal := lightv.Dot(normalv)
-	if lightDotNormal < 0 || inShadow {
-		return ambient
-	}
-	diffuse := effectiveColor.MultiplyByScalar(material.Diffuse).MultiplyByScalar(lightDotNormal)
-	reflectv := lightv.Negate().Reflect(normalv)
-	reflectDotEye := reflectv.Dot(eyev)
-	if reflectDotEye <= 0 {
-		return ambient.Add(diffuse)
-	}
-	factor := math.Pow(reflectDotEye, material.Shininess)
-	specular := light.Intensity.MultiplyByScalar(material.Specular).MultiplyByScalar(factor)
-	return ambient.Add(diffuse).Add(specular)
 }
 
 func GlassMaterialBuilder() *MaterialBuilder {

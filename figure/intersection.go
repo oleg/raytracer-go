@@ -1,24 +1,21 @@
 package figure
 
 import (
+	"github.com/oleg/raytracer-go/ddddf"
 	"github.com/oleg/raytracer-go/geom"
 	"math"
 	"sort"
 )
 
-type Inter struct {
-	Distance float64
-	Object   Shape
-}
 
-func (i Inter) PrepareComputations(r Ray, xs Inters) Computations {
+func PrepareComputations(i ddddf.Inter, r ddddf.Ray, xs ddddf.Inters) Computations {
 	comps := Computations{}
 	comps.Distance = i.Distance
 	comps.Object = i.Object
 	comps.Point = r.Position(i.Distance)
 	comps.EyeV = r.Direction.Negate()
 
-	normalV := NormalAt(comps.Object, comps.Point)
+	normalV := ddddf.NormalAt(comps.Object, comps.Point)
 	comps.Inside = normalV.Dot(comps.EyeV) < 0
 	if comps.Inside {
 		comps.NormalV = normalV.Negate()
@@ -32,8 +29,8 @@ func (i Inter) PrepareComputations(r Ray, xs Inters) Computations {
 	return comps
 }
 
-func calcNs(hit Inter, xs Inters) (n1 float64, n2 float64) {
-	var shapes = make([]Shape, 0, 10)
+func calcNs(hit ddddf.Inter, xs ddddf.Inters) (n1 float64, n2 float64) {
+	var shapes = make([]ddddf.Shape, 0, 10)
 	for _, i := range xs {
 		if i == hit {
 			n1 = refractiveIndex(shapes)
@@ -46,7 +43,7 @@ func calcNs(hit Inter, xs Inters) (n1 float64, n2 float64) {
 	return
 }
 
-func updateShapes(shapes []Shape, shape Shape) []Shape {
+func updateShapes(shapes []ddddf.Shape, shape ddddf.Shape) []ddddf.Shape {
 	if ok, pos := includes(shapes, shape); ok {
 		return remove(shapes, pos)
 	} else {
@@ -54,14 +51,14 @@ func updateShapes(shapes []Shape, shape Shape) []Shape {
 	}
 }
 
-func refractiveIndex(shapes []Shape) float64 {
+func refractiveIndex(shapes []ddddf.Shape) float64 {
 	if len(shapes) != 0 {
 		return shapes[len(shapes)-1].Material().RefractiveIndex
 	}
 	return 1.0
 }
 
-func includes(containers []Shape, object Shape) (bool, int) {
+func includes(containers []ddddf.Shape, object ddddf.Shape) (bool, int) {
 	for i, o := range containers {
 		if o == object {
 			return true, i
@@ -70,14 +67,14 @@ func includes(containers []Shape, object Shape) (bool, int) {
 	return false, -1
 }
 
-func remove(s []Shape, i int) []Shape {
+func remove(s []ddddf.Shape, i int) []ddddf.Shape {
 	s[i] = s[len(s)-1]
 	return s[:len(s)-1]
 }
 
 type Computations struct {
 	Distance   float64
-	Object     Shape
+	Object     ddddf.Shape
 	Point      geom.Point
 	OverPoint  geom.Point
 	UnderPoint geom.Point
@@ -89,9 +86,7 @@ type Computations struct {
 	N2         float64
 }
 
-type Inters []Inter
-
-func (xs Inters) Hit() (bool, Inter) {
+func Hit(xs ddddf.Inters) (bool, ddddf.Inter) {
 	//todo move to constructor
 	sort.Slice(xs, func(i, j int) bool {
 		return xs[i].Distance < xs[j].Distance
@@ -101,7 +96,7 @@ func (xs Inters) Hit() (bool, Inter) {
 			return true, e
 		}
 	}
-	return false, Inter{}
+	return false, ddddf.Inter{}
 }
 
 func Schlick(comps Computations) float64 {

@@ -1,12 +1,9 @@
-package figure
+package ddddf
 
 import (
+	"github.com/oleg/raytracer-go/asdf"
 	"github.com/oleg/raytracer-go/geom"
 )
-
-type HasTransformation interface { //todo try to convert to an action
-	Transformation() *geom.Matrix
-}
 
 type Intersecter interface {
 	Intersect(ray Ray) Inters //todo fix this
@@ -17,20 +14,20 @@ type NormalFinder interface {
 }
 
 type ShapePhysics struct {
-	transform *geom.Matrix //todo test
-	material  *Material    //todo test
+	transform *geom.Matrix   //todo test
+	material  *asdf.Material //todo test
 }
 
 func (p ShapePhysics) Transformation() *geom.Matrix {
 	return p.transform
 }
-func (p ShapePhysics) Material() *Material {
+func (p ShapePhysics) Material() *asdf.Material {
 	return p.material
 }
 
 type Shape interface {
-	HasTransformation
-	HasMaterial
+	asdf.HasTransformation
+	asdf.HasMaterial
 	Intersecter
 	NormalFinder
 }

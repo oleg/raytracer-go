@@ -1,6 +1,8 @@
 package samples
 
 import (
+	"github.com/oleg/raytracer-go/asdf"
+	"github.com/oleg/raytracer-go/ddddf"
 	"github.com/oleg/raytracer-go/figure"
 	"github.com/oleg/raytracer-go/geom"
 	"math"
@@ -9,33 +11,33 @@ import (
 )
 
 func Test_refraction_sample(t *testing.T) {
-	floor := figure.NewPlane(
+	floor := ddddf.NewPlane(
 		geom.IdentityMatrix(),
-		figure.MakeMaterialBuilder().
+		asdf.MakeMaterialBuilder().
 			SetReflective(0.7).
 			SetTransparency(0.2).
 			SetRefractiveIndex(1.3).
-			SetPattern(figure.MakeCheckersPatternT(
+			SetPattern(asdf.MakeCheckersPatternT(
 				geom.Black,
 				geom.White,
 				geom.IdentityMatrix())).
 			Build())
 
-	back := figure.NewPlane(
+	back := ddddf.NewPlane(
 		geom.Translation(0, 0, 4).
 			Multiply(geom.RotationX(-math.Pi/2)),
-		figure.MakeMaterialBuilder().
+		asdf.MakeMaterialBuilder().
 			SetReflective(0.3).
 			SetTransparency(0.1).
 			SetRefractiveIndex(2).
-			SetPattern(figure.MakeCheckersPatternT(
+			SetPattern(asdf.MakeCheckersPatternT(
 				geom.Black,
 				geom.White,
 				geom.IdentityMatrix())).
 			Build())
-	left := figure.NewSphere(
+	left := ddddf.NewSphere(
 		geom.Translation(-2.4, 1, 0.2),
-		figure.MakeMaterialBuilder().
+		asdf.MakeMaterialBuilder().
 			//SetSpecular(1).
 			SetTransparency(0.3).
 			SetReflective(0.3).
@@ -44,18 +46,18 @@ func Test_refraction_sample(t *testing.T) {
 			SetColor(geom.White).
 			Build())
 
-	middle := figure.NewSphere(
+	middle := ddddf.NewSphere(
 		geom.Translation(-0.1, 1, 0.2),
-		figure.MakeMaterialBuilder().
+		asdf.MakeMaterialBuilder().
 			SetTransparency(0.5).
 			SetReflective(0.3).
 			SetRefractiveIndex(1.2).
 			SetColor(geom.Color{R: 0.4, G: 0, B: 0}).
 			Build())
 
-	right := figure.NewSphere(
+	right := ddddf.NewSphere(
 		geom.Translation(2.2, 1, 0.2),
-		figure.MakeMaterialBuilder().
+		asdf.MakeMaterialBuilder().
 			SetTransparency(0.7).
 			SetReflective(0.3).
 			SetRefractiveIndex(1.5).
@@ -68,7 +70,7 @@ func Test_refraction_sample(t *testing.T) {
 	}
 	world := figure.World{
 		Light:   light,
-		Objects: []figure.Shape{floor, back, left, middle, right},
+		Objects: []ddddf.Shape{floor, back, left, middle, right},
 	}
 	camera := figure.NewCamera(500, 250, math.Pi/3,
 		figure.ViewTransform(geom.Point{X: 0, Y: 3, Z: -6}, geom.Point{X: 0, Y: 1, Z: 0}, geom.Vector{X: 0, Y: 1, Z: 0}))

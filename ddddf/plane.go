@@ -1,6 +1,7 @@
-package figure
+package ddddf
 
 import (
+	"github.com/oleg/raytracer-go/asdf"
 	"github.com/oleg/raytracer-go/geom"
 	"math"
 )
@@ -10,9 +11,9 @@ type Plane struct {
 }
 
 func MakePlane() Plane {
-	return Plane{ShapePhysics{geom.IdentityMatrix(), DefaultMaterial()}}
+	return Plane{ShapePhysics{geom.IdentityMatrix(), asdf.DefaultMaterial()}}
 }
-func NewPlane(transform *geom.Matrix, material *Material) Plane {
+func NewPlane(transform *geom.Matrix, material *asdf.Material) Plane {
 	return Plane{ShapePhysics{transform, material}}
 }
 

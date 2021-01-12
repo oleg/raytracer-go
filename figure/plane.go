@@ -17,7 +17,7 @@ func MakePlaneTM(transform *geom.Matrix, material *Material) Plane {
 	return Plane{transform, material}
 }
 
-func (p Plane) LocalIntersect(ray Ray) Inters {
+func (p Plane) Intersect(ray Ray) Inters {
 	if math.Abs(ray.Direction.Y) < geom.Delta {
 		return nil //is it ok or Inters{}?
 	}
@@ -25,11 +25,11 @@ func (p Plane) LocalIntersect(ray Ray) Inters {
 	return Inters{Inter{t, p}}
 }
 
-func (p Plane) LocalNormalAt(geom.Point) geom.Vector {
+func (p Plane) NormalAt(geom.Point) geom.Vector {
 	return geom.Vector{X: 0, Y: 1, Z: 0}
 }
 
-func (p Plane) Transform() *geom.Matrix {
+func (p Plane) Transformation() *geom.Matrix {
 	return p.transform
 }
 func (p Plane) Material() *Material {

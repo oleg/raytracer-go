@@ -13,9 +13,9 @@ func (ray Ray) Position(distance float64) geom.Point {
 	return ray.Origin.AddVector(ray.Direction.MultiplyScalar(distance))
 }
 
-func (ray Ray) Transform(m *geom.Matrix) Ray {
-	return Ray{
-		m.MultiplyPoint(ray.Origin),
-		m.MultiplyVector(ray.Direction),
-	}
-}
+//func (ray Ray) Transform(m *geom.Matrix) Ray {
+//	return Ray{
+//		m.MultiplyPoint(ray.Origin),
+//		m.MultiplyVector(ray.Direction),
+//	}
+//}

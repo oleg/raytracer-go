@@ -57,7 +57,7 @@ func Test_intersect_sets_object_on_intersection(t *testing.T) {
 func Test_sphere_default_transformation(t *testing.T) {
 	s := NewSphere(geom.IdentityMatrix(), DefaultMaterial())
 
-	r := s.Transform()
+	r := s.Transformation()
 
 	assert.Equal(t, geom.IdentityMatrix(), r)
 }
@@ -65,7 +65,7 @@ func Test_changing_sphere_transformation(t *testing.T) {
 	tr := geom.Translation(2, 3, 4)
 	s := NewSphere(tr, DefaultMaterial())
 
-	r := s.Transform()
+	r := s.Transformation()
 
 	assert.Equal(t, tr, r)
 }
@@ -159,7 +159,7 @@ func Test_sphere_may_be_assigned_material(t *testing.T) {
 func Test_helper_for_producing_sphere_with_glassy_material(t *testing.T) {
 	s := NewGlassSphere()
 
-	assert.Equal(t, geom.IdentityMatrix(), s.Transform())
+	assert.Equal(t, geom.IdentityMatrix(), s.Transformation())
 	assert.Equal(t, 1.0, s.Material().Transparency)
 	assert.Equal(t, 1.5, s.Material().RefractiveIndex)
 }

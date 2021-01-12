@@ -20,7 +20,7 @@ func NewGlassSphere() Sphere {
 		GlassMaterialBuilder().Build()}
 }
 
-func (sphere Sphere) Transform() *geom.Matrix {
+func (sphere Sphere) Transformation() *geom.Matrix {
 	return sphere.transform
 }
 func (sphere Sphere) Material() *Material {
@@ -28,7 +28,7 @@ func (sphere Sphere) Material() *Material {
 }
 
 //todo or Sphere?
-func (sphere Sphere) LocalIntersect(ray Ray) Inters {
+func (sphere Sphere) Intersect(ray Ray) Inters {
 	sphereToRay := ray.Origin.SubtractPoint(geom.Point{})
 	a := ray.Direction.Dot(ray.Direction)
 	b := 2 * ray.Direction.Dot(sphereToRay)
@@ -48,6 +48,6 @@ func (sphere Sphere) LocalIntersect(ray Ray) Inters {
 	}
 }
 
-func (sphere Sphere) LocalNormalAt(localPoint geom.Point) geom.Vector {
+func (sphere Sphere) NormalAt(localPoint geom.Point) geom.Vector {
 	return localPoint.SubtractPoint(geom.Point{})
 }

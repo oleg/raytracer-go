@@ -4,22 +4,38 @@ import (
 	"github.com/oleg/raytracer-go/geom"
 )
 
-type Shape interface {
-	Transform() *geom.Matrix //is this method needed in the interface
-	Material() *Material
+type HasTransformation interface { //todo try to convert to an action
+	Transformation() *geom.Matrix
+}
 
-	LocalIntersect(ray Ray) Inters
-	LocalNormalAt(point geom.Point) geom.Vector
+
+type Intersecter interface {
+	Intersect(ray Ray) Inters //todo fix this
+}
+
+type NormalFinder interface {
+	NormalAt(point geom.Point) geom.Vector
+}
+
+type Shape interface {
+	HasTransformation
+	HasMaterial
+	Intersecter
+	NormalFinder
 }
 
 func NormalAt(shape Shape, worldPoint geom.Point) geom.Vector {
-	localPoint := shape.Transform().Inverse().MultiplyPoint(worldPoint)
-	localNormal := shape.LocalNormalAt(localPoint)
-	worldNormal := shape.Transform().Inverse().Transpose().MultiplyVector(localNormal)
+	localPoint := shape.Transformation().Inverse().MultiplyPoint(worldPoint)
+	localNormal := shape.NormalAt(localPoint)
+	worldNormal := shape.Transformation().Inverse().Transpose().MultiplyVector(localNormal)
 	return worldNormal.Normalize()
 }
 
 func Intersect(shape Shape, worldRay Ray) Inters {
-	localRay := worldRay.Transform(shape.Transform().Inverse())
-	return shape.LocalIntersect(localRay)
+	m := shape.Transformation().Inverse()
+	localRay := Ray{
+		m.MultiplyPoint(worldRay.Origin),
+		m.MultiplyVector(worldRay.Direction),
+	}
+	return shape.Intersect(localRay)
 }

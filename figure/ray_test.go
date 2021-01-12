@@ -37,22 +37,23 @@ func Test_Computing_point_from_distance(t *testing.T) {
 	}
 }
 
-func Test_translating_ray(t *testing.T) {
-	r := Ray{geom.Point{X: 1, Y: 2, Z: 3}, geom.Vector{X: 0, Y: 1, Z: 0}}
-	m := geom.Translation(3, 4, 5)
-
-	r2 := r.Transform(m)
-
-	assert.Equal(t, geom.Point{X: 4, Y: 6, Z: 8}, r2.Origin)
-	assert.Equal(t, geom.Vector{X: 0, Y: 1, Z: 0}, r2.Direction)
-}
-
-func Test_scaling_ray(t *testing.T) {
-	r := Ray{geom.Point{X: 1, Y: 2, Z: 3}, geom.Vector{X: 0, Y: 1, Z: 0}}
-	m := geom.Scaling(2, 3, 4)
-
-	r2 := r.Transform(m)
-
-	assert.Equal(t, geom.Point{X: 2, Y: 6, Z: 12}, r2.Origin)
-	assert.Equal(t, geom.Vector{X: 0, Y: 3, Z: 0}, r2.Direction)
-}
+//TODO:oleg move this tests to shape
+//func Test_translating_ray(t *testing.T) {
+//	r := Ray{geom.Point{X: 1, Y: 2, Z: 3}, geom.Vector{X: 0, Y: 1, Z: 0}}
+//	m := geom.Translation(3, 4, 5)
+//
+//	r2 := r.Transform(m)
+//
+//	assert.Equal(t, geom.Point{X: 4, Y: 6, Z: 8}, r2.Origin)
+//	assert.Equal(t, geom.Vector{X: 0, Y: 1, Z: 0}, r2.Direction)
+//}
+//
+//func Test_scaling_ray(t *testing.T) {
+//	r := Ray{geom.Point{X: 1, Y: 2, Z: 3}, geom.Vector{X: 0, Y: 1, Z: 0}}
+//	m := geom.Scaling(2, 3, 4)
+//
+//	r2 := r.Transform(m)
+//
+//	assert.Equal(t, geom.Point{X: 2, Y: 6, Z: 12}, r2.Origin)
+//	assert.Equal(t, geom.Vector{X: 0, Y: 3, Z: 0}, r2.Direction)
+//}

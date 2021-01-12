@@ -322,6 +322,6 @@ type TestPattern struct {
 func (t TestPattern) PatternAt(point geom.Point) geom.Color {
 	return geom.Color{R: point.X, G: point.Y, B: point.Z}
 }
-func (t TestPattern) Transform() *geom.Matrix {
+func (t TestPattern) Transformation() *geom.Matrix {
 	return geom.IdentityMatrix()
 }

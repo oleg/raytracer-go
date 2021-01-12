@@ -5,14 +5,18 @@ import (
 	"math"
 )
 
-type Pattern interface {
+type PatternFinder interface {
 	PatternAt(point geom.Point) geom.Color
-	Transform() *geom.Matrix
+}
+
+type Pattern interface {
+	HasTransformation
+	PatternFinder
 }
 
 func PatternAtShape(pattern Pattern, shape Shape, worldPoint geom.Point) geom.Color {
-	objectPoint := shape.Transform().Inverse().MultiplyPoint(worldPoint)
-	patternPoint := pattern.Transform().Inverse().MultiplyPoint(objectPoint)
+	objectPoint := shape.Transformation().Inverse().MultiplyPoint(worldPoint)
+	patternPoint := pattern.Transformation().Inverse().MultiplyPoint(objectPoint)
 	return pattern.PatternAt(patternPoint)
 }
 
@@ -35,7 +39,7 @@ func (p StripePattern) PatternAt(point geom.Point) geom.Color {
 	}
 	return p.B
 }
-func (p StripePattern) Transform() *geom.Matrix {
+func (p StripePattern) Transformation() *geom.Matrix {
 	return p.transform
 }
 
@@ -57,7 +61,7 @@ func (p GradientPattern) PatternAt(point geom.Point) geom.Color {
 	return p.A.Add(distance.MultiplyByScalar(fraction))
 }
 
-func (p GradientPattern) Transform() *geom.Matrix {
+func (p GradientPattern) Transformation() *geom.Matrix {
 	return p.transform
 }
 
@@ -82,7 +86,7 @@ func (p RingPattern) PatternAt(point geom.Point) geom.Color {
 	return p.B
 }
 
-func (p RingPattern) Transform() *geom.Matrix {
+func (p RingPattern) Transformation() *geom.Matrix {
 	return p.transform
 }
 
@@ -107,6 +111,6 @@ func (p CheckersPattern) PatternAt(point geom.Point) geom.Color {
 	return p.B
 }
 
-func (p CheckersPattern) Transform() *geom.Matrix {
+func (p CheckersPattern) Transformation() *geom.Matrix {
 	return p.transform
 }

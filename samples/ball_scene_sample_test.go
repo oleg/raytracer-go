@@ -14,32 +14,32 @@ func Test_ball_scene_sample(t *testing.T) {
 		SetSpecular(0).
 		Build()
 
-	floor := figure.MakeSphereTM(
+	floor := figure.NewSphere(
 		geom.Scaling(10, 0.01, 10),
 		floorMaterial)
 
-	leftWall := figure.MakeSphereTM(
+	leftWall := figure.NewSphere(
 		geom.Translation(0, 0, 5).
 			Multiply(geom.RotationY(-math.Pi/4)).
 			Multiply(geom.RotationX(math.Pi/2)).
 			Multiply(geom.Scaling(10, 0.01, 10)),
 		floorMaterial)
 
-	rightWall := figure.MakeSphereTM(
+	rightWall := figure.NewSphere(
 		geom.Translation(0, 0, 5).
 			Multiply(geom.RotationY(math.Pi/4)).
 			Multiply(geom.RotationX(math.Pi/2)).
 			Multiply(geom.Scaling(10, 0.01, 10)),
 		floorMaterial)
 
-	middle := figure.MakeSphereTM(
+	middle := figure.NewSphere(
 		geom.Translation(-0.5, 1, 0.5),
 		figure.MakeMaterialBuilder().
 			SetColor(geom.Color{R: 0.1, G: 1, B: 0.5}).
 			SetDiffuse(0.7).
 			SetSpecular(0.3).Build())
 
-	right := figure.MakeSphereTM(
+	right := figure.NewSphere(
 		geom.Translation(1.5, 0.5, -0.5).
 			Multiply(geom.Scaling(0.5, 0.5, 0.5)),
 		figure.MakeMaterialBuilder().
@@ -47,7 +47,7 @@ func Test_ball_scene_sample(t *testing.T) {
 			SetDiffuse(0.7).
 			SetSpecular(0.3).Build())
 
-	left := figure.MakeSphereTM(
+	left := figure.NewSphere(
 		geom.Translation(-1.5, 0.33, -0.75).
 			Multiply(geom.Scaling(0.33, 0.33, 0.33)),
 		figure.MakeMaterialBuilder().

@@ -151,7 +151,7 @@ func Test_sphere_has_default_material(t *testing.T) {
 
 func Test_sphere_may_be_assigned_material(t *testing.T) {
 	m := Material{Ambient: 1}
-	s := MakeSphereM(m)
+	s := NewSphere(geom.IdentityMatrix(), m)
 
 	assert.Equal(t, m, s.Material())
 }

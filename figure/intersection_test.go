@@ -131,9 +131,9 @@ func Test_finding_n1_and_n2_at_various_intersections(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			a := MakeSphereTM(geom.Scaling(2, 2, 2), GlassMaterialBuilder().SetRefractiveIndex(1.5).Build())
-			b := MakeSphereTM(geom.Translation(0, 0, -0.25), GlassMaterialBuilder().SetRefractiveIndex(2.0).Build())
-			c := MakeSphereTM(geom.Translation(0, 0, 0.25), GlassMaterialBuilder().SetRefractiveIndex(2.5).Build())
+			a := NewSphere(geom.Scaling(2, 2, 2), GlassMaterialBuilder().SetRefractiveIndex(1.5).Build())
+			b := NewSphere(geom.Translation(0, 0, -0.25), GlassMaterialBuilder().SetRefractiveIndex(2.0).Build())
+			c := NewSphere(geom.Translation(0, 0, 0.25), GlassMaterialBuilder().SetRefractiveIndex(2.5).Build())
 
 			r := Ray{geom.Point{X: 0, Y: 0, Z: -4}, geom.Vector{X: 0, Y: 0, Z: 1}}
 			xs := Inters{Inter{2, a}, Inter{2.75, b}, Inter{3.25, c}, Inter{4.75, b}, Inter{5.25, c}, Inter{6, a}}
@@ -148,7 +148,7 @@ func Test_finding_n1_and_n2_at_various_intersections(t *testing.T) {
 
 func Test_under_point_is_offset_below_surface(t *testing.T) {
 	ray := Ray{geom.Point{X: 0, Y: 0, Z: -5}, geom.Vector{X: 0, Y: 0, Z: 1}}
-	shape := MakeSphereTM(geom.Translation(0, 0, 1), GlassMaterialBuilder().Build())
+	shape := NewSphere(geom.Translation(0, 0, 1), GlassMaterialBuilder().Build())
 	i := Inter{5, shape}
 	xs := Inters{i}
 
@@ -159,7 +159,7 @@ func Test_under_point_is_offset_below_surface(t *testing.T) {
 }
 
 func Test_schlick_approximation_under_total_internal_reflection(t *testing.T) {
-	s := MakeSphereTM(geom.IdentityMatrix(), GlassMaterialBuilder().Build())
+	s := NewSphere(geom.IdentityMatrix(), GlassMaterialBuilder().Build())
 	r := Ray{geom.Point{X: 0, Y: 0, Z: math.Sqrt2 / 2}, geom.Vector{X: 0, Y: 1, Z: 0}}
 	xs := Inters{Inter{-math.Sqrt2 / 2, s}, Inter{math.Sqrt2 / 2, s}}
 	comps := xs[1].PrepareComputations(r, xs)
@@ -170,7 +170,7 @@ func Test_schlick_approximation_under_total_internal_reflection(t *testing.T) {
 }
 
 func Test_schlick_approximation_with_perpendicular_viewing_angle(t *testing.T) {
-	s := MakeSphereTM(geom.IdentityMatrix(), GlassMaterialBuilder().Build())
+	s := NewSphere(geom.IdentityMatrix(), GlassMaterialBuilder().Build())
 	r := Ray{geom.Point{X: 0, Y: 0, Z: 0}, geom.Vector{X: 0, Y: 1, Z: 0}}
 	xs := Inters{Inter{-1, s}, Inter{1, s}}
 	comps := xs[1].PrepareComputations(r, xs)
@@ -181,7 +181,7 @@ func Test_schlick_approximation_with_perpendicular_viewing_angle(t *testing.T) {
 }
 
 func Test_schlick_approximation_with_small_angle_and_n2_gt_n1(t *testing.T) {
-	s := MakeSphereTM(geom.IdentityMatrix(), GlassMaterialBuilder().Build())
+	s := NewSphere(geom.IdentityMatrix(), GlassMaterialBuilder().Build())
 	r := Ray{geom.Point{X: 0, Y: 0.99, Z: -2}, geom.Vector{X: 0, Y: 0, Z: 1}}
 	xs := Inters{Inter{1.8589, s}}
 	comps := xs[0].PrepareComputations(r, xs)

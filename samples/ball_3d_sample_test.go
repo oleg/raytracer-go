@@ -25,7 +25,7 @@ func Test_ball_3d_sample(t *testing.T) {
 	material := figure.DefaultMaterial()
 	material.Color = geom.Color{R: 0.2, G: 0.8, B: 0.3}
 
-	sphere := figure.MakeSphereTM(transform, material)
+	sphere := figure.NewSphere(transform, material)
 
 	lightPosition := geom.Point{X: -10, Y: 10, Z: -10}
 	lightColor := geom.White

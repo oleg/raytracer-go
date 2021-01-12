@@ -33,7 +33,7 @@ func Test_refraction_sample(t *testing.T) {
 				geom.White,
 				geom.IdentityMatrix())).
 			Build())
-	left := figure.MakeSphereTM(
+	left := figure.NewSphere(
 		geom.Translation(-2.4, 1, 0.2),
 		figure.MakeMaterialBuilder().
 			//SetSpecular(1).
@@ -44,7 +44,7 @@ func Test_refraction_sample(t *testing.T) {
 			SetColor(geom.White).
 			Build())
 
-	middle := figure.MakeSphereTM(
+	middle := figure.NewSphere(
 		geom.Translation(-0.1, 1, 0.2),
 		figure.MakeMaterialBuilder().
 			SetTransparency(0.5).
@@ -53,7 +53,7 @@ func Test_refraction_sample(t *testing.T) {
 			SetColor(geom.Color{R: 0.4, G: 0, B: 0}).
 			Build())
 
-	right := figure.MakeSphereTM(
+	right := figure.NewSphere(
 		geom.Translation(2.2, 1, 0.2),
 		figure.MakeMaterialBuilder().
 			SetTransparency(0.7).

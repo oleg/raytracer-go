@@ -32,7 +32,7 @@ func Test_plane_scene_sample(t *testing.T) {
 					Multiply(geom.Scaling(0.2, 0.2, 0.2)))).
 			Build())
 
-	left := figure.MakeSphereTM(
+	left := figure.NewSphere(
 		geom.Translation(-1.5, 0.33, -0.75).
 			Multiply(geom.Scaling(1, 0.33, 0.33)),
 		figure.MakeMaterialBuilder().
@@ -44,13 +44,13 @@ func Test_plane_scene_sample(t *testing.T) {
 			SetDiffuse(0.7).
 			SetSpecular(0.3).Build())
 
-	middle := figure.MakeSphereTM(
+	middle := figure.NewSphere(
 		geom.Translation(-0.5, 1, 0.2),
 		figure.MakeMaterialBuilder().
 			SetDiffuse(0.7).
 			SetSpecular(0.3).Build())
 
-	right := figure.MakeSphereTM(
+	right := figure.NewSphere(
 		geom.Translation(1.5, 0.5, -0.5).
 			Multiply(geom.Scaling(0.5, 0.8, 0.5)),
 		figure.MakeMaterialBuilder().

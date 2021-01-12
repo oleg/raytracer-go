@@ -10,20 +10,15 @@ type Sphere struct {
 	material  Material
 }
 
+func NewSphere(transform *geom.Matrix, material Material) Sphere {
+	return Sphere{transform, material}
+}
 func MakeSphere() Sphere {
 	return Sphere{geom.IdentityMatrix(), DefaultMaterial()}
 }
 
-func MakeSphereTM(transform *geom.Matrix, material Material) Sphere {
-	return Sphere{transform, material}
-}
-
 func MakeSphereT(transform *geom.Matrix) Sphere {
 	return Sphere{transform, DefaultMaterial()}
-}
-
-func MakeSphereM(material Material) Sphere {
-	return Sphere{geom.IdentityMatrix(), material}
 }
 
 func MakeGlassSphere() Sphere {

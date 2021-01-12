@@ -1,4 +1,4 @@
-package asdf
+package mat
 
 import (
 	"github.com/oleg/raytracer-go/geom"

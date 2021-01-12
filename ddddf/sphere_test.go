@@ -1,7 +1,7 @@
 package ddddf
 
 import (
-	"github.com/oleg/raytracer-go/asdf"
+	"github.com/oleg/raytracer-go/mat"
 	"github.com/oleg/raytracer-go/geom"
 	"github.com/stretchr/testify/assert"
 	"math"
@@ -32,7 +32,7 @@ func Test_ray_intersects_sphere_at_two_points(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			s := NewSphere(geom.IdentityMatrix(), asdf.DefaultMaterial())
+			s := NewSphere(geom.IdentityMatrix(), mat.DefaultMaterial())
 
 			xs := Intersect(s, test.ray)
 
@@ -46,7 +46,7 @@ func Test_ray_intersects_sphere_at_two_points(t *testing.T) {
 
 func Test_intersect_sets_object_on_intersection(t *testing.T) {
 	r := Ray{geom.Point{X: 0, Y: 0, Z: -5}, geom.Vector{X: 0, Y: 0, Z: 1}}
-	s := NewSphere(geom.IdentityMatrix(), asdf.DefaultMaterial())
+	s := NewSphere(geom.IdentityMatrix(), mat.DefaultMaterial())
 
 	res := Intersect(s, r)
 
@@ -56,7 +56,7 @@ func Test_intersect_sets_object_on_intersection(t *testing.T) {
 }
 
 func Test_sphere_default_transformation(t *testing.T) {
-	s := NewSphere(geom.IdentityMatrix(), asdf.DefaultMaterial())
+	s := NewSphere(geom.IdentityMatrix(), mat.DefaultMaterial())
 
 	r := s.Transformation()
 
@@ -64,7 +64,7 @@ func Test_sphere_default_transformation(t *testing.T) {
 }
 func Test_changing_sphere_transformation(t *testing.T) {
 	tr := geom.Translation(2, 3, 4)
-	s := NewSphere(tr, asdf.DefaultMaterial())
+	s := NewSphere(tr, mat.DefaultMaterial())
 
 	r := s.Transformation()
 
@@ -73,7 +73,7 @@ func Test_changing_sphere_transformation(t *testing.T) {
 
 func Test_intersecting_scaled_sphere_with_ray(t *testing.T) {
 	r := Ray{geom.Point{X: 0, Y: 0, Z: -5}, geom.Vector{X: 0, Y: 0, Z: 1}}
-	s := NewSphere(geom.Scaling(2, 2, 2), asdf.DefaultMaterial())
+	s := NewSphere(geom.Scaling(2, 2, 2), mat.DefaultMaterial())
 
 	xs := Intersect(s, r) //todo table test for intersect
 
@@ -84,7 +84,7 @@ func Test_intersecting_scaled_sphere_with_ray(t *testing.T) {
 
 func Test_intersecting_translated_sphere_with_ray(t *testing.T) {
 	r := Ray{geom.Point{X: 0, Y: 0, Z: -5}, geom.Vector{X: 0, Y: 0, Z: 1}}
-	s := NewSphere(geom.Translation(5, 0, 0), asdf.DefaultMaterial())
+	s := NewSphere(geom.Translation(5, 0, 0), mat.DefaultMaterial())
 
 	xs := Intersect(s, r)
 
@@ -110,7 +110,7 @@ func Test_normal_on_sphere(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			s := NewSphere(geom.IdentityMatrix(), asdf.DefaultMaterial())
+			s := NewSphere(geom.IdentityMatrix(), mat.DefaultMaterial())
 
 			r := NormalAt(s, test.point)
 
@@ -121,7 +121,7 @@ func Test_normal_on_sphere(t *testing.T) {
 
 func Test_normal_is_normalized_vector(t *testing.T) {
 	sqrt3d3 := math.Sqrt(3) / 3
-	s := NewSphere(geom.IdentityMatrix(), asdf.DefaultMaterial())
+	s := NewSphere(geom.IdentityMatrix(), mat.DefaultMaterial())
 
 	r := NormalAt(s, geom.Point{X: sqrt3d3, Y: sqrt3d3, Z: sqrt3d3})
 
@@ -129,7 +129,7 @@ func Test_normal_is_normalized_vector(t *testing.T) {
 }
 
 func Test_computing_normal_on_translated_sphere(t *testing.T) {
-	s := NewSphere(geom.Translation(0, 1, 0), asdf.DefaultMaterial())
+	s := NewSphere(geom.Translation(0, 1, 0), mat.DefaultMaterial())
 
 	n := NormalAt(s, geom.Point{X: 0, Y: 1.70711, Z: -0.70711})
 
@@ -137,7 +137,7 @@ func Test_computing_normal_on_translated_sphere(t *testing.T) {
 }
 
 func Test_computing_normal_on_transformed_sphere(t *testing.T) {
-	s := NewSphere(geom.Scaling(1, 0.5, 1).Multiply(geom.RotationZ(math.Pi/5)), asdf.DefaultMaterial())
+	s := NewSphere(geom.Scaling(1, 0.5, 1).Multiply(geom.RotationZ(math.Pi/5)), mat.DefaultMaterial())
 
 	n := NormalAt(s, geom.Point{X: 0, Y: math.Sqrt2 / 2, Z: -math.Sqrt2 / 2})
 
@@ -145,13 +145,13 @@ func Test_computing_normal_on_transformed_sphere(t *testing.T) {
 }
 
 func Test_sphere_has_default_material(t *testing.T) {
-	s := NewSphere(geom.IdentityMatrix(), asdf.DefaultMaterial())
+	s := NewSphere(geom.IdentityMatrix(), mat.DefaultMaterial())
 
-	assert.Equal(t, asdf.DefaultMaterial(), s.Material())
+	assert.Equal(t, mat.DefaultMaterial(), s.Material())
 }
 
 func Test_sphere_may_be_assigned_material(t *testing.T) {
-	m := &asdf.Material{Ambient: 1}
+	m := &mat.Material{Ambient: 1}
 	s := NewSphere(geom.IdentityMatrix(), m)
 
 	assert.Equal(t, m, s.Material())

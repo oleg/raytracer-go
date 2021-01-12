@@ -1,7 +1,7 @@
 package samples
 
 import (
-	"github.com/oleg/raytracer-go/asdf"
+	"github.com/oleg/raytracer-go/mat"
 	"github.com/oleg/raytracer-go/ddddf"
 	"github.com/oleg/raytracer-go/figure"
 	"github.com/oleg/raytracer-go/geom"
@@ -13,9 +13,9 @@ import (
 func Test_plane_scene_sample(t *testing.T) {
 	floor := ddddf.NewPlane(
 		geom.IdentityMatrix(),
-		asdf.MakeMaterialBuilder().
+		mat.MakeMaterialBuilder().
 			SetReflective(0.1).
-			SetPattern(asdf.MakeCheckersPatternT(
+			SetPattern(mat.MakeCheckersPatternT(
 				geom.Color{R: 0.5, G: 1, B: 0.1},
 				geom.Color{R: 0.7, G: 0.3, B: 1},
 				geom.Translation(1, 0, 0).
@@ -25,9 +25,9 @@ func Test_plane_scene_sample(t *testing.T) {
 	back := ddddf.NewPlane(
 		geom.Translation(0, 0, 3).
 			Multiply(geom.RotationX(-math.Pi/2)),
-		asdf.MakeMaterialBuilder().
+		mat.MakeMaterialBuilder().
 			SetReflective(0.3).
-			SetPattern(asdf.MakeRingPatternT(
+			SetPattern(mat.MakeRingPatternT(
 				geom.Color{R: 0.8, G: 0.9, B: 0.5},
 				geom.Color{R: 0.5, G: 0.2, B: 0.3},
 				geom.Translation(0, 0, 2).
@@ -37,8 +37,8 @@ func Test_plane_scene_sample(t *testing.T) {
 	left := ddddf.NewSphere(
 		geom.Translation(-1.5, 0.33, -0.75).
 			Multiply(geom.Scaling(1, 0.33, 0.33)),
-		asdf.MakeMaterialBuilder().
-			SetPattern(asdf.MakeGradientPatternT(
+		mat.MakeMaterialBuilder().
+			SetPattern(mat.MakeGradientPatternT(
 				geom.Color{R: 0.3, G: 1, B: 0.7},
 				geom.Color{R: 0.7, G: 0.3, B: 1},
 				geom.Translation(1, 0, 0).
@@ -48,15 +48,15 @@ func Test_plane_scene_sample(t *testing.T) {
 
 	middle := ddddf.NewSphere(
 		geom.Translation(-0.5, 1, 0.2),
-		asdf.MakeMaterialBuilder().
+		mat.MakeMaterialBuilder().
 			SetDiffuse(0.7).
 			SetSpecular(0.3).Build())
 
 	right := ddddf.NewSphere(
 		geom.Translation(1.5, 0.5, -0.5).
 			Multiply(geom.Scaling(0.5, 0.8, 0.5)),
-		asdf.MakeMaterialBuilder().
-			SetPattern(asdf.MakeStripePatternT(
+		mat.MakeMaterialBuilder().
+			SetPattern(mat.MakeStripePatternT(
 				geom.Color{R: 0.7, G: 0.9, B: 0.8},
 				geom.Color{R: 0.2, G: 0.4, B: 0.1},
 				geom.RotationZ(math.Pi/4).

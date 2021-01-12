@@ -1,24 +1,24 @@
 package ddddf
 
 import (
-	"github.com/oleg/raytracer-go/asdf"
 	"github.com/oleg/raytracer-go/geom"
+	"github.com/oleg/raytracer-go/mat"
 	"math"
 )
 
 type Sphere struct {
-	ShapePhysics
+	mat.PhysicalObject
 }
 
-func NewSphere(transform *geom.Matrix, material *asdf.Material) Sphere {
-	return Sphere{ShapePhysics{transform, material}}
+func NewSphere(transform *geom.Matrix, material *mat.Material) Sphere {
+	return Sphere{mat.NewPhysicalObject(transform, material)}
 }
 
 func NewGlassSphere() Sphere {
-	return Sphere{ShapePhysics{
+	return Sphere{mat.NewPhysicalObject(
 		geom.IdentityMatrix(),
-		asdf.GlassMaterialBuilder().Build(),
-	}}
+		mat.GlassMaterialBuilder().Build(),
+	)}
 }
 
 //todo or Sphere?

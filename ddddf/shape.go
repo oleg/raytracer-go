@@ -1,33 +1,19 @@
 package ddddf
 
 import (
-	"github.com/oleg/raytracer-go/asdf"
 	"github.com/oleg/raytracer-go/geom"
+	"github.com/oleg/raytracer-go/mat"
 )
-
-type Intersecter interface {
-	Intersect(ray Ray) Inters //todo fix this
-}
 
 type NormalFinder interface {
 	NormalAt(point geom.Point) geom.Vector
 }
 
-type ShapePhysics struct {
-	transform *geom.Matrix   //todo test
-	material  *asdf.Material //todo test
-}
 
-func (p ShapePhysics) Transformation() *geom.Matrix {
-	return p.transform
-}
-func (p ShapePhysics) Material() *asdf.Material {
-	return p.material
-}
 
 type Shape interface {
-	asdf.HasTransformation
-	asdf.HasMaterial
+	mat.HasTransformation
+	mat.HasMaterial
 	Intersecter
 	NormalFinder
 }
@@ -40,10 +26,7 @@ func NormalAt(shape Shape, worldPoint geom.Point) geom.Vector {
 }
 
 func Intersect(shape Shape, worldRay Ray) Inters {
-	m := shape.Transformation().Inverse()
-	localRay := Ray{
-		m.MultiplyPoint(worldRay.Origin),
-		m.MultiplyVector(worldRay.Direction),
-	}
+	//todo move to World.Intersect?
+	localRay := worldRay.ToLocal(shape)
 	return shape.Intersect(localRay)
 }

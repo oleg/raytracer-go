@@ -1,7 +1,7 @@
 package samples
 
 import (
-	"github.com/oleg/raytracer-go/asdf"
+	"github.com/oleg/raytracer-go/mat"
 	"github.com/oleg/raytracer-go/ddddf"
 	"github.com/oleg/raytracer-go/figure"
 	"github.com/oleg/raytracer-go/geom"
@@ -13,11 +13,11 @@ import (
 func Test_refraction_sample(t *testing.T) {
 	floor := ddddf.NewPlane(
 		geom.IdentityMatrix(),
-		asdf.MakeMaterialBuilder().
+		mat.MakeMaterialBuilder().
 			SetReflective(0.7).
 			SetTransparency(0.2).
 			SetRefractiveIndex(1.3).
-			SetPattern(asdf.MakeCheckersPatternT(
+			SetPattern(mat.MakeCheckersPatternT(
 				geom.Black,
 				geom.White,
 				geom.IdentityMatrix())).
@@ -26,18 +26,18 @@ func Test_refraction_sample(t *testing.T) {
 	back := ddddf.NewPlane(
 		geom.Translation(0, 0, 4).
 			Multiply(geom.RotationX(-math.Pi/2)),
-		asdf.MakeMaterialBuilder().
+		mat.MakeMaterialBuilder().
 			SetReflective(0.3).
 			SetTransparency(0.1).
 			SetRefractiveIndex(2).
-			SetPattern(asdf.MakeCheckersPatternT(
+			SetPattern(mat.MakeCheckersPatternT(
 				geom.Black,
 				geom.White,
 				geom.IdentityMatrix())).
 			Build())
 	left := ddddf.NewSphere(
 		geom.Translation(-2.4, 1, 0.2),
-		asdf.MakeMaterialBuilder().
+		mat.MakeMaterialBuilder().
 			//SetSpecular(1).
 			SetTransparency(0.3).
 			SetReflective(0.3).
@@ -48,7 +48,7 @@ func Test_refraction_sample(t *testing.T) {
 
 	middle := ddddf.NewSphere(
 		geom.Translation(-0.1, 1, 0.2),
-		asdf.MakeMaterialBuilder().
+		mat.MakeMaterialBuilder().
 			SetTransparency(0.5).
 			SetReflective(0.3).
 			SetRefractiveIndex(1.2).
@@ -57,7 +57,7 @@ func Test_refraction_sample(t *testing.T) {
 
 	right := ddddf.NewSphere(
 		geom.Translation(2.2, 1, 0.2),
-		asdf.MakeMaterialBuilder().
+		mat.MakeMaterialBuilder().
 			SetTransparency(0.7).
 			SetReflective(0.3).
 			SetRefractiveIndex(1.5).

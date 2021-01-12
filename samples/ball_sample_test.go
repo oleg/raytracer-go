@@ -1,7 +1,7 @@
 package samples
 
 import (
-	"github.com/oleg/raytracer-go/asdf"
+	"github.com/oleg/raytracer-go/mat"
 	"github.com/oleg/raytracer-go/ddddf"
 	"github.com/oleg/raytracer-go/figure"
 	"github.com/oleg/raytracer-go/geom"
@@ -19,7 +19,7 @@ func Test_ball_sample(t *testing.T) {
 	canvas := figure.NewCanvas(canvasPixels, canvasPixels)
 	red := geom.Color{R: 1, G: 0, B: 0}
 	transform := geom.Shearing(1, 0, 0, 0, 0, 0).Multiply(geom.Scaling(0.5, 1, 1))
-	sphere := ddddf.NewSphere(transform, asdf.DefaultMaterial())
+	sphere := ddddf.NewSphere(transform, mat.DefaultMaterial())
 
 	for y := 0; y < canvasPixels; y++ {
 		worldY := half - pixelSize*float64(y)

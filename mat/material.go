@@ -1,20 +1,11 @@
-package asdf
+package mat
 
 import (
 	"github.com/oleg/raytracer-go/geom"
 )
 
-//todo move to shape
-type HasTransformation interface { //todo try to convert to an action
-	Transformation() *geom.Matrix
-}
-
 //todo change types?
 //todo reorder members
-type HasMaterial interface { //todo try to convert to an action
-	Material() *Material
-}
-
 //todo implement HasMaterial
 type Material struct {
 	Color           geom.Color

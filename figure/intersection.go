@@ -7,7 +7,6 @@ import (
 	"sort"
 )
 
-
 func PrepareComputations(i ddddf.Inter, r ddddf.Ray, xs ddddf.Inters) Computations {
 	comps := Computations{}
 	comps.Distance = i.Distance

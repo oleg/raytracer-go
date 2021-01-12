@@ -1,7 +1,7 @@
 package samples
 
 import (
-	"github.com/oleg/raytracer-go/asdf"
+	"github.com/oleg/raytracer-go/mat"
 	"github.com/oleg/raytracer-go/ddddf"
 	"github.com/oleg/raytracer-go/figure"
 	"github.com/oleg/raytracer-go/geom"
@@ -11,7 +11,7 @@ import (
 )
 
 func Test_ball_scene_sample(t *testing.T) {
-	floorMaterial := asdf.MakeMaterialBuilder().
+	floorMaterial := mat.MakeMaterialBuilder().
 		SetColor(geom.Color{R: 1, G: 0.9, B: 0.9}).
 		SetSpecular(0).
 		Build()
@@ -36,7 +36,7 @@ func Test_ball_scene_sample(t *testing.T) {
 
 	middle := ddddf.NewSphere(
 		geom.Translation(-0.5, 1, 0.5),
-		asdf.MakeMaterialBuilder().
+		mat.MakeMaterialBuilder().
 			SetColor(geom.Color{R: 0.1, G: 1, B: 0.5}).
 			SetDiffuse(0.7).
 			SetSpecular(0.3).Build())
@@ -44,7 +44,7 @@ func Test_ball_scene_sample(t *testing.T) {
 	right := ddddf.NewSphere(
 		geom.Translation(1.5, 0.5, -0.5).
 			Multiply(geom.Scaling(0.5, 0.5, 0.5)),
-		asdf.MakeMaterialBuilder().
+		mat.MakeMaterialBuilder().
 			SetColor(geom.Color{R: 0.5, G: 1, B: 0.1}).
 			SetDiffuse(0.7).
 			SetSpecular(0.3).Build())
@@ -52,7 +52,7 @@ func Test_ball_scene_sample(t *testing.T) {
 	left := ddddf.NewSphere(
 		geom.Translation(-1.5, 0.33, -0.75).
 			Multiply(geom.Scaling(0.33, 0.33, 0.33)),
-		asdf.MakeMaterialBuilder().
+		mat.MakeMaterialBuilder().
 			SetColor(geom.Color{R: 1, G: 0.8, B: 0.1}).
 			SetDiffuse(0.7).
 			SetSpecular(0.3).Build())

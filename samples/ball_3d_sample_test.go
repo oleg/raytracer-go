@@ -1,7 +1,7 @@
 package samples
 
 import (
-	"github.com/oleg/raytracer-go/asdf"
+	"github.com/oleg/raytracer-go/mat"
 	"github.com/oleg/raytracer-go/ddddf"
 	"github.com/oleg/raytracer-go/figure"
 	"github.com/oleg/raytracer-go/geom"
@@ -24,7 +24,7 @@ func Test_ball_3d_sample(t *testing.T) {
 
 	transform := geom.IdentityMatrix() //Matrix4x4.Shearing(1, 0, 0, 0, 0, 0) * Matrix4x4.Scaling(0.5, 1, 1)
 	//material := figure.Material{Color: oned.Color{0.2, 0.8, 0.3}}
-	material := asdf.DefaultMaterial()
+	material := mat.DefaultMaterial()
 	material.Color = geom.Color{R: 0.2, G: 0.8, B: 0.3}
 
 	sphere := ddddf.NewSphere(transform, material)

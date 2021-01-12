@@ -1,7 +1,7 @@
 package figure
 
 import (
-	"github.com/oleg/raytracer-go/asdf"
+	"github.com/oleg/raytracer-go/mat"
 	"github.com/oleg/raytracer-go/ddddf"
 	"github.com/oleg/raytracer-go/geom"
 	"github.com/stretchr/testify/assert"
@@ -10,7 +10,7 @@ import (
 )
 
 func Test_intersection_encapsulates_distance_and_object(t *testing.T) {
-	s := ddddf.NewSphere(geom.IdentityMatrix(), asdf.DefaultMaterial())
+	s := ddddf.NewSphere(geom.IdentityMatrix(), mat.DefaultMaterial())
 
 	i := ddddf.Inter{3.5, s}
 
@@ -19,7 +19,7 @@ func Test_intersection_encapsulates_distance_and_object(t *testing.T) {
 }
 
 func Test_aggregating_intersections(t *testing.T) {
-	s := ddddf.NewSphere(geom.IdentityMatrix(), asdf.DefaultMaterial())
+	s := ddddf.NewSphere(geom.IdentityMatrix(), mat.DefaultMaterial())
 
 	i1 := ddddf.Inter{1, s}
 	i2 := ddddf.Inter{2, s}
@@ -31,7 +31,7 @@ func Test_aggregating_intersections(t *testing.T) {
 }
 
 func Test_hit_when_all_intersections_have_positive_distance(t *testing.T) {
-	s := ddddf.NewSphere(geom.IdentityMatrix(), asdf.DefaultMaterial())
+	s := ddddf.NewSphere(geom.IdentityMatrix(), mat.DefaultMaterial())
 
 	i1 := ddddf.Inter{1, s}
 	i2 := ddddf.Inter{2, s}
@@ -43,7 +43,7 @@ func Test_hit_when_all_intersections_have_positive_distance(t *testing.T) {
 }
 
 func Test_hit_intersections(t *testing.T) {
-	s := ddddf.NewSphere(geom.IdentityMatrix(), asdf.DefaultMaterial())
+	s := ddddf.NewSphere(geom.IdentityMatrix(), mat.DefaultMaterial())
 	tests := []struct {
 		name                 string
 		intersections        ddddf.Inters
@@ -72,7 +72,7 @@ func Test_hit_intersections(t *testing.T) {
 
 func Test_precomputing_state_of_intersection(t *testing.T) {
 	r := ddddf.Ray{geom.Point{X: 0, Y: 0, Z: -5}, geom.Vector{X: 0, Y: 0, Z: 1}}
-	shape := ddddf.NewSphere(geom.IdentityMatrix(), asdf.DefaultMaterial())
+	shape := ddddf.NewSphere(geom.IdentityMatrix(), mat.DefaultMaterial())
 	i := ddddf.Inter{4, shape}
 
 	comps := PrepareComputations(i, r, ddddf.Inters{i})
@@ -86,7 +86,7 @@ func Test_precomputing_state_of_intersection(t *testing.T) {
 
 func Test_hit_when_intersection_occurs_on_outside(t *testing.T) {
 	r := ddddf.Ray{geom.Point{X: 0, Y: 0, Z: -5}, geom.Vector{X: 0, Y: 0, Z: 1}}
-	shape := ddddf.NewSphere(geom.IdentityMatrix(), asdf.DefaultMaterial())
+	shape := ddddf.NewSphere(geom.IdentityMatrix(), mat.DefaultMaterial())
 	i := ddddf.Inter{4, shape}
 
 	comps := PrepareComputations(i, r, ddddf.Inters{i})
@@ -96,7 +96,7 @@ func Test_hit_when_intersection_occurs_on_outside(t *testing.T) {
 
 func Test_hit_when_intersection_occurs_on_inside(t *testing.T) {
 	r := ddddf.Ray{geom.Point{X: 0, Y: 0, Z: 0}, geom.Vector{X: 0, Y: 0, Z: 1}}
-	shape := ddddf.NewSphere(geom.IdentityMatrix(), asdf.DefaultMaterial())
+	shape := ddddf.NewSphere(geom.IdentityMatrix(), mat.DefaultMaterial())
 	i := ddddf.Inter{1, shape}
 
 	comps := PrepareComputations(i, r, ddddf.Inters{i})
@@ -133,9 +133,9 @@ func Test_finding_n1_and_n2_at_various_intersections(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			a := ddddf.NewSphere(geom.Scaling(2, 2, 2), asdf.GlassMaterialBuilder().SetRefractiveIndex(1.5).Build())
-			b := ddddf.NewSphere(geom.Translation(0, 0, -0.25), asdf.GlassMaterialBuilder().SetRefractiveIndex(2.0).Build())
-			c := ddddf.NewSphere(geom.Translation(0, 0, 0.25), asdf.GlassMaterialBuilder().SetRefractiveIndex(2.5).Build())
+			a := ddddf.NewSphere(geom.Scaling(2, 2, 2), mat.GlassMaterialBuilder().SetRefractiveIndex(1.5).Build())
+			b := ddddf.NewSphere(geom.Translation(0, 0, -0.25), mat.GlassMaterialBuilder().SetRefractiveIndex(2.0).Build())
+			c := ddddf.NewSphere(geom.Translation(0, 0, 0.25), mat.GlassMaterialBuilder().SetRefractiveIndex(2.5).Build())
 
 			r := ddddf.Ray{geom.Point{X: 0, Y: 0, Z: -4}, geom.Vector{X: 0, Y: 0, Z: 1}}
 			xs := ddddf.Inters{ddddf.Inter{2, a}, ddddf.Inter{2.75, b}, ddddf.Inter{3.25, c}, ddddf.Inter{4.75, b}, ddddf.Inter{5.25, c}, ddddf.Inter{6, a}}
@@ -150,7 +150,7 @@ func Test_finding_n1_and_n2_at_various_intersections(t *testing.T) {
 
 func Test_under_point_is_offset_below_surface(t *testing.T) {
 	ray := ddddf.Ray{geom.Point{X: 0, Y: 0, Z: -5}, geom.Vector{X: 0, Y: 0, Z: 1}}
-	shape := ddddf.NewSphere(geom.Translation(0, 0, 1), asdf.GlassMaterialBuilder().Build())
+	shape := ddddf.NewSphere(geom.Translation(0, 0, 1), mat.GlassMaterialBuilder().Build())
 	i := ddddf.Inter{5, shape}
 	xs := ddddf.Inters{i}
 
@@ -161,7 +161,7 @@ func Test_under_point_is_offset_below_surface(t *testing.T) {
 }
 
 func Test_schlick_approximation_under_total_internal_reflection(t *testing.T) {
-	s := ddddf.NewSphere(geom.IdentityMatrix(), asdf.GlassMaterialBuilder().Build())
+	s := ddddf.NewSphere(geom.IdentityMatrix(), mat.GlassMaterialBuilder().Build())
 	r := ddddf.Ray{geom.Point{X: 0, Y: 0, Z: math.Sqrt2 / 2}, geom.Vector{X: 0, Y: 1, Z: 0}}
 	xs := ddddf.Inters{ddddf.Inter{-math.Sqrt2 / 2, s}, ddddf.Inter{math.Sqrt2 / 2, s}}
 	comps := PrepareComputations(xs[1], r, xs)
@@ -172,7 +172,7 @@ func Test_schlick_approximation_under_total_internal_reflection(t *testing.T) {
 }
 
 func Test_schlick_approximation_with_perpendicular_viewing_angle(t *testing.T) {
-	s := ddddf.NewSphere(geom.IdentityMatrix(), asdf.GlassMaterialBuilder().Build())
+	s := ddddf.NewSphere(geom.IdentityMatrix(), mat.GlassMaterialBuilder().Build())
 	r := ddddf.Ray{geom.Point{X: 0, Y: 0, Z: 0}, geom.Vector{X: 0, Y: 1, Z: 0}}
 	xs := ddddf.Inters{ddddf.Inter{-1, s}, ddddf.Inter{1, s}}
 	comps := PrepareComputations(xs[1], r, xs)
@@ -183,7 +183,7 @@ func Test_schlick_approximation_with_perpendicular_viewing_angle(t *testing.T) {
 }
 
 func Test_schlick_approximation_with_small_angle_and_n2_gt_n1(t *testing.T) {
-	s := ddddf.NewSphere(geom.IdentityMatrix(), asdf.GlassMaterialBuilder().Build())
+	s := ddddf.NewSphere(geom.IdentityMatrix(), mat.GlassMaterialBuilder().Build())
 	r := ddddf.Ray{geom.Point{X: 0, Y: 0.99, Z: -2}, geom.Vector{X: 0, Y: 0, Z: 1}}
 	xs := ddddf.Inters{ddddf.Inter{1.8589, s}}
 	comps := PrepareComputations(xs[0], r, xs)

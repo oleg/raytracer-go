@@ -1,14 +1,19 @@
 package figure
 
 import (
-	"github.com/oleg/raytracer-go/asdf"
 	"github.com/oleg/raytracer-go/ddddf"
 	"github.com/oleg/raytracer-go/geom"
+	"github.com/oleg/raytracer-go/mat"
 	"math"
 	"sort"
 )
 
 const MaxDepth = 4
+
+type PointLight struct {
+	Position  geom.Point
+	Intensity geom.Color
+}
 
 type World struct {
 	Light   PointLight
@@ -103,10 +108,10 @@ func (w *World) RefractedColor(comps Computations, remaining uint8) geom.Color {
 	return w.ColorAt(refractRay, remaining-1).MultiplyByScalar(transparency)
 }
 
-func Lighting(material *asdf.Material, object ddddf.Shape, light PointLight, point geom.Point, eyev geom.Vector, normalv geom.Vector, inShadow bool) geom.Color {
+func Lighting(material *mat.Material, object ddddf.Shape, light PointLight, point geom.Point, eyev geom.Vector, normalv geom.Vector, inShadow bool) geom.Color {
 	var color geom.Color
 	if material.Pattern != nil {
-		color = asdf.PatternAtShape(material.Pattern, object, point)
+		color = mat.PatternAtShape(material.Pattern, object, point)
 	} else {
 		color = material.Color
 	}

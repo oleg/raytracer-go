@@ -54,7 +54,7 @@ func Test_lighting(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 
-			color := Lighting(DefaultMaterial(), MakeSphere(), test.light, geom.Point{}, test.eyev, test.normalv, false)
+			color := Lighting(DefaultMaterial(), NewSphere(geom.IdentityMatrix(), DefaultMaterial()), test.light, geom.Point{}, test.eyev, test.normalv, false)
 
 			geom.AssertColorEqualInDelta(t, test.expected, color)
 		})
@@ -67,7 +67,7 @@ func Test_lighting_with_surface_in_shadow(t *testing.T) {
 	normalV := geom.Vector{X: 0, Y: 0, Z: -1}
 	light := PointLight{geom.Point{X: 0, Y: 0, Z: -10}, geom.White}
 
-	r := Lighting(m, MakeSphere(), light, geom.Point{}, eyeV, normalV, true)
+	r := Lighting(m, NewSphere(geom.IdentityMatrix(), DefaultMaterial()), light, geom.Point{}, eyeV, normalV, true)
 
 	assert.Equal(t, geom.Color{R: 0.1, G: 0.1, B: 0.1}, r)
 }
@@ -109,8 +109,8 @@ func Test_Lighting_with_pattern_applied(t *testing.T) {
 	eyeV := geom.Vector{X: 0, Y: 0, Z: -1}
 	normalV := geom.Vector{X: 0, Y: 0, Z: -1}
 	light := PointLight{geom.Point{X: 0, Y: 0, Z: -10}, geom.White}
-	c1 := Lighting(m, MakeSphere(), light, geom.Point{X: 0.9, Y: 0, Z: 0}, eyeV, normalV, false)
-	c2 := Lighting(m, MakeSphere(), light, geom.Point{X: 1.1, Y: 0, Z: 0}, eyeV, normalV, false)
+	c1 := Lighting(m, NewSphere(geom.IdentityMatrix(), DefaultMaterial()), light, geom.Point{X: 0.9, Y: 0, Z: 0}, eyeV, normalV, false)
+	c2 := Lighting(m, NewSphere(geom.IdentityMatrix(), DefaultMaterial()), light, geom.Point{X: 1.1, Y: 0, Z: 0}, eyeV, normalV, false)
 
 	assert.Equal(t, geom.White, c1)
 	assert.Equal(t, geom.Black, c2)

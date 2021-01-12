@@ -52,7 +52,7 @@ func Test_stripes_with_object_transformation(t *testing.T) {
 }
 
 func Test_stripes_with_pattern_transformation(t *testing.T) {
-	object := MakeSphere()
+	object := NewSphere(geom.IdentityMatrix(), DefaultMaterial())
 	pattern := MakeStripePatternT(geom.White, geom.Black, geom.Scaling(2, 2, 2))
 
 	c := PatternAtShape(pattern, object, geom.Point{X: 1.5, Y: 0, Z: 0})

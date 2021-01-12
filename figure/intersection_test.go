@@ -8,7 +8,7 @@ import (
 )
 
 func Test_intersection_encapsulates_distance_and_object(t *testing.T) {
-	s := MakeSphere()
+	s := NewSphere(geom.IdentityMatrix(), DefaultMaterial())
 
 	i := Inter{3.5, s}
 
@@ -17,7 +17,7 @@ func Test_intersection_encapsulates_distance_and_object(t *testing.T) {
 }
 
 func Test_aggregating_intersections(t *testing.T) {
-	s := MakeSphere()
+	s := NewSphere(geom.IdentityMatrix(), DefaultMaterial())
 
 	i1 := Inter{1, s}
 	i2 := Inter{2, s}
@@ -29,7 +29,7 @@ func Test_aggregating_intersections(t *testing.T) {
 }
 
 func Test_hit_when_all_intersections_have_positive_distance(t *testing.T) {
-	s := MakeSphere()
+	s := NewSphere(geom.IdentityMatrix(), DefaultMaterial())
 
 	i1 := Inter{1, s}
 	i2 := Inter{2, s}
@@ -41,7 +41,7 @@ func Test_hit_when_all_intersections_have_positive_distance(t *testing.T) {
 }
 
 func Test_hit_intersections(t *testing.T) {
-	s := MakeSphere()
+	s := NewSphere(geom.IdentityMatrix(), DefaultMaterial())
 	tests := []struct {
 		name                 string
 		intersections        Inters
@@ -70,7 +70,7 @@ func Test_hit_intersections(t *testing.T) {
 
 func Test_precomputing_state_of_intersection(t *testing.T) {
 	r := Ray{geom.Point{X: 0, Y: 0, Z: -5}, geom.Vector{X: 0, Y: 0, Z: 1}}
-	shape := MakeSphere()
+	shape := NewSphere(geom.IdentityMatrix(), DefaultMaterial())
 	i := Inter{4, shape}
 
 	comps := i.PrepareComputations(r, Inters{i})
@@ -84,7 +84,7 @@ func Test_precomputing_state_of_intersection(t *testing.T) {
 
 func Test_hit_when_intersection_occurs_on_outside(t *testing.T) {
 	r := Ray{geom.Point{X: 0, Y: 0, Z: -5}, geom.Vector{X: 0, Y: 0, Z: 1}}
-	shape := MakeSphere()
+	shape := NewSphere(geom.IdentityMatrix(), DefaultMaterial())
 	i := Inter{4, shape}
 
 	comps := i.PrepareComputations(r, Inters{i})
@@ -94,7 +94,7 @@ func Test_hit_when_intersection_occurs_on_outside(t *testing.T) {
 
 func Test_hit_when_intersection_occurs_on_inside(t *testing.T) {
 	r := Ray{geom.Point{X: 0, Y: 0, Z: 0}, geom.Vector{X: 0, Y: 0, Z: 1}}
-	shape := MakeSphere()
+	shape := NewSphere(geom.IdentityMatrix(), DefaultMaterial())
 	i := Inter{1, shape}
 
 	comps := i.PrepareComputations(r, Inters{i})

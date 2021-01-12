@@ -31,7 +31,7 @@ func Test_ray_intersects_sphere_at_two_points(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			s := MakeSphere()
+			s := NewSphere(geom.IdentityMatrix(), DefaultMaterial())
 
 			xs := Intersect(s, test.ray)
 
@@ -45,7 +45,7 @@ func Test_ray_intersects_sphere_at_two_points(t *testing.T) {
 
 func Test_intersect_sets_object_on_intersection(t *testing.T) {
 	r := Ray{geom.Point{X: 0, Y: 0, Z: -5}, geom.Vector{X: 0, Y: 0, Z: 1}}
-	s := MakeSphere()
+	s := NewSphere(geom.IdentityMatrix(), DefaultMaterial())
 
 	res := Intersect(s, r)
 
@@ -55,7 +55,7 @@ func Test_intersect_sets_object_on_intersection(t *testing.T) {
 }
 
 func Test_sphere_default_transformation(t *testing.T) {
-	s := MakeSphere()
+	s := NewSphere(geom.IdentityMatrix(), DefaultMaterial())
 
 	r := s.Transform()
 
@@ -109,7 +109,7 @@ func Test_normal_on_sphere(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			s := MakeSphere()
+			s := NewSphere(geom.IdentityMatrix(), DefaultMaterial())
 
 			r := NormalAt(s, test.point)
 
@@ -120,7 +120,7 @@ func Test_normal_on_sphere(t *testing.T) {
 
 func Test_normal_is_normalized_vector(t *testing.T) {
 	sqrt3d3 := math.Sqrt(3) / 3
-	s := MakeSphere()
+	s := NewSphere(geom.IdentityMatrix(), DefaultMaterial())
 
 	r := NormalAt(s, geom.Point{X: sqrt3d3, Y: sqrt3d3, Z: sqrt3d3})
 
@@ -144,7 +144,7 @@ func Test_computing_normal_on_transformed_sphere(t *testing.T) {
 }
 
 func Test_sphere_has_default_material(t *testing.T) {
-	s := MakeSphere()
+	s := NewSphere(geom.IdentityMatrix(), DefaultMaterial())
 
 	assert.Equal(t, DefaultMaterial(), s.Material())
 }

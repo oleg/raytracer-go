@@ -94,7 +94,7 @@ func Test_color_with_intersection_behind_ray(t *testing.T) {
 }
 
 func Test_shade_hit_is_given_intersection_in_shadow(t *testing.T) {
-	s1 := MakeSphere()
+	s1 := NewSphere(geom.IdentityMatrix(), DefaultMaterial())
 	s2 := MakeSphereT(geom.Translation(0, 0, 10))
 	w := World{
 		PointLight{geom.Point{X: 0, Y: 0, Z: -10}, geom.White},

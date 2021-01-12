@@ -13,9 +13,6 @@ type Sphere struct {
 func NewSphere(transform *geom.Matrix, material Material) Sphere {
 	return Sphere{transform, material}
 }
-func MakeSphere() Sphere {
-	return Sphere{geom.IdentityMatrix(), DefaultMaterial()}
-}
 
 func MakeSphereT(transform *geom.Matrix) Sphere {
 	return Sphere{transform, DefaultMaterial()}

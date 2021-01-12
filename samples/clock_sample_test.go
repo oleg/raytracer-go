@@ -1,7 +1,7 @@
 package samples
 
 import (
-	"github.com/oleg/raytracer-go/figure"
+	"github.com/oleg/raytracer-go/scene"
 	"github.com/oleg/raytracer-go/geom"
 	"math"
 	"os"
@@ -9,7 +9,7 @@ import (
 )
 
 func Test_clock_example_test(t *testing.T) {
-	canvas := figure.NewCanvas(500, 500)
+	canvas := scene.NewCanvas(500, 500)
 	radius := float64(canvas.Width * 3 / 8)
 
 	rotationY := geom.RotationY(math.Pi / 6)

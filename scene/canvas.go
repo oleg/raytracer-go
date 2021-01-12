@@ -1,4 +1,4 @@
-package figure
+package scene
 
 import (
 	"github.com/oleg/raytracer-go/geom"
@@ -8,6 +8,7 @@ import (
 	"os"
 )
 
+//todo move encoding to separate package?
 //todo store color.RGBA instead of geom.Color?
 type Canvas struct {
 	Width, Height int
@@ -49,6 +50,7 @@ func (c *Canvas) newImage() *image.RGBA {
 	img := image.NewRGBA(image.Rect(0, 0, c.Width, c.Height))
 	for i, p := range c.Pixels {
 		for j, px := range p {
+			//todo let color implement Color interface
 			img.Set(i, j, color.RGBA{ //todo (Height-j)?
 				R: uint8(clamp(px.R) * 255),
 				G: uint8(clamp(px.G) * 255),

@@ -1,4 +1,4 @@
-package mat
+package physic
 
 import "github.com/oleg/raytracer-go/geom"
 
@@ -6,14 +6,23 @@ type HasTransformation interface { //todo try to convert to an action
 	Transformation() *geom.Matrix //todo add type alias?
 }
 
+type Transformable struct {
+	Transform *geom.Matrix //todo name it rule?
+}
+
+func (t Transformable) Transformation() *geom.Matrix {
+	return t.Transform
+}
+
 type HasMaterial interface { //todo try to convert to an action
 	Material() *Material
 }
 
 type PhysicalObject struct {
-	transform *geom.Matrix //todo test
-	material  *Material    //todo test
+	transform *geom.Matrix //todo use transformable?
+	material  *Material
 }
+
 //todo remove constructor?
 func NewPhysicalObject(transform *geom.Matrix, material *Material) PhysicalObject {
 	return PhysicalObject{transform, material}

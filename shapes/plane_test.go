@@ -1,4 +1,4 @@
-package ddddf
+package shapes
 
 import (
 	"github.com/oleg/raytracer-go/geom"

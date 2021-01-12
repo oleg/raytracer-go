@@ -1,7 +1,7 @@
 package samples
 
 import (
-	"github.com/oleg/raytracer-go/figure"
+	"github.com/oleg/raytracer-go/scene"
 	"github.com/oleg/raytracer-go/geom"
 	"os"
 	"testing"
@@ -19,7 +19,7 @@ func Test(t *testing.T) {
 
 	width := 900
 	height := 500
-	c := figure.NewCanvas(width, height)
+	c := scene.NewCanvas(width, height)
 
 	for p.position.X >= 0 && p.position.Y > 0 {
 		x := int(p.position.X)

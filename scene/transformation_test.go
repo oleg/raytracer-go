@@ -1,4 +1,4 @@
-package figure
+package scene
 
 import (
 	"github.com/oleg/raytracer-go/geom"

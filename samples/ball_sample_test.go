@@ -1,9 +1,9 @@
 package samples
 
 import (
-	"github.com/oleg/raytracer-go/mat"
-	"github.com/oleg/raytracer-go/ddddf"
-	"github.com/oleg/raytracer-go/figure"
+	"github.com/oleg/raytracer-go/physic"
+	"github.com/oleg/raytracer-go/shapes"
+	"github.com/oleg/raytracer-go/scene"
 	"github.com/oleg/raytracer-go/geom"
 	"os"
 	"testing"
@@ -16,21 +16,21 @@ func Test_ball_sample(t *testing.T) {
 	canvasPixels := 100
 	pixelSize := wallSize / float64(canvasPixels)
 	half := wallSize / 2.
-	canvas := figure.NewCanvas(canvasPixels, canvasPixels)
+	canvas := scene.NewCanvas(canvasPixels, canvasPixels)
 	red := geom.Color{R: 1, G: 0, B: 0}
 	transform := geom.Shearing(1, 0, 0, 0, 0, 0).Multiply(geom.Scaling(0.5, 1, 1))
-	sphere := ddddf.NewSphere(transform, mat.DefaultMaterial())
+	sphere := shapes.NewSphere(transform, physic.DefaultMaterial())
 
 	for y := 0; y < canvasPixels; y++ {
 		worldY := half - pixelSize*float64(y)
 		for x := 0; x < canvasPixels; x++ {
 			worldX := -half + pixelSize*float64(x)
 			position := geom.Point{X: worldX, Y: worldY, Z: 10}
-			ray := ddddf.Ray{
+			ray := shapes.Ray{
 				Origin:    rayOrigin,
 				Direction: position.SubtractPoint(rayOrigin).Normalize(),
 			}
-			if hit, _ := figure.Hit(ddddf.Intersect(sphere, ray)); hit {
+			if hit, _ := scene.Hit(sphere.Intersect(ray.ToLocal(sphere))); hit {
 				canvas.Pixels[x][y] = red
 			}
 		}

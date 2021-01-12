@@ -1,9 +1,9 @@
-package figure
+package scene
 
 import (
-	"github.com/oleg/raytracer-go/ddddf"
 	"github.com/oleg/raytracer-go/geom"
-	"github.com/oleg/raytracer-go/mat"
+	"github.com/oleg/raytracer-go/physic"
+	"github.com/oleg/raytracer-go/shapes"
 	"math"
 	"sort"
 )
@@ -17,21 +17,22 @@ type PointLight struct {
 
 type World struct {
 	Light   PointLight
-	Objects []ddddf.Shape
+	Objects []shapes.Shape
 }
 
-func (w *World) ColorAt(r ddddf.Ray, remaining uint8) geom.Color {
+func (w *World) ColorAt(r shapes.Ray, remaining uint8) geom.Color {
 	xs := w.Intersect(r)
 	if ok, hit := Hit(xs); ok {
-		return w.ShadeHit(PrepareComputations(hit, r, xs), remaining)
+		return w.ShadeHit(NewComputations(hit, r, xs), remaining)
 	}
 	return geom.Black
 }
 
-func (w *World) Intersect(ray ddddf.Ray) ddddf.Inters {
-	r := make([]ddddf.Inter, 0, 10)
+func (w *World) Intersect(ray shapes.Ray) shapes.Inters {
+	r := make([]shapes.Inter, 0, 10)
 	for _, shape := range w.Objects {
-		r = append(r, ddddf.Intersect(shape, ray)...)
+		intersection := shape.Intersect(ray.ToLocal(shape))
+		r = append(r, intersection...)
 	}
 	sort.Slice(r, func(i, j int) bool {
 		return r[i].Distance < r[j].Distance
@@ -67,7 +68,7 @@ func (w *World) IsShadowed(point geom.Point) bool {
 	v := w.Light.Position.SubtractPoint(point)
 	distance := v.Magnitude()
 	direction := v.Normalize()
-	intersections := w.Intersect(ddddf.Ray{point, direction})
+	intersections := w.Intersect(shapes.Ray{point, direction})
 	hit, inter := Hit(intersections)
 	return hit && inter.Distance < distance
 }
@@ -80,7 +81,7 @@ func (w *World) ReflectedColor(comps Computations, remaining uint8) geom.Color {
 	if reflective == 0 {
 		return geom.Black
 	}
-	reflectRay := ddddf.Ray{comps.OverPoint, comps.ReflectV}
+	reflectRay := shapes.Ray{comps.OverPoint, comps.ReflectV}
 	color := w.ColorAt(reflectRay, remaining-1)
 	return color.MultiplyByScalar(reflective)
 }
@@ -104,14 +105,14 @@ func (w *World) RefractedColor(comps Computations, remaining uint8) geom.Color {
 	direction := comps.NormalV.MultiplyScalar(nRatio*cosI - cosT).
 		SubtractVector(comps.EyeV.MultiplyScalar(nRatio))
 
-	refractRay := ddddf.Ray{comps.UnderPoint, direction}
+	refractRay := shapes.Ray{comps.UnderPoint, direction}
 	return w.ColorAt(refractRay, remaining-1).MultiplyByScalar(transparency)
 }
 
-func Lighting(material *mat.Material, object ddddf.Shape, light PointLight, point geom.Point, eyev geom.Vector, normalv geom.Vector, inShadow bool) geom.Color {
+func Lighting(material *physic.Material, object shapes.Shape, light PointLight, point geom.Point, eyev geom.Vector, normalv geom.Vector, inShadow bool) geom.Color {
 	var color geom.Color
 	if material.Pattern != nil {
-		color = mat.PatternAtShape(material.Pattern, object, point)
+		color = physic.PatternAtShape(material.Pattern, object, point)
 	} else {
 		color = material.Color
 	}
@@ -132,3 +133,4 @@ func Lighting(material *mat.Material, object ddddf.Shape, light PointLight, poin
 	specular := light.Intensity.MultiplyByScalar(material.Specular).MultiplyByScalar(factor)
 	return ambient.Add(diffuse).Add(specular)
 }
+

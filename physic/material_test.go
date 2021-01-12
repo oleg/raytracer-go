@@ -1,4 +1,4 @@
-package mat
+package physic
 
 import (
 	"github.com/oleg/raytracer-go/geom"

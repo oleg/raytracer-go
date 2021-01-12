@@ -1,8 +1,8 @@
-package ddddf
+package shapes
 
 import (
 	"github.com/oleg/raytracer-go/geom"
-	"github.com/oleg/raytracer-go/mat"
+	"github.com/oleg/raytracer-go/physic"
 )
 
 type Intersecter interface {
@@ -18,7 +18,7 @@ func (ray Ray) Position(distance float64) geom.Point {
 	return ray.Origin.AddVector(ray.Direction.MultiplyScalar(distance))
 }
 
-func (ray Ray) ToLocal(shape mat.HasTransformation) Ray {
+func (ray Ray) ToLocal(shape physic.HasTransformation) Ray {
 	m := shape.Transformation().Inverse()
 	return Ray{
 		m.MultiplyPoint(ray.Origin),

@@ -1,9 +1,10 @@
-package figure
+package scene
 
 import (
 	"github.com/oleg/raytracer-go/geom"
 )
 
+//todo move? rename file?
 func ViewTransform(from, to geom.Point, up geom.Vector) *geom.Matrix {
 	forward := to.SubtractPoint(from).Normalize()
 	left := forward.Cross(up.Normalize())

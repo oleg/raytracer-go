@@ -1,23 +1,23 @@
-package ddddf
+package shapes
 
 import (
 	"github.com/oleg/raytracer-go/geom"
-	"github.com/oleg/raytracer-go/mat"
+	"github.com/oleg/raytracer-go/physic"
 	"math"
 )
 
 type Plane struct {
-	mat.PhysicalObject
+	physic.PhysicalObject
 }
 
 //todo remove
 func MakePlane() Plane {
-	return Plane{mat.NewPhysicalObject(geom.IdentityMatrix(), mat.DefaultMaterial())}
+	return Plane{physic.NewPhysicalObject(geom.IdentityMatrix(), physic.DefaultMaterial())}
 }
 
 //todo remove?
-func NewPlane(transform *geom.Matrix, material *mat.Material) Plane {
-	return Plane{mat.NewPhysicalObject(transform, material)}
+func NewPlane(transform *geom.Matrix, material *physic.Material) Plane {
+	return Plane{physic.NewPhysicalObject(transform, material)}
 }
 
 func (p Plane) Intersect(ray Ray) Inters {

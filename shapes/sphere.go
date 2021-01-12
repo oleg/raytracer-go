@@ -1,23 +1,23 @@
-package ddddf
+package shapes
 
 import (
 	"github.com/oleg/raytracer-go/geom"
-	"github.com/oleg/raytracer-go/mat"
+	"github.com/oleg/raytracer-go/physic"
 	"math"
 )
 
 type Sphere struct {
-	mat.PhysicalObject
+	physic.PhysicalObject
 }
 
-func NewSphere(transform *geom.Matrix, material *mat.Material) Sphere {
-	return Sphere{mat.NewPhysicalObject(transform, material)}
+func NewSphere(transform *geom.Matrix, material *physic.Material) Sphere {
+	return Sphere{physic.NewPhysicalObject(transform, material)}
 }
 
 func NewGlassSphere() Sphere {
-	return Sphere{mat.NewPhysicalObject(
+	return Sphere{physic.NewPhysicalObject(
 		geom.IdentityMatrix(),
-		mat.GlassMaterialBuilder().Build(),
+		physic.GlassMaterialBuilder().Build(),
 	)}
 }
 

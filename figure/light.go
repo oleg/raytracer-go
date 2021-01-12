@@ -1,8 +1,8 @@
 package figure
 
-import "github.com/oleg/raytracer-go/oned"
+import "github.com/oleg/raytracer-go/geom"
 
 type PointLight struct {
-	Position  oned.Point
-	Intensity oned.Color
+	Position  geom.Point
+	Intensity geom.Color
 }

@@ -1,17 +1,16 @@
 package figure
 
 import (
-	"github.com/oleg/raytracer-go/multid"
-	"github.com/oleg/raytracer-go/oned"
+	"github.com/oleg/raytracer-go/geom"
 	"math"
 )
 
 type Pattern interface {
-	PatternAt(point oned.Point) oned.Color
-	Transform() *multid.Matrix4
+	PatternAt(point geom.Point) geom.Color
+	Transform() *geom.Matrix
 }
 
-func PatternAtShape(pattern Pattern, shape Shape, worldPoint oned.Point) oned.Color {
+func PatternAtShape(pattern Pattern, shape Shape, worldPoint geom.Point) geom.Color {
 	objectPoint := shape.Transform().Inverse().MultiplyPoint(worldPoint)
 	patternPoint := pattern.Transform().Inverse().MultiplyPoint(objectPoint)
 	return pattern.PatternAt(patternPoint)
@@ -19,63 +18,63 @@ func PatternAtShape(pattern Pattern, shape Shape, worldPoint oned.Point) oned.Co
 
 //todo refactor: remove duplicates
 type StripePattern struct {
-	A, B      oned.Color
-	transform *multid.Matrix4
+	A, B      geom.Color
+	transform *geom.Matrix
 }
 
-func MakeStripePattern(A, B oned.Color) StripePattern {
-	return StripePattern{A, B, multid.IdentityMatrix()}
+func MakeStripePattern(A, B geom.Color) StripePattern {
+	return StripePattern{A, B, geom.IdentityMatrix()}
 }
-func MakeStripePatternT(A, B oned.Color, transform *multid.Matrix4) StripePattern {
+func MakeStripePatternT(A, B geom.Color, transform *geom.Matrix) StripePattern {
 	return StripePattern{A, B, transform}
 }
 
-func (p StripePattern) PatternAt(point oned.Point) oned.Color {
+func (p StripePattern) PatternAt(point geom.Point) geom.Color {
 	if math.Mod(math.Floor(point.X), 2) == 0 {
 		return p.A
 	}
 	return p.B
 }
-func (p StripePattern) Transform() *multid.Matrix4 {
+func (p StripePattern) Transform() *geom.Matrix {
 	return p.transform
 }
 
 type GradientPattern struct {
-	A, B      oned.Color
-	transform *multid.Matrix4
+	A, B      geom.Color
+	transform *geom.Matrix
 }
 
-func MakeGradientPattern(a, b oned.Color) GradientPattern {
-	return GradientPattern{a, b, multid.IdentityMatrix()}
+func MakeGradientPattern(a, b geom.Color) GradientPattern {
+	return GradientPattern{a, b, geom.IdentityMatrix()}
 }
-func MakeGradientPatternT(a, b oned.Color, transform *multid.Matrix4) GradientPattern {
+func MakeGradientPatternT(a, b geom.Color, transform *geom.Matrix) GradientPattern {
 	return GradientPattern{a, b, transform}
 }
 
-func (p GradientPattern) PatternAt(point oned.Point) oned.Color {
+func (p GradientPattern) PatternAt(point geom.Point) geom.Color {
 	distance := p.B.Subtract(p.A)
 	fraction := point.X - math.Floor(point.X)
 	return p.A.Add(distance.MultiplyByScalar(fraction))
 }
 
-func (p GradientPattern) Transform() *multid.Matrix4 {
+func (p GradientPattern) Transform() *geom.Matrix {
 	return p.transform
 }
 
 type RingPattern struct {
-	A, B      oned.Color
-	transform *multid.Matrix4
+	A, B      geom.Color
+	transform *geom.Matrix
 }
 
-func MakeRingPattern(a, b oned.Color) RingPattern {
-	return RingPattern{a, b, multid.IdentityMatrix()}
+func MakeRingPattern(a, b geom.Color) RingPattern {
+	return RingPattern{a, b, geom.IdentityMatrix()}
 }
 
-func MakeRingPatternT(a, b oned.Color, transform *multid.Matrix4) RingPattern {
+func MakeRingPatternT(a, b geom.Color, transform *geom.Matrix) RingPattern {
 	return RingPattern{a, b, transform}
 }
 
-func (p RingPattern) PatternAt(point oned.Point) oned.Color {
+func (p RingPattern) PatternAt(point geom.Point) geom.Color {
 	hypot := math.Floor(math.Hypot(point.X, point.Z))
 	if math.Mod(hypot, 2) == 0 {
 		return p.A
@@ -83,24 +82,24 @@ func (p RingPattern) PatternAt(point oned.Point) oned.Color {
 	return p.B
 }
 
-func (p RingPattern) Transform() *multid.Matrix4 {
+func (p RingPattern) Transform() *geom.Matrix {
 	return p.transform
 }
 
 type CheckersPattern struct {
-	A, B      oned.Color
-	transform *multid.Matrix4
+	A, B      geom.Color
+	transform *geom.Matrix
 }
 
-func MakeCheckersPattern(a, b oned.Color) CheckersPattern {
-	return CheckersPattern{a, b, multid.IdentityMatrix()}
+func MakeCheckersPattern(a, b geom.Color) CheckersPattern {
+	return CheckersPattern{a, b, geom.IdentityMatrix()}
 }
 
-func MakeCheckersPatternT(a, b oned.Color, transform *multid.Matrix4) CheckersPattern {
+func MakeCheckersPatternT(a, b geom.Color, transform *geom.Matrix) CheckersPattern {
 	return CheckersPattern{a, b, transform}
 }
 
-func (p CheckersPattern) PatternAt(point oned.Point) oned.Color {
+func (p CheckersPattern) PatternAt(point geom.Point) geom.Color {
 	sum := math.Floor(point.X) + math.Floor(point.Y) + math.Floor(point.Z)
 	if math.Mod(sum, 2) == 0 {
 		return p.A
@@ -108,6 +107,6 @@ func (p CheckersPattern) PatternAt(point oned.Point) oned.Color {
 	return p.B
 }
 
-func (p CheckersPattern) Transform() *multid.Matrix4 {
+func (p CheckersPattern) Transform() *geom.Matrix {
 	return p.transform
 }

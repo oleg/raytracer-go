@@ -1,39 +1,38 @@
 package figure
 
 import (
-	"github.com/oleg/raytracer-go/multid"
-	"github.com/oleg/raytracer-go/oned"
+	"github.com/oleg/raytracer-go/geom"
 	"math"
 )
 
 type Sphere struct {
-	transform *multid.Matrix4
+	transform *geom.Matrix
 	material  Material
 }
 
 func MakeSphere() Sphere {
-	return Sphere{multid.IdentityMatrix(), DefaultMaterial()}
+	return Sphere{geom.IdentityMatrix(), DefaultMaterial()}
 }
 
-func MakeSphereTM(transform *multid.Matrix4, material Material) Sphere {
+func MakeSphereTM(transform *geom.Matrix, material Material) Sphere {
 	return Sphere{transform, material}
 }
 
-func MakeSphereT(transform *multid.Matrix4) Sphere {
+func MakeSphereT(transform *geom.Matrix) Sphere {
 	return Sphere{transform, DefaultMaterial()}
 }
 
 func MakeSphereM(material Material) Sphere {
-	return Sphere{multid.IdentityMatrix(), material}
+	return Sphere{geom.IdentityMatrix(), material}
 }
 
 func MakeGlassSphere() Sphere {
 	return Sphere{
-		multid.IdentityMatrix(),
+		geom.IdentityMatrix(),
 		GlassMaterialBuilder().Build()}
 }
 
-func (sphere Sphere) Transform() *multid.Matrix4 {
+func (sphere Sphere) Transform() *geom.Matrix {
 	return sphere.transform
 }
 func (sphere Sphere) Material() Material {
@@ -42,7 +41,7 @@ func (sphere Sphere) Material() Material {
 
 //todo or Sphere?
 func (sphere Sphere) LocalIntersect(ray Ray) Inters {
-	sphereToRay := ray.Origin.SubtractPoint(oned.Point{})
+	sphereToRay := ray.Origin.SubtractPoint(geom.Point{})
 	a := ray.Direction.Dot(ray.Direction)
 	b := 2 * ray.Direction.Dot(sphereToRay)
 	c := sphereToRay.Dot(sphereToRay) - 1
@@ -61,6 +60,6 @@ func (sphere Sphere) LocalIntersect(ray Ray) Inters {
 	}
 }
 
-func (sphere Sphere) LocalNormalAt(localPoint oned.Point) oned.Vector {
-	return localPoint.SubtractPoint(oned.Point{})
+func (sphere Sphere) LocalNormalAt(localPoint geom.Point) geom.Vector {
+	return localPoint.SubtractPoint(geom.Point{})
 }

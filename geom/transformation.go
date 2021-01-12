@@ -1,10 +1,10 @@
-package multid
+package geom
 
 import "math"
 
 //todo: where to put this methods?
-func Translation(x, y, z float64) *Matrix4 {
-	return &Matrix4{
+func Translation(x, y, z float64) *Matrix {
+	return &Matrix{
 		Data: [4][4]float64{
 			{1, 0, 0, x},
 			{0, 1, 0, y},
@@ -14,8 +14,8 @@ func Translation(x, y, z float64) *Matrix4 {
 	}
 }
 
-func Scaling(x, y, z float64) *Matrix4 {
-	return &Matrix4{
+func Scaling(x, y, z float64) *Matrix {
+	return &Matrix{
 		Data: [4][4]float64{
 			{x, 0, 0, 0},
 			{0, y, 0, 0},
@@ -25,8 +25,8 @@ func Scaling(x, y, z float64) *Matrix4 {
 	}
 }
 
-func RotationX(r float64) *Matrix4 {
-	return &Matrix4{
+func RotationX(r float64) *Matrix {
+	return &Matrix{
 		Data: [4][4]float64{
 			{1, 0, 0, 0},
 			{0, math.Cos(r), -math.Sin(r), 0},
@@ -36,8 +36,8 @@ func RotationX(r float64) *Matrix4 {
 	}
 }
 
-func RotationY(r float64) *Matrix4 {
-	return &Matrix4{
+func RotationY(r float64) *Matrix {
+	return &Matrix{
 		Data: [4][4]float64{
 			{math.Cos(r), 0, math.Sin(r), 0},
 			{0, 1, 0, 0},
@@ -47,8 +47,8 @@ func RotationY(r float64) *Matrix4 {
 	}
 }
 
-func RotationZ(r float64) *Matrix4 {
-	return &Matrix4{
+func RotationZ(r float64) *Matrix {
+	return &Matrix{
 		Data: [4][4]float64{
 			{math.Cos(r), -math.Sin(r), 0, 0},
 			{math.Sin(r), math.Cos(r), 0, 0},
@@ -58,8 +58,8 @@ func RotationZ(r float64) *Matrix4 {
 	}
 }
 
-func Shearing(xy, xz, yx, yz, zx, zy float64) *Matrix4 {
-	return &Matrix4{
+func Shearing(xy, xz, yx, yz, zx, zy float64) *Matrix {
+	return &Matrix{
 		Data: [4][4]float64{
 			{1, xy, xz, 0},
 			{yx, 1, yz, 0},

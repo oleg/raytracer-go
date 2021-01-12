@@ -1,4 +1,4 @@
-package oned
+package geom
 
 import "math"
 

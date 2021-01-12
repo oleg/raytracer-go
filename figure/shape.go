@@ -1,18 +1,17 @@
 package figure
 
 import (
-	"github.com/oleg/raytracer-go/multid"
-	"github.com/oleg/raytracer-go/oned"
+	"github.com/oleg/raytracer-go/geom"
 )
 
 type Shape interface {
-	Transform() *multid.Matrix4 //is this method needed in the interface
+	Transform() *geom.Matrix //is this method needed in the interface
 	LocalIntersect(ray Ray) Inters
-	LocalNormalAt(point oned.Point) oned.Vector
+	LocalNormalAt(point geom.Point) geom.Vector
 	Material() Material
 }
 
-func NormalAt(shape Shape, worldPoint oned.Point) oned.Vector {
+func NormalAt(shape Shape, worldPoint geom.Point) geom.Vector {
 	localPoint := shape.Transform().Inverse().MultiplyPoint(worldPoint)
 	localNormal := shape.LocalNormalAt(localPoint)
 	worldNormal := shape.Transform().Inverse().Transpose().MultiplyVector(localNormal)

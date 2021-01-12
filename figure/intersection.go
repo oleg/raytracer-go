@@ -1,7 +1,7 @@
 package figure
 
 import (
-	"github.com/oleg/raytracer-go/oned"
+	"github.com/oleg/raytracer-go/geom"
 	"math"
 	"sort"
 )
@@ -31,8 +31,8 @@ func (i Inter) PrepareComputationsEx(r Ray, xs Inters) Computations {
 		comps.NormalV = normalV
 	}
 	comps.ReflectV = r.Direction.Reflect(comps.NormalV)
-	comps.OverPoint = comps.Point.AddVector(comps.NormalV.MultiplyScalar(oned.Delta))
-	comps.UnderPoint = comps.Point.SubtractVector(comps.NormalV.MultiplyScalar(oned.Delta))
+	comps.OverPoint = comps.Point.AddVector(comps.NormalV.MultiplyScalar(geom.Delta))
+	comps.UnderPoint = comps.Point.SubtractVector(comps.NormalV.MultiplyScalar(geom.Delta))
 	comps.N1, comps.N2 = calcNs(i, xs)
 	return comps
 }
@@ -83,12 +83,12 @@ func remove(s []Shape, i int) []Shape {
 type Computations struct {
 	Distance   float64
 	Object     Shape
-	Point      oned.Point
-	OverPoint  oned.Point
-	UnderPoint oned.Point
-	EyeV       oned.Vector
-	NormalV    oned.Vector
-	ReflectV   oned.Vector
+	Point      geom.Point
+	OverPoint  geom.Point
+	UnderPoint geom.Point
+	EyeV       geom.Vector
+	NormalV    geom.Vector
+	ReflectV   geom.Vector
 	Inside     bool
 	N1         float64
 	N2         float64

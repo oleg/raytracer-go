@@ -1,4 +1,4 @@
-package oned
+package geom
 
 //w = 1
 type Point struct {

@@ -1,20 +1,19 @@
 package figure
 
 import (
-	"github.com/oleg/raytracer-go/multid"
-	"github.com/oleg/raytracer-go/oned"
+	"github.com/oleg/raytracer-go/geom"
 )
 
 type Ray struct {
-	Origin    oned.Point
-	Direction oned.Vector
+	Origin    geom.Point
+	Direction geom.Vector
 }
 
-func (ray Ray) Position(distance float64) oned.Point {
+func (ray Ray) Position(distance float64) geom.Point {
 	return ray.Origin.AddVector(ray.Direction.MultiplyScalar(distance))
 }
 
-func (ray Ray) Transform(m *multid.Matrix4) Ray {
+func (ray Ray) Transform(m *geom.Matrix) Ray {
 	return Ray{
 		m.MultiplyPoint(ray.Origin),
 		m.MultiplyVector(ray.Direction),

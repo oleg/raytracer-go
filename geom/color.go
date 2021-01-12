@@ -1,4 +1,4 @@
-package oned
+package geom
 
 var Black = Color{0, 0, 0}
 var White = Color{1, 1, 1}

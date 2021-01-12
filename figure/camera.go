@@ -1,8 +1,7 @@
 package figure
 
 import (
-	"github.com/oleg/raytracer-go/multid"
-	"github.com/oleg/raytracer-go/oned"
+	"github.com/oleg/raytracer-go/geom"
 	"math"
 )
 
@@ -11,14 +10,14 @@ type Camera struct {
 	HalfWidth, HalfHeight float64
 	FieldOfView           float64
 	PixelSize             float64
-	Transform             *multid.Matrix4
+	Transform             *geom.Matrix
 }
 
 func NewCameraDefault(hSize, vSize int, fieldOfView float64) *Camera {
-	return NewCamera(hSize, vSize, fieldOfView, multid.IdentityMatrix())
+	return NewCamera(hSize, vSize, fieldOfView, geom.IdentityMatrix())
 }
 
-func NewCamera(hSize, vSize int, fieldOfView float64, transform *multid.Matrix4) *Camera {
+func NewCamera(hSize, vSize int, fieldOfView float64, transform *geom.Matrix) *Camera {
 	halfView := math.Tan(fieldOfView / 2.)
 	aspect := float64(hSize) / float64(vSize)
 	var halfWidth, halfHeight float64
@@ -41,14 +40,14 @@ func (camera *Camera) RayForPixel(x, y int) Ray {
 	worldX := camera.HalfWidth - xOffset
 	worldY := camera.HalfHeight - yOffset
 
-	pixel := camera.Transform.Inverse().MultiplyPoint(oned.Point{X: worldX, Y: worldY, Z: -1})
-	origin := camera.Transform.Inverse().MultiplyPoint(oned.Point{X: 0, Y: 0, Z: 0})
+	pixel := camera.Transform.Inverse().MultiplyPoint(geom.Point{X: worldX, Y: worldY, Z: -1})
+	origin := camera.Transform.Inverse().MultiplyPoint(geom.Point{X: 0, Y: 0, Z: 0})
 	direction := pixel.SubtractPoint(origin).Normalize()
 	return Ray{origin, direction}
 }
 
-func (camera *Camera) Render(w World) *multid.Canvas {
-	canvas := multid.NewCanvas(camera.HSize, camera.VSize)
+func (camera *Camera) Render(w World) *Canvas {
+	canvas := NewCanvas(camera.HSize, camera.VSize)
 	for y := 0; y < camera.VSize; y++ {
 		for x := 0; x < camera.HSize; x++ {
 			ray := camera.RayForPixel(x, y)

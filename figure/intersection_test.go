@@ -1,8 +1,7 @@
 package figure
 
 import (
-	"github.com/oleg/raytracer-go/multid"
-	"github.com/oleg/raytracer-go/oned"
+	"github.com/oleg/raytracer-go/geom"
 	"github.com/stretchr/testify/assert"
 	"math"
 	"testing"
@@ -70,7 +69,7 @@ func Test_hit_intersections(t *testing.T) {
 }
 
 func Test_precomputing_state_of_intersection(t *testing.T) {
-	r := Ray{oned.Point{X: 0, Y: 0, Z: -5}, oned.Vector{X: 0, Y: 0, Z: 1}}
+	r := Ray{geom.Point{X: 0, Y: 0, Z: -5}, geom.Vector{X: 0, Y: 0, Z: 1}}
 	shape := MakeSphere()
 	i := Inter{4, shape}
 
@@ -78,13 +77,13 @@ func Test_precomputing_state_of_intersection(t *testing.T) {
 
 	assert.Equal(t, i.Distance, comps.Distance)
 	assert.Equal(t, i.Object, comps.Object)
-	assert.Equal(t, oned.Point{X: 0, Y: 0, Z: -1}, comps.Point)
-	assert.Equal(t, oned.Vector{X: 0, Y: 0, Z: -1}, comps.EyeV)
-	assert.Equal(t, oned.Vector{X: 0, Y: 0, Z: -1}, comps.NormalV)
+	assert.Equal(t, geom.Point{X: 0, Y: 0, Z: -1}, comps.Point)
+	assert.Equal(t, geom.Vector{X: 0, Y: 0, Z: -1}, comps.EyeV)
+	assert.Equal(t, geom.Vector{X: 0, Y: 0, Z: -1}, comps.NormalV)
 }
 
 func Test_hit_when_intersection_occurs_on_outside(t *testing.T) {
-	r := Ray{oned.Point{X: 0, Y: 0, Z: -5}, oned.Vector{X: 0, Y: 0, Z: 1}}
+	r := Ray{geom.Point{X: 0, Y: 0, Z: -5}, geom.Vector{X: 0, Y: 0, Z: 1}}
 	shape := MakeSphere()
 	i := Inter{4, shape}
 
@@ -94,26 +93,26 @@ func Test_hit_when_intersection_occurs_on_outside(t *testing.T) {
 }
 
 func Test_hit_when_intersection_occurs_on_inside(t *testing.T) {
-	r := Ray{oned.Point{X: 0, Y: 0, Z: 0}, oned.Vector{X: 0, Y: 0, Z: 1}}
+	r := Ray{geom.Point{X: 0, Y: 0, Z: 0}, geom.Vector{X: 0, Y: 0, Z: 1}}
 	shape := MakeSphere()
 	i := Inter{1, shape}
 
 	comps := i.prepareComputations(r)
 
-	assert.Equal(t, oned.Point{X: 0, Y: 0, Z: 1}, comps.Point)
-	assert.Equal(t, oned.Vector{X: 0, Y: 0, Z: -1}, comps.EyeV)
-	assert.Equal(t, oned.Vector{X: 0, Y: 0, Z: -1}, comps.NormalV)
+	assert.Equal(t, geom.Point{X: 0, Y: 0, Z: 1}, comps.Point)
+	assert.Equal(t, geom.Vector{X: 0, Y: 0, Z: -1}, comps.EyeV)
+	assert.Equal(t, geom.Vector{X: 0, Y: 0, Z: -1}, comps.NormalV)
 	assert.Equal(t, true, comps.Inside)
 }
 
 func Test_precomputing_reflection_vector(t *testing.T) {
 	shape := MakePlane()
-	ray := Ray{oned.Point{X: 0, Y: 1, Z: -1}, oned.Vector{X: 0, Y: -math.Sqrt2 / 2, Z: math.Sqrt2 / 2}}
+	ray := Ray{geom.Point{X: 0, Y: 1, Z: -1}, geom.Vector{X: 0, Y: -math.Sqrt2 / 2, Z: math.Sqrt2 / 2}}
 	i := Inter{math.Sqrt2, shape}
 
 	comps := i.prepareComputations(ray)
 
-	assert.Equal(t, oned.Vector{X: 0, Y: math.Sqrt2 / 2, Z: math.Sqrt2 / 2}, comps.ReflectV)
+	assert.Equal(t, geom.Vector{X: 0, Y: math.Sqrt2 / 2, Z: math.Sqrt2 / 2}, comps.ReflectV)
 }
 
 func Test_finding_n1_and_n2_at_various_intersections(t *testing.T) {
@@ -132,11 +131,11 @@ func Test_finding_n1_and_n2_at_various_intersections(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			a := MakeSphereTM(multid.Scaling(2, 2, 2), GlassMaterialBuilder().SetRefractiveIndex(1.5).Build())
-			b := MakeSphereTM(multid.Translation(0, 0, -0.25), GlassMaterialBuilder().SetRefractiveIndex(2.0).Build())
-			c := MakeSphereTM(multid.Translation(0, 0, 0.25), GlassMaterialBuilder().SetRefractiveIndex(2.5).Build())
+			a := MakeSphereTM(geom.Scaling(2, 2, 2), GlassMaterialBuilder().SetRefractiveIndex(1.5).Build())
+			b := MakeSphereTM(geom.Translation(0, 0, -0.25), GlassMaterialBuilder().SetRefractiveIndex(2.0).Build())
+			c := MakeSphereTM(geom.Translation(0, 0, 0.25), GlassMaterialBuilder().SetRefractiveIndex(2.5).Build())
 
-			r := Ray{oned.Point{X: 0, Y: 0, Z: -4}, oned.Vector{X: 0, Y: 0, Z: 1}}
+			r := Ray{geom.Point{X: 0, Y: 0, Z: -4}, geom.Vector{X: 0, Y: 0, Z: 1}}
 			xs := Inters{Inter{2, a}, Inter{2.75, b}, Inter{3.25, c}, Inter{4.75, b}, Inter{5.25, c}, Inter{6, a}}
 
 			comps := xs[test.index].PrepareComputationsEx(r, xs)
@@ -148,20 +147,20 @@ func Test_finding_n1_and_n2_at_various_intersections(t *testing.T) {
 }
 
 func Test_under_point_is_offset_below_surface(t *testing.T) {
-	ray := Ray{oned.Point{X: 0, Y: 0, Z: -5}, oned.Vector{X: 0, Y: 0, Z: 1}}
-	shape := MakeSphereTM(multid.Translation(0, 0, 1), GlassMaterialBuilder().Build())
+	ray := Ray{geom.Point{X: 0, Y: 0, Z: -5}, geom.Vector{X: 0, Y: 0, Z: 1}}
+	shape := MakeSphereTM(geom.Translation(0, 0, 1), GlassMaterialBuilder().Build())
 	i := Inter{5, shape}
 	xs := Inters{i}
 
 	comps := i.PrepareComputationsEx(ray, xs)
 
-	assert.Greater(t, comps.UnderPoint.Z, -oned.Delta/2)
+	assert.Greater(t, comps.UnderPoint.Z, -geom.Delta/2)
 	assert.Greater(t, comps.UnderPoint.Z, comps.Point.Z)
 }
 
 func Test_schlick_approximation_under_total_internal_reflection(t *testing.T) {
-	s := MakeSphereTM(multid.IdentityMatrix(), GlassMaterialBuilder().Build())
-	r := Ray{oned.Point{X: 0, Y: 0, Z: math.Sqrt2 / 2}, oned.Vector{X: 0, Y: 1, Z: 0}}
+	s := MakeSphereTM(geom.IdentityMatrix(), GlassMaterialBuilder().Build())
+	r := Ray{geom.Point{X: 0, Y: 0, Z: math.Sqrt2 / 2}, geom.Vector{X: 0, Y: 1, Z: 0}}
 	xs := Inters{Inter{-math.Sqrt2 / 2, s}, Inter{math.Sqrt2 / 2, s}}
 	comps := xs[1].PrepareComputationsEx(r, xs)
 
@@ -171,23 +170,23 @@ func Test_schlick_approximation_under_total_internal_reflection(t *testing.T) {
 }
 
 func Test_schlick_approximation_with_perpendicular_viewing_angle(t *testing.T) {
-	s := MakeSphereTM(multid.IdentityMatrix(), GlassMaterialBuilder().Build())
-	r := Ray{oned.Point{X: 0, Y: 0, Z: 0}, oned.Vector{X: 0, Y: 1, Z: 0}}
+	s := MakeSphereTM(geom.IdentityMatrix(), GlassMaterialBuilder().Build())
+	r := Ray{geom.Point{X: 0, Y: 0, Z: 0}, geom.Vector{X: 0, Y: 1, Z: 0}}
 	xs := Inters{Inter{-1, s}, Inter{1, s}}
 	comps := xs[1].PrepareComputationsEx(r, xs)
 
 	reflectance := Schlick(comps)
 
-	assert.InDelta(t, 0.04, reflectance, oned.Delta)
+	assert.InDelta(t, 0.04, reflectance, geom.Delta)
 }
 
 func Test_schlick_approximation_with_small_angle_and_n2_gt_n1(t *testing.T) {
-	s := MakeSphereTM(multid.IdentityMatrix(), GlassMaterialBuilder().Build())
-	r := Ray{oned.Point{X: 0, Y: 0.99, Z: -2}, oned.Vector{X: 0, Y: 0, Z: 1}}
+	s := MakeSphereTM(geom.IdentityMatrix(), GlassMaterialBuilder().Build())
+	r := Ray{geom.Point{X: 0, Y: 0.99, Z: -2}, geom.Vector{X: 0, Y: 0, Z: 1}}
 	xs := Inters{Inter{1.8589, s}}
 	comps := xs[0].PrepareComputationsEx(r, xs)
 
 	reflectance := Schlick(comps)
 
-	assert.InDelta(t, 0.48873, reflectance, oned.Delta)
+	assert.InDelta(t, 0.48873, reflectance, geom.Delta)
 }

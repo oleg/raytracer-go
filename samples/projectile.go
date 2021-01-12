@@ -1,14 +1,14 @@
 package samples
 
-import "github.com/oleg/raytracer-go/oned"
+import "github.com/oleg/raytracer-go/geom"
 
 type projectile struct {
-	position oned.Point
-	velocity oned.Vector
+	position geom.Point
+	velocity geom.Vector
 }
 type environment struct {
-	gravity oned.Vector
-	wind    oned.Vector
+	gravity geom.Vector
+	wind    geom.Vector
 }
 
 //func (p projectile) move() (position Point) {

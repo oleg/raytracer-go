@@ -1,4 +1,4 @@
-package oned
+package geom
 
 import (
 	"github.com/stretchr/testify/assert"
@@ -24,7 +24,7 @@ func Test_subtractVector_gives_vector(t *testing.T) {
 	assert.Equal(t, Vector{0, -4, 1}, vector)
 }
 
-func Test_subtruct_zero_vector_negates_vector(t *testing.T) {
+func Test_subtract_zero_vector_negates_vector(t *testing.T) {
 	zv := Vector{0, 0, 0}
 	v1 := Vector{1, -2, 3}
 

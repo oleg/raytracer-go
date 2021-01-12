@@ -1,14 +1,14 @@
 package figure
 
 import (
-	"github.com/oleg/raytracer-go/oned"
+	"github.com/oleg/raytracer-go/geom"
 	"math"
 )
 
 //todo change types?
 //todo reorder members
 type Material struct {
-	Color           oned.Color
+	Color           geom.Color
 	Pattern         Pattern
 	Ambient         float64
 	Diffuse         float64
@@ -24,8 +24,8 @@ func DefaultMaterial() Material {
 	return MakeMaterialBuilder().Build()
 }
 
-func Lighting(material Material, object Shape, light PointLight, point oned.Point, eyev oned.Vector, normalv oned.Vector, inShadow bool) oned.Color {
-	var color oned.Color
+func Lighting(material Material, object Shape, light PointLight, point geom.Point, eyev geom.Vector, normalv geom.Vector, inShadow bool) geom.Color {
+	var color geom.Color
 	if material.Pattern != nil {
 		color = PatternAtShape(material.Pattern, object, point)
 	} else {
@@ -57,7 +57,7 @@ func GlassMaterialBuilder() *MaterialBuilder {
 
 //todo think about it
 type MaterialBuilder struct {
-	color           oned.Color
+	color           geom.Color
 	pattern         Pattern
 	ambient         float64
 	diffuse         float64
@@ -70,7 +70,7 @@ type MaterialBuilder struct {
 
 func MakeMaterialBuilder() *MaterialBuilder {
 	return &MaterialBuilder{
-		color:           oned.White,
+		color:           geom.White,
 		ambient:         0.1,
 		diffuse:         0.9,
 		specular:        0.9,
@@ -91,7 +91,7 @@ func (mb *MaterialBuilder) Build() Material {
 		RefractiveIndex: mb.refractiveIndex,
 	}
 }
-func (mb *MaterialBuilder) SetColor(color oned.Color) *MaterialBuilder {
+func (mb *MaterialBuilder) SetColor(color geom.Color) *MaterialBuilder {
 	mb.color = color
 	return mb
 }

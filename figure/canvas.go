@@ -1,23 +1,23 @@
-package multid
+package figure
 
 import (
-	"github.com/oleg/raytracer-go/oned"
+	"github.com/oleg/raytracer-go/geom"
 	"image"
 	"image/color"
 	"image/png"
 	"os"
 )
 
-//todo store color.RGBA instead of oned.Color?
+//todo store color.RGBA instead of geom.Color?
 type Canvas struct {
 	Width, Height int
-	Pixels        [][]oned.Color
+	Pixels        [][]geom.Color
 }
 
 func NewCanvas(width, height int) *Canvas {
-	pixels := make([][]oned.Color, width)
+	pixels := make([][]geom.Color, width)
 	for i := range pixels {
-		pixels[i] = make([]oned.Color, height)
+		pixels[i] = make([]geom.Color, height)
 	}
 	return &Canvas{width, height, pixels}
 }

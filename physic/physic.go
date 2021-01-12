@@ -6,6 +6,8 @@ type HasTransformation interface { //todo try to convert to an action
 	Transformation() *geom.Matrix //todo add type alias?
 }
 
+var NoTransformation = Transformable{geom.IdentityMatrix()}
+
 type Transformable struct {
 	Transform *geom.Matrix //todo name it rule?
 }

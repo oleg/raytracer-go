@@ -21,11 +21,11 @@ type Material struct {
 
 //todo change api, should accept overrides, use builder?
 func DefaultMaterial() *Material {
-	return MakeMaterialBuilder().Build()
+	return NewMaterialBuilder().Build()
 }
 
 func GlassMaterialBuilder() *MaterialBuilder {
-	return MakeMaterialBuilder().
+	return NewMaterialBuilder().
 		SetRefractiveIndex(1.5).
 		SetTransparency(1.0)
 }
@@ -43,7 +43,7 @@ type MaterialBuilder struct {
 	refractiveIndex float64
 }
 
-func MakeMaterialBuilder() *MaterialBuilder {
+func NewMaterialBuilder() *MaterialBuilder {
 	return &MaterialBuilder{
 		color:           geom.White,
 		ambient:         0.1,

@@ -1,10 +1,10 @@
 package samples
 
 import (
-	"github.com/oleg/raytracer-go/physic"
-	"github.com/oleg/raytracer-go/shapes"
-	"github.com/oleg/raytracer-go/scene"
 	"github.com/oleg/raytracer-go/geom"
+	"github.com/oleg/raytracer-go/physic"
+	"github.com/oleg/raytracer-go/scene"
+	"github.com/oleg/raytracer-go/shapes"
 	"math"
 	"os"
 	"testing"
@@ -13,31 +13,31 @@ import (
 func Test_refraction_sample(t *testing.T) {
 	floor := shapes.NewPlane(
 		geom.IdentityMatrix(),
-		physic.MakeMaterialBuilder().
+		physic.NewMaterialBuilder().
 			SetReflective(0.7).
 			SetTransparency(0.2).
 			SetRefractiveIndex(1.3).
-			SetPattern(physic.MakeCheckersPatternT(
+			SetPattern(physic.CheckersPattern{
 				geom.Black,
 				geom.White,
-				geom.IdentityMatrix())).
+				physic.NoTransformation}).
 			Build())
 
 	back := shapes.NewPlane(
 		geom.Translation(0, 0, 4).
 			Multiply(geom.RotationX(-math.Pi/2)),
-		physic.MakeMaterialBuilder().
+		physic.NewMaterialBuilder().
 			SetReflective(0.3).
 			SetTransparency(0.1).
 			SetRefractiveIndex(2).
-			SetPattern(physic.MakeCheckersPatternT(
+			SetPattern(physic.CheckersPattern{
 				geom.Black,
 				geom.White,
-				geom.IdentityMatrix())).
+				physic.NoTransformation}).
 			Build())
 	left := shapes.NewSphere(
 		geom.Translation(-2.4, 1, 0.2),
-		physic.MakeMaterialBuilder().
+		physic.NewMaterialBuilder().
 			//SetSpecular(1).
 			SetTransparency(0.3).
 			SetReflective(0.3).
@@ -48,7 +48,7 @@ func Test_refraction_sample(t *testing.T) {
 
 	middle := shapes.NewSphere(
 		geom.Translation(-0.1, 1, 0.2),
-		physic.MakeMaterialBuilder().
+		physic.NewMaterialBuilder().
 			SetTransparency(0.5).
 			SetReflective(0.3).
 			SetRefractiveIndex(1.2).
@@ -57,7 +57,7 @@ func Test_refraction_sample(t *testing.T) {
 
 	right := shapes.NewSphere(
 		geom.Translation(2.2, 1, 0.2),
-		physic.MakeMaterialBuilder().
+		physic.NewMaterialBuilder().
 			SetTransparency(0.7).
 			SetReflective(0.3).
 			SetRefractiveIndex(1.5).

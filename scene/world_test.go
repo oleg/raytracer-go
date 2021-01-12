@@ -1,9 +1,9 @@
 package scene
 
 import (
-	"github.com/oleg/raytracer-go/shapes"
 	"github.com/oleg/raytracer-go/geom"
 	"github.com/oleg/raytracer-go/physic"
+	"github.com/oleg/raytracer-go/shapes"
 	"github.com/stretchr/testify/assert"
 	"math"
 	"testing"
@@ -138,7 +138,7 @@ func Test_reflected_color_for_non_reflective_material(t *testing.T) {
 func Test_reflected_color_for_reflective_material(t *testing.T) {
 	s1 := shapes.NewSphere(geom.IdentityMatrix(), testMaterialBuilder().Build())
 	s2 := shapes.NewSphere(geom.Scaling(0.5, 0.5, 0.5), testMaterialBuilder().SetAmbient(1).Build())
-	s3 := shapes.NewPlane(geom.Translation(0, -1, 0), physic.MakeMaterialBuilder().SetReflective(0.5).Build())
+	s3 := shapes.NewPlane(geom.Translation(0, -1, 0), physic.NewMaterialBuilder().SetReflective(0.5).Build())
 	w := World{pointLightSample(), []shapes.Shape{s1, s2, s3}}
 	r := shapes.Ray{geom.Point{X: 0, Y: 0, Z: -3}, geom.Vector{X: 0, Y: -math.Sqrt2 / 2, Z: math.Sqrt2 / 2}}
 	i := shapes.Inter{math.Sqrt2, s3}
@@ -152,7 +152,7 @@ func Test_reflected_color_for_reflective_material(t *testing.T) {
 func Test_shade_hit_with_reflective_material(t *testing.T) {
 	s1 := shapes.NewSphere(geom.IdentityMatrix(), testMaterialBuilder().Build())
 	s2 := shapes.NewSphere(geom.Scaling(0.5, 0.5, 0.5), testMaterialBuilder().SetAmbient(1).Build())
-	s3 := shapes.NewPlane(geom.Translation(0, -1, 0), physic.MakeMaterialBuilder().SetReflective(0.5).Build())
+	s3 := shapes.NewPlane(geom.Translation(0, -1, 0), physic.NewMaterialBuilder().SetReflective(0.5).Build())
 	w := World{pointLightSample(), []shapes.Shape{s1, s2, s3}}
 	r := shapes.Ray{geom.Point{X: 0, Y: 0, Z: -3}, geom.Vector{X: 0, Y: -math.Sqrt2 / 2, Z: math.Sqrt2 / 2}}
 	i := shapes.Inter{math.Sqrt2, s3}
@@ -167,8 +167,8 @@ func Test_color_at_with_mutually_reflective_surfaces(t *testing.T) {
 	w := World{
 		PointLight{geom.Point{X: 0, Y: 0, Z: 0}, geom.Color{R: 1, G: 1, B: 1}},
 		[]shapes.Shape{
-			shapes.NewPlane(geom.Translation(0, -1, 0), physic.MakeMaterialBuilder().SetReflective(1).Build()),
-			shapes.NewPlane(geom.Translation(0, 1, 0), physic.MakeMaterialBuilder().SetReflective(1).Build())}}
+			shapes.NewPlane(geom.Translation(0, -1, 0), physic.NewMaterialBuilder().SetReflective(1).Build()),
+			shapes.NewPlane(geom.Translation(0, 1, 0), physic.NewMaterialBuilder().SetReflective(1).Build())}}
 
 	w.ColorAt(shapes.Ray{geom.Point{X: 0, Y: 0, Z: 0}, geom.Vector{X: 0, Y: 1, Z: 0}}, MaxDepth)
 
@@ -178,7 +178,7 @@ func Test_color_at_with_mutually_reflective_surfaces(t *testing.T) {
 func Test_reflected_color_at_maximum_recursive_depth(t *testing.T) {
 	s1 := shapes.NewSphere(geom.IdentityMatrix(), testMaterialBuilder().Build())
 	s2 := shapes.NewSphere(geom.Scaling(0.5, 0.5, 0.5), testMaterialBuilder().SetAmbient(1).Build())
-	s3 := shapes.NewPlane(geom.Translation(0, -1, 0), physic.MakeMaterialBuilder().SetReflective(0.5).Build())
+	s3 := shapes.NewPlane(geom.Translation(0, -1, 0), physic.NewMaterialBuilder().SetReflective(0.5).Build())
 	w := World{pointLightSample(), []shapes.Shape{s1, s2, s3}}
 	r := shapes.Ray{geom.Point{X: 0, Y: 0, Z: -3}, geom.Vector{X: 0, Y: -math.Sqrt2 / 2, Z: math.Sqrt2 / 2}}
 	i := shapes.Inter{math.Sqrt2, s3}
@@ -253,12 +253,12 @@ func Test_shade_hit_with_transparent_material(t *testing.T) {
 	s1 := shapes.NewSphere(geom.IdentityMatrix(), testMaterialBuilder().Build())
 	s2 := shapes.NewSphere(geom.Scaling(0.5, 0.5, 0.5), physic.DefaultMaterial())
 	floor := shapes.NewPlane(geom.Translation(0, -1, 0),
-		physic.MakeMaterialBuilder().
+		physic.NewMaterialBuilder().
 			SetTransparency(0.5).
 			SetRefractiveIndex(1.5).
 			Build())
 	ball := shapes.NewSphere(geom.Translation(0, -3.5, -0.5),
-		physic.MakeMaterialBuilder().
+		physic.NewMaterialBuilder().
 			SetColor(geom.Color{R: 1, G: 0, B: 0}).
 			SetAmbient(0.5).
 			Build())
@@ -276,13 +276,13 @@ func Test_shade_hit_with_reflective_transparent_material(t *testing.T) {
 	s1 := shapes.NewSphere(geom.IdentityMatrix(), testMaterialBuilder().Build())
 	s2 := shapes.NewSphere(geom.Scaling(0.5, 0.5, 0.5), physic.DefaultMaterial())
 	floor := shapes.NewPlane(geom.Translation(0, -1, 0),
-		physic.MakeMaterialBuilder().
+		physic.NewMaterialBuilder().
 			SetReflective(0.5).
 			SetTransparency(0.5).
 			SetRefractiveIndex(1.5).
 			Build())
 	ball := shapes.NewSphere(geom.Translation(0, -3.5, -0.5),
-		physic.MakeMaterialBuilder().
+		physic.NewMaterialBuilder().
 			SetColor(geom.Color{R: 1, G: 0, B: 0}).
 			SetAmbient(0.5).
 			Build())
@@ -378,11 +378,11 @@ func Test_shadow(t *testing.T) {
 }
 
 func Test_Lighting_with_pattern_applied(t *testing.T) {
-	m := physic.MakeMaterialBuilder().
+	m := physic.NewMaterialBuilder().
 		SetAmbient(1).
 		SetDiffuse(0).
 		SetSpecular(0).
-		SetPattern(physic.MakeStripePattern(geom.White, geom.Black)).
+		SetPattern(physic.StripePattern{geom.White, geom.Black, physic.Transformable{geom.IdentityMatrix()}}).
 		Build()
 
 	eyeV := geom.Vector{X: 0, Y: 0, Z: -1}
@@ -421,7 +421,7 @@ func pointLightSample() PointLight {
 }
 
 func testMaterialBuilder() *physic.MaterialBuilder {
-	return physic.MakeMaterialBuilder().
+	return physic.NewMaterialBuilder().
 		SetColor(geom.Color{R: 0.8, G: 1.0, B: 0.6}).
 		SetDiffuse(0.7).
 		SetSpecular(0.2)

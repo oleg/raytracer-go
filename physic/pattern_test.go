@@ -7,14 +7,14 @@ import (
 )
 
 func Test_creating_stripe_pattern(t *testing.T) {
-	pattern := MakeStripePattern(geom.White, geom.Black)
+	pattern := StripePattern{geom.White, geom.Black, NoTransformation}
 
 	assert.Equal(t, geom.White, pattern.A)
 	assert.Equal(t, geom.Black, pattern.B)
 }
 
 func Test_stripe_pattern_is_constant_in_y(t *testing.T) {
-	pattern := MakeStripePattern(geom.White, geom.Black)
+	pattern := StripePattern{geom.White, geom.Black, NoTransformation}
 
 	assert.Equal(t, geom.White, pattern.PatternAt(geom.Point{X: 0, Y: 0, Z: 0}))
 	assert.Equal(t, geom.White, pattern.PatternAt(geom.Point{X: 0, Y: 1, Z: 0}))
@@ -22,7 +22,7 @@ func Test_stripe_pattern_is_constant_in_y(t *testing.T) {
 }
 
 func Test_stripe_pattern_is_constant_in_z(t *testing.T) {
-	pattern := MakeStripePattern(geom.White, geom.Black)
+	pattern := StripePattern{geom.White, geom.Black, NoTransformation}
 
 	assert.Equal(t, geom.White, pattern.PatternAt(geom.Point{X: 0, Y: 0, Z: 0}))
 	assert.Equal(t, geom.White, pattern.PatternAt(geom.Point{X: 0, Y: 0, Z: 1}))
@@ -30,7 +30,7 @@ func Test_stripe_pattern_is_constant_in_z(t *testing.T) {
 }
 
 func Test_stripe_pattern_alternates_in_x(t *testing.T) {
-	pattern := MakeStripePattern(geom.White, geom.Black)
+	pattern := StripePattern{geom.White, geom.Black, NoTransformation}
 
 	assert.Equal(t, geom.White, pattern.PatternAt(geom.Point{X: 0, Y: 0, Z: 0}))
 	assert.Equal(t, geom.White, pattern.PatternAt(geom.Point{X: 0.9, Y: 0, Z: 0}))
@@ -44,7 +44,7 @@ func Test_stripe_pattern_alternates_in_x(t *testing.T) {
 
 func Test_stripes_with_object_transformation(t *testing.T) {
 	object := Transformable{geom.Scaling(2, 2, 2)}
-	pattern := MakeStripePattern(geom.White, geom.Black)
+	pattern := StripePattern{geom.White, geom.Black, NoTransformation}
 
 	c := PatternAtShape(pattern, object, geom.Point{X: 1.5, Y: 0, Z: 0})
 
@@ -52,17 +52,16 @@ func Test_stripes_with_object_transformation(t *testing.T) {
 }
 
 func Test_stripes_with_pattern_transformation(t *testing.T) {
-	object := Transformable{geom.IdentityMatrix()}
-	pattern := MakeStripePatternT(geom.White, geom.Black, geom.Scaling(2, 2, 2))
+	pattern := StripePattern{geom.White, geom.Black, Transformable{geom.Scaling(2, 2, 2)}}
 
-	c := PatternAtShape(pattern, object, geom.Point{X: 1.5, Y: 0, Z: 0})
+	c := PatternAtShape(pattern, NoTransformation, geom.Point{X: 1.5, Y: 0, Z: 0})
 
 	assert.Equal(t, geom.White, c)
 }
 
 func Test_stripes_with_both_object_and_pattern_transformation(t *testing.T) {
 	object := Transformable{geom.Scaling(2, 2, 2)}
-	pattern := MakeStripePatternT(geom.White, geom.Black, geom.Translation(0.5, 0, 0))
+	pattern := StripePattern{geom.White, geom.Black, Transformable{geom.Translation(0.5, 0, 0)}}
 
 	c := PatternAtShape(pattern, object, geom.Point{X: 2.5, Y: 0, Z: 0})
 
@@ -70,7 +69,7 @@ func Test_stripes_with_both_object_and_pattern_transformation(t *testing.T) {
 }
 
 func Test_gradient_linearly_interpolates_between_colors(t *testing.T) {
-	pattern := MakeGradientPattern(geom.White, geom.Black)
+	pattern := GradientPattern{geom.White, geom.Black, NoTransformation}
 
 	assert.Equal(t, geom.Color{R: 1, G: 1, B: 1}, pattern.PatternAt(geom.Point{X: 0, Y: 0, Z: 0}))
 	assert.Equal(t, geom.Color{R: 0.75, G: 0.75, B: 0.75}, pattern.PatternAt(geom.Point{X: 0.25, Y: 0, Z: 0}))
@@ -79,7 +78,7 @@ func Test_gradient_linearly_interpolates_between_colors(t *testing.T) {
 }
 
 func Test_ring_should_extend_in_both_x_and_z(t *testing.T) {
-	pattern := MakeRingPattern(geom.White, geom.Black)
+	pattern := RingPattern{geom.White, geom.Black, NoTransformation}
 
 	assert.Equal(t, geom.White, pattern.PatternAt(geom.Point{X: 0, Y: 0, Z: 0}))
 	assert.Equal(t, geom.Black, pattern.PatternAt(geom.Point{X: 1, Y: 0, Z: 0}))
@@ -88,7 +87,7 @@ func Test_ring_should_extend_in_both_x_and_z(t *testing.T) {
 }
 
 func Test_checkers_should_repeat_in_x_y_z(t *testing.T) {
-	pattern := MakeCheckersPattern(geom.White, geom.Black)
+	pattern := CheckersPattern{geom.White, geom.Black, NoTransformation}
 
 	assert.Equal(t, geom.White, pattern.PatternAt(geom.Point{X: 0, Y: 0, Z: 0}))
 	assert.Equal(t, geom.White, pattern.PatternAt(geom.Point{X: 0.99, Y: 0, Z: 0}))

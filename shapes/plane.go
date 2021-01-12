@@ -11,11 +11,10 @@ type Plane struct {
 }
 
 //todo remove
-func MakePlane() Plane {
+func NewA() Plane {
 	return Plane{physic.NewPhysicalObject(geom.IdentityMatrix(), physic.DefaultMaterial())}
 }
 
-//todo remove?
 func NewPlane(transform *geom.Matrix, material *physic.Material) Plane {
 	return Plane{physic.NewPhysicalObject(transform, material)}
 }

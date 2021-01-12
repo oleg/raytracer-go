@@ -1,9 +1,9 @@
 package scene
 
 import (
+	"github.com/oleg/raytracer-go/geom"
 	"github.com/oleg/raytracer-go/physic"
 	"github.com/oleg/raytracer-go/shapes"
-	"github.com/oleg/raytracer-go/geom"
 	"github.com/stretchr/testify/assert"
 	"math"
 	"testing"
@@ -108,7 +108,7 @@ func Test_hit_when_intersection_occurs_on_inside(t *testing.T) {
 }
 
 func Test_precomputing_reflection_vector(t *testing.T) {
-	shape := shapes.MakePlane()
+	shape := shapes.NewPlane(geom.IdentityMatrix(), physic.DefaultMaterial())
 	ray := shapes.Ray{geom.Point{X: 0, Y: 1, Z: -1}, geom.Vector{X: 0, Y: -math.Sqrt2 / 2, Z: math.Sqrt2 / 2}}
 	i := shapes.Inter{math.Sqrt2, shape}
 

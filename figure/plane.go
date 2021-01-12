@@ -7,13 +7,13 @@ import (
 
 type Plane struct {
 	transform *geom.Matrix //todo test
-	material  Material     //todo test
+	material  *Material    //todo test
 }
 
 func MakePlane() Plane {
 	return Plane{geom.IdentityMatrix(), DefaultMaterial()}
 }
-func MakePlaneTM(transform *geom.Matrix, material Material) Plane {
+func MakePlaneTM(transform *geom.Matrix, material *Material) Plane {
 	return Plane{transform, material}
 }
 
@@ -32,6 +32,6 @@ func (p Plane) LocalNormalAt(geom.Point) geom.Vector {
 func (p Plane) Transform() *geom.Matrix {
 	return p.transform
 }
-func (p Plane) Material() Material {
+func (p Plane) Material() *Material {
 	return p.material
 }

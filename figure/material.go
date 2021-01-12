@@ -20,11 +20,11 @@ type Material struct {
 }
 
 //todo change api, should accept overrides, use builder?
-func DefaultMaterial() Material {
+func DefaultMaterial() *Material {
 	return MakeMaterialBuilder().Build()
 }
 
-func Lighting(material Material, object Shape, light PointLight, point geom.Point, eyev geom.Vector, normalv geom.Vector, inShadow bool) geom.Color {
+func Lighting(material *Material, object Shape, light PointLight, point geom.Point, eyev geom.Vector, normalv geom.Vector, inShadow bool) geom.Color {
 	var color geom.Color
 	if material.Pattern != nil {
 		color = PatternAtShape(material.Pattern, object, point)
@@ -78,8 +78,8 @@ func MakeMaterialBuilder() *MaterialBuilder {
 		shininess:       200.0,
 	}
 }
-func (mb *MaterialBuilder) Build() Material {
-	return Material{
+func (mb *MaterialBuilder) Build() *Material {
+	return &Material{
 		Color:           mb.color,
 		Pattern:         mb.pattern,
 		Ambient:         mb.ambient,

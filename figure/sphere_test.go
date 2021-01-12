@@ -136,7 +136,7 @@ func Test_computing_normal_on_translated_sphere(t *testing.T) {
 }
 
 func Test_computing_normal_on_transformed_sphere(t *testing.T) {
-	s := NewSphere(geom.Scaling(1, 0.5, 1).Multiply(geom.RotationZ(math.Pi / 5)), DefaultMaterial())
+	s := NewSphere(geom.Scaling(1, 0.5, 1).Multiply(geom.RotationZ(math.Pi/5)), DefaultMaterial())
 
 	n := NormalAt(s, geom.Point{X: 0, Y: math.Sqrt2 / 2, Z: -math.Sqrt2 / 2})
 
@@ -150,7 +150,7 @@ func Test_sphere_has_default_material(t *testing.T) {
 }
 
 func Test_sphere_may_be_assigned_material(t *testing.T) {
-	m := Material{Ambient: 1}
+	m := &Material{Ambient: 1}
 	s := NewSphere(geom.IdentityMatrix(), m)
 
 	assert.Equal(t, m, s.Material())

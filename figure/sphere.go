@@ -7,15 +7,11 @@ import (
 
 type Sphere struct {
 	transform *geom.Matrix
-	material  Material
+	material  *Material
 }
 
-func NewSphere(transform *geom.Matrix, material Material) Sphere {
+func NewSphere(transform *geom.Matrix, material *Material) Sphere {
 	return Sphere{transform, material}
-}
-
-func NewSphereT(transform *geom.Matrix) Sphere {
-	return Sphere{transform, DefaultMaterial()}
 }
 
 func NewGlassSphere() Sphere {
@@ -27,7 +23,7 @@ func NewGlassSphere() Sphere {
 func (sphere Sphere) Transform() *geom.Matrix {
 	return sphere.transform
 }
-func (sphere Sphere) Material() Material {
+func (sphere Sphere) Material() *Material {
 	return sphere.material
 }
 

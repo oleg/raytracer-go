@@ -6,9 +6,10 @@ import (
 
 type Shape interface {
 	Transform() *geom.Matrix //is this method needed in the interface
+	Material() *Material
+
 	LocalIntersect(ray Ray) Inters
 	LocalNormalAt(point geom.Point) geom.Vector
-	Material() Material
 }
 
 func NormalAt(shape Shape, worldPoint geom.Point) geom.Vector {

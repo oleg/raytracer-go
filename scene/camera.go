@@ -14,11 +14,6 @@ type Camera struct {
 	Transform             *geom.Matrix
 }
 
-//todo remove
-func NewCameraDefault(hSize, vSize int, fieldOfView float64) *Camera {
-	return NewCamera(hSize, vSize, fieldOfView, geom.IdentityMatrix())
-}
-
 func NewCamera(hSize, vSize int, fieldOfView float64, transform *geom.Matrix) *Camera {
 	halfView := math.Tan(fieldOfView / 2.)
 	aspect := float64(hSize) / float64(vSize)

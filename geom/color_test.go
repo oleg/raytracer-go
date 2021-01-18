@@ -53,8 +53,8 @@ func Test_RGBA(t *testing.T) {
 
 	r, g, b, a := c.RGBA()
 
-	assert.Equal(t, uint32(0xff00), r)
-	assert.Equal(t, uint32(0x3300), g)
-	assert.Equal(t, uint32(0xcc00), b)
-	assert.Equal(t, uint32(0xff00), a)
+	assert.Equal(t, uint32(0xffff), r)
+	assert.Equal(t, uint32(0x3333), g)
+	assert.Equal(t, uint32(0xcccc), b)
+	assert.Equal(t, uint32(0xffff), a)
 }

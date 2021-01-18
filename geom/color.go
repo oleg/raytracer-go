@@ -24,10 +24,14 @@ func (t Color) Multiply(o Color) Color {
 }
 
 func (t Color) RGBA() (r, g, b, a uint32) {
-	r = uint32(clamp(t.R)*255) << 8
-	g = uint32(clamp(t.G)*255) << 8
-	b = uint32(clamp(t.B)*255) << 8
-	a = uint32(255) << 8
+	r = uint32(clamp(t.R) * 255)
+	r |= r << 8
+	g = uint32(clamp(t.G) * 255)
+	g |= g << 8
+	b = uint32(clamp(t.B) * 255)
+	b |= b << 8
+	a = uint32(255)
+	a |= a << 8
 	return
 }
 

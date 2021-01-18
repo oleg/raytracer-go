@@ -3,8 +3,7 @@ package scene
 import (
 	"github.com/oleg/raytracer-go/geom"
 	"image"
-	"image/png"
-	"os"
+	"image/color"
 )
 
 //todo move encoding to separate package?
@@ -22,35 +21,14 @@ func NewCanvas(width, height int) *Canvas {
 	return &Canvas{width, height, pixels}
 }
 
-func (c *Canvas) MustToPNG(filename string) {
-	err := c.ToPNG(filename)
-	if err != nil {
-		panic(err)
-	}
+func (c *Canvas) ColorModel() color.Model {
+	return color.RGBAModel
 }
 
-func (c *Canvas) ToPNG(filename string) error {
-	fo, err := os.Create(filename)
-	if err != nil {
-		return err
-	}
-	img := c.newImage()
-	err = png.Encode(fo, img)
-	if err != nil {
-		return err
-	}
-	if err := fo.Close(); err != nil {
-		return err
-	}
-	return nil
+func (c *Canvas) Bounds() image.Rectangle {
+	return image.Rect(0, 0, c.Width, c.Height)
 }
 
-func (c *Canvas) newImage() image.Image {
-	img := image.NewRGBA(image.Rect(0, 0, c.Width, c.Height))
-	for i, p := range c.Pixels {
-		for j, px := range p {
-			img.Set(i, j, px)
-		}
-	}
-	return img
+func (c *Canvas) At(x, y int) color.Color {
+	return c.Pixels[x][y]
 }

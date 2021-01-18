@@ -6,23 +6,16 @@ import (
 	"testing"
 )
 
-func AssertFilesEqual(t *testing.T, expected, actual string) bool {
-	expectedFile, err := ioutil.ReadFile(expected)
+func AssertBytesAreEqual(t *testing.T, expectedContentAt string, actual []byte) {
+	expected, err := ioutil.ReadFile(expectedContentAt)
 	if err != nil {
-		t.Errorf("Error reading expected file %v %v", expected, err)
-		return false
+		t.Fatalf("Error reading expected file %v %v", expectedContentAt, err)
 	}
-
-	actualFile, err := ioutil.ReadFile(actual)
-	if err != nil {
-		t.Errorf("Error reading actual file %v %v", actual, err)
-		return false
+	if !bytes.Equal(expected, actual) {
+		actualContentAt := expectedContentAt + "-actual.png"
+		if err = ioutil.WriteFile(actualContentAt, actual, 0644); err != nil {
+			t.Errorf("Failed to store actual content at %s", actualContentAt)
+		}
+		t.Errorf("Files '%v' and '%v' are different", expectedContentAt, actualContentAt)
 	}
-
-	if !bytes.Equal(expectedFile, actualFile) {
-		t.Errorf("Files '%v' and '%v' are different", expected, actual)
-		return false
-	}
-
-	return true
 }

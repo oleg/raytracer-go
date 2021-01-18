@@ -1,15 +1,16 @@
 package samples
 
 import (
-	"github.com/oleg/raytracer-go/physic"
-	"github.com/oleg/raytracer-go/shapes"
-	"github.com/oleg/raytracer-go/scene"
+	"bytes"
 	"github.com/oleg/raytracer-go/geom"
-	"os"
+	"github.com/oleg/raytracer-go/physic"
+	"github.com/oleg/raytracer-go/scene"
+	"github.com/oleg/raytracer-go/shapes"
+	"github.com/stretchr/testify/assert"
+	"image/png"
 	"testing"
 )
 
-//todo do not use example in the name
 func Test_ball_sample(t *testing.T) {
 	rayOrigin := geom.Point{X: 0, Y: 0, Z: -5}
 	wallSize := 7.
@@ -36,10 +37,9 @@ func Test_ball_sample(t *testing.T) {
 		}
 	}
 
-	outFile := "ball_sample_test.png"
-	canvas.MustToPNG(outFile)
+	b := new(bytes.Buffer)
+	err := png.Encode(b, canvas)
+	assert.NoError(t, err)
+	AssertBytesAreEqual(t, "testdata/ball_sample_test.png", b.Bytes())
 
-	if AssertFilesEqual(t, "testdata/"+outFile, outFile) {
-		_ = os.Remove(outFile)
-	}
 }

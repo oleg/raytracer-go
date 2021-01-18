@@ -1,12 +1,14 @@
 package samples
 
 import (
-	"github.com/oleg/raytracer-go/physic"
-	"github.com/oleg/raytracer-go/shapes"
-	"github.com/oleg/raytracer-go/scene"
+	"bytes"
 	"github.com/oleg/raytracer-go/geom"
+	"github.com/oleg/raytracer-go/physic"
+	"github.com/oleg/raytracer-go/scene"
+	"github.com/oleg/raytracer-go/shapes"
+	"github.com/stretchr/testify/assert"
+	"image/png"
 	"math"
-	"os"
 	"testing"
 )
 
@@ -75,10 +77,9 @@ func Test_ball_scene_sample(t *testing.T) {
 
 	canvas := camera.Render(world)
 
-	outFile := "ball_scene_sample_test.png"
-	canvas.MustToPNG(outFile)
+	b := new(bytes.Buffer)
+	err := png.Encode(b, canvas)
+	assert.NoError(t, err)
+	AssertBytesAreEqual(t, "testdata/ball_scene_sample_test.png", b.Bytes())
 
-	if AssertFilesEqual(t, "testdata/"+outFile, outFile) {
-		_ = os.Remove(outFile)
-	}
 }

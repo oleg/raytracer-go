@@ -1,8 +1,11 @@
 package scene
 
 import (
+	"bytes"
 	"github.com/oleg/raytracer-go/geom"
 	"github.com/stretchr/testify/assert"
+	"image"
+	"image/png"
 	"testing"
 )
 
@@ -32,7 +35,11 @@ func Test_canvas_to_png(t *testing.T) {
 	c.Pixels[0][0] = geom.Color{R: 1, G: 0, B: 0}
 	c.Pixels[0][1] = geom.Color{R: 1, G: 0, B: 0}
 	c.Pixels[0][2] = geom.Color{R: 1, G: 0, B: 0}
-	err := c.ToPNG("canvas_test.png")
+	err := png.Encode(new(bytes.Buffer), c)
 
 	assert.Nil(t, err)
+}
+
+func Test_canvas_implements_image_interface(t *testing.T) {
+	var _ image.Image = NewCanvas(10, 10)
 }

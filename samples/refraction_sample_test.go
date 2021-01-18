@@ -1,12 +1,14 @@
 package samples
 
 import (
+	"bytes"
 	"github.com/oleg/raytracer-go/geom"
 	"github.com/oleg/raytracer-go/physic"
 	"github.com/oleg/raytracer-go/scene"
 	"github.com/oleg/raytracer-go/shapes"
+	"github.com/stretchr/testify/assert"
+	"image/png"
 	"math"
-	"os"
 	"testing"
 )
 
@@ -77,10 +79,8 @@ func Test_refraction_sample(t *testing.T) {
 
 	canvas := camera.Render(world)
 
-	outFile := "refraction_sample_test.png"
-	canvas.MustToPNG(outFile)
-
-	if AssertFilesEqual(t, "testdata/"+outFile, outFile) {
-		_ = os.Remove(outFile)
-	}
+	b := new(bytes.Buffer)
+	err := png.Encode(b, canvas)
+	assert.NoError(t, err)
+	AssertBytesAreEqual(t, "testdata/refraction_sample_test.png", b.Bytes())
 }

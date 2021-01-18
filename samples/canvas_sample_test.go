@@ -1,9 +1,11 @@
 package samples
 
 import (
-	"github.com/oleg/raytracer-go/scene"
+	"bytes"
 	"github.com/oleg/raytracer-go/geom"
-	"os"
+	"github.com/oleg/raytracer-go/scene"
+	"github.com/stretchr/testify/assert"
+	"image/png"
 	"testing"
 )
 
@@ -28,10 +30,8 @@ func Test(t *testing.T) {
 		p = p.tick(e)
 	}
 
-	outFile := "canvas_sample_test.png"
-	c.MustToPNG(outFile)
-
-	if AssertFilesEqual(t, "testdata/"+outFile, outFile) {
-		_ = os.Remove(outFile)
-	}
+	b := new(bytes.Buffer)
+	err := png.Encode(b, c)
+	assert.NoError(t, err)
+	AssertBytesAreEqual(t, "testdata/canvas_sample_test.png", b.Bytes())
 }

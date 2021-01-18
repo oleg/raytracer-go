@@ -3,7 +3,6 @@ package scene
 import (
 	"github.com/oleg/raytracer-go/geom"
 	"image"
-	"image/color"
 	"image/png"
 	"os"
 )
@@ -46,28 +45,12 @@ func (c *Canvas) ToPNG(filename string) error {
 	return nil
 }
 
-func (c *Canvas) newImage() *image.RGBA {
+func (c *Canvas) newImage() image.Image {
 	img := image.NewRGBA(image.Rect(0, 0, c.Width, c.Height))
 	for i, p := range c.Pixels {
 		for j, px := range p {
-			//todo let color implement Color interface
-			img.Set(i, j, color.RGBA{ //todo (Height-j)?
-				R: uint8(clamp(px.R) * 255),
-				G: uint8(clamp(px.G) * 255),
-				B: uint8(clamp(px.B) * 255),
-				A: 255})
+			img.Set(i, j, px)
 		}
 	}
 	return img
-}
-
-//todo refactor
-func clamp(r float64) float64 {
-	if r < 0 {
-		return 0
-	}
-	if r > 1 {
-		return 1
-	}
-	return r
 }

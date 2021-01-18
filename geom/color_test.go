@@ -47,3 +47,14 @@ func Test_multiply_colors(t *testing.T) {
 
 	AssertColorEqualInDelta(t, Color{0.9, 0.2, 0.04}, result)
 }
+
+func Test_RGBA(t *testing.T) {
+	c := Color{1, 0.2, 0.8}
+
+	r, g, b, a := c.RGBA()
+
+	assert.Equal(t, uint32(0xff00), r)
+	assert.Equal(t, uint32(0x3300), g)
+	assert.Equal(t, uint32(0xcc00), b)
+	assert.Equal(t, uint32(0xff00), a)
+}

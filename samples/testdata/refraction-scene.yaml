@@ -1,0 +1,62 @@
+camera:
+  size:
+    horizontal: 250
+    vertical: 100
+    field-of-view: 1.2
+  sight:
+    from: { x: 1, y: 2, z: 3 }
+    to: { x: 30, y: 20, z: 10 }
+    up: { x: 5, y: 3, z: 4 }
+world:
+  light:
+    position: { x: 10, y: 10, z: -10 }
+    intensity: { r: 0.8, g: 0.9, b: 1 }
+  objects:
+    - type: Plane
+      transform: [
+        [ 1, 0, 0, 0 ],
+        [ 0, 0.00000000000000006, 1, 0 ],
+        [ 0, -1, 0.00000000000000006, 4 ],
+        [ 0, 0, 0, 1 ] ]
+      material:
+        color: { r: 0.2, g: 0.3, b: 0.4 }
+        ambient: 0.5
+        diffuse: 0.6
+        specular: 0.7
+        reflective: 0.8
+        transparency: 0.9
+        refractive-index: 3
+        shininess: 198
+        pattern:
+          type: Checkers
+          color-a: { r: 0.3, g: 0.4, b: 0.5 }
+          color-b: { r: 0.6, g: 0.7, b: 0.8 }
+          transform: [
+            [ 0.1, 0, 0, 1 ],
+            [ 0, 0.2, 0, 2 ],
+            [ -1, 0, 0.3, 3 ],
+            [ 0, 0, 0, 0.4 ] ]
+    - type: Sphere
+      transform: [
+        [ 1, 0, 0, -2.4 ],
+        [ 0, 1, 0, 1 ],
+        [ 0, 0, 1, 0.2 ],
+        [ 0, 0, 0, 1 ] ]
+      material:
+        color: { r: 0.2, g: 0.3, b: 0.4 }
+        ambient: 0.5
+        diffuse: 0.6
+        specular: 0.7
+        reflective: 0.8
+        transparency: 0.9
+        refractive-index: 3
+        shininess: 198
+        pattern:
+          type: Checkers
+          color-a: { r: 0.3, g: 0.4, b: 0.5 }
+          color-b: { r: 0.6, g: 0.7, b: 0.8 }
+          transform: [
+            [ 0.1, 0, 0, 1 ],
+            [ 0, 0.2, 0, 2 ],
+            [ -1, 0, 0.3, 3 ],
+            [ 0, 0, 0, 0.4 ] ]

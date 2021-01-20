@@ -70,10 +70,10 @@ func Test_ball_scene_sample(t *testing.T) {
 		},
 	}
 	camera := scene.NewCamera(500, 250, math.Pi/3,
-		scene.ViewTransform(
-			geom.Point{X: 0, Y: 1.5, Z: -5},
-			geom.Point{X: 0, Y: 1, Z: 0},
-			geom.Vector{X: 0, Y: 1, Z: 0}))
+		scene.Sight{
+			From: geom.Point{X: 0, Y: 1.5, Z: -5},
+			To:   geom.Point{X: 0, Y: 1, Z: 0},
+			Up:   geom.Vector{X: 0, Y: 1, Z: 0}})
 
 	canvas := camera.Render(world)
 

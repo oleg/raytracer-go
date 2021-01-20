@@ -15,4 +15,3 @@ type Shape interface {
 	Intersecter
 	NormalFinder
 }
-

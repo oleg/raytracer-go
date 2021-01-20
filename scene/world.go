@@ -133,4 +133,3 @@ func Lighting(material *physic.Material, object shapes.Shape, light PointLight, 
 	specular := light.Intensity.MultiplyByScalar(material.Specular).MultiplyByScalar(factor)
 	return ambient.Add(diffuse).Add(specular)
 }
-

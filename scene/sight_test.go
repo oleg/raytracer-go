@@ -15,41 +15,48 @@ func Test_inverse_matrix(t *testing.T) {
 }
 
 func Test_transformation_matrix_for_default_orientation(t *testing.T) {
-	from := geom.Point{X: 0, Y: 0, Z: 0}
-	to := geom.Point{X: 0, Y: 0, Z: -1}
-	up := geom.Vector{X: 0, Y: 1, Z: 0}
+	s := Sight{
+		From: geom.Point{X: 0, Y: 0, Z: 0},
+		To:   geom.Point{X: 0, Y: 0, Z: -1},
+		Up:   geom.Vector{X: 0, Y: 1, Z: 0},
+	}
 
-	tr := ViewTransform(from, to, up)
+	tr := s.Transformation()
 
 	assert.Equal(t, geom.IdentityMatrix().Data, tr.Data)
 }
 
 func Test_view_transformation_matrix_looking_in_positive_z_direction(t *testing.T) {
-	from := geom.Point{X: 0, Y: 0, Z: 0}
-	to := geom.Point{X: 0, Y: 0, Z: 1}
-	up := geom.Vector{X: 0, Y: 1, Z: 0}
+	s := Sight{
+		From: geom.Point{X: 0, Y: 0, Z: 0},
+		To:   geom.Point{X: 0, Y: 0, Z: 1},
+		Up:   geom.Vector{X: 0, Y: 1, Z: 0},
+	}
 
-	tr := ViewTransform(from, to, up)
+	tr := s.Transformation()
 
 	assert.Equal(t, geom.Scaling(-1, 1, -1), tr)
 }
 
 func Test_view_transformation_moves_the_world(t *testing.T) {
-	from := geom.Point{X: 0, Y: 0, Z: 8}
-	to := geom.Point{X: 0, Y: 0, Z: 0}
-	up := geom.Vector{X: 0, Y: 1, Z: 0}
-
-	tr := ViewTransform(from, to, up)
+	s := Sight{
+		From: geom.Point{X: 0, Y: 0, Z: 8},
+		To:   geom.Point{X: 0, Y: 0, Z: 0},
+		Up:   geom.Vector{X: 0, Y: 1, Z: 0},
+	}
+	tr := s.Transformation()
 
 	assert.Equal(t, geom.Translation(0, 0, -8), tr)
 }
 
 func Test_arbitrary_view_transformation(t *testing.T) {
-	from := geom.Point{X: 1, Y: 3, Z: 2}
-	to := geom.Point{X: 4, Y: -2, Z: 8}
-	up := geom.Vector{X: 1, Y: 1, Z: 0}
+	s := Sight{
+		From: geom.Point{X: 1, Y: 3, Z: 2},
+		To:   geom.Point{X: 4, Y: -2, Z: 8},
+		Up:   geom.Vector{X: 1, Y: 1, Z: 0},
+	}
 
-	tr := ViewTransform(from, to, up)
+	tr := s.Transformation()
 
 	expected := geom.NewMatrix(
 		`| -0.50709 | 0.50709 |  0.67612 | -2.36643 |  

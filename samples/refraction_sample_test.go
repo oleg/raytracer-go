@@ -75,7 +75,11 @@ func Test_refraction_sample(t *testing.T) {
 		Objects: []shapes.Shape{floor, back, left, middle, right},
 	}
 	camera := scene.NewCamera(500, 250, math.Pi/3,
-		scene.ViewTransform(geom.Point{X: 0, Y: 3, Z: -6}, geom.Point{X: 0, Y: 1, Z: 0}, geom.Vector{X: 0, Y: 1, Z: 0}))
+		scene.Sight{
+			From: geom.Point{X: 0, Y: 3, Z: -6},
+			To:   geom.Point{X: 0, Y: 1, Z: 0},
+			Up:   geom.Vector{X: 0, Y: 1, Z: 0},
+		})
 
 	canvas := camera.Render(world)
 

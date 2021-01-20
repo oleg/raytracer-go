@@ -2,37 +2,32 @@ package scene
 
 import (
 	"github.com/oleg/raytracer-go/geom"
+	"github.com/oleg/raytracer-go/physic"
 	"github.com/oleg/raytracer-go/shapes"
 	"math"
 )
 
 type Camera struct {
 	HSize, VSize          int
-	HalfWidth, HalfHeight float64
 	FieldOfView           float64
+	HalfWidth, HalfHeight float64
 	PixelSize             float64
 	Transform             *geom.Matrix
 }
 
-//todo remove
-func NewCameraDefault(hSize, vSize int, fieldOfView float64) *Camera {
-	return NewCamera(hSize, vSize, fieldOfView, geom.IdentityMatrix())
+func NewCamera(hSize, vSize int, fieldOfView float64, sight physic.HasTransformation) *Camera {
+	halfWidth, halfHeight := calcHalfWidthAndHeight(hSize, vSize, fieldOfView)
+	pixelSize := halfWidth * 2 / float64(hSize)
+	return &Camera{hSize, vSize, fieldOfView, halfWidth, halfHeight, pixelSize, sight.Transformation()}
 }
 
-func NewCamera(hSize, vSize int, fieldOfView float64, transform *geom.Matrix) *Camera {
+func calcHalfWidthAndHeight(hSize int, vSize int, fieldOfView float64) (float64, float64) {
 	halfView := math.Tan(fieldOfView / 2.)
 	aspect := float64(hSize) / float64(vSize)
-	var halfWidth, halfHeight float64
 	if aspect >= 1 {
-		halfWidth, halfHeight = halfView, halfView/aspect
-	} else {
-		halfWidth, halfHeight = halfView*aspect, halfView
+		return halfView, halfView / aspect
 	}
-	pixelSize := halfWidth * 2 / float64(hSize)
-	return &Camera{
-		hSize, vSize,
-		halfWidth, halfHeight,
-		fieldOfView, pixelSize, transform}
+	return halfView * aspect, halfView
 }
 
 func (camera *Camera) RayForPixel(x, y int) shapes.Ray {

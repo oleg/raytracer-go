@@ -2,7 +2,6 @@ package config
 
 import (
 	"errors"
-	"fmt"
 	"github.com/oleg/raytracer-go/geom"
 	"github.com/oleg/raytracer-go/physic"
 	"github.com/oleg/raytracer-go/scene"
@@ -112,7 +111,6 @@ func unmarshalConf(r io.Reader) (Scene, error) {
 	var s Scene
 	err = yaml.Unmarshal(data, &s)
 	if err != nil {
-		fmt.Printf("%v\n", "============>>>")
 		return Scene{}, err
 	}
 	return s, nil
@@ -173,6 +171,9 @@ func toMaterial(v Object) (*physic.Material, error) {
 }
 
 func toPatter(pattern Pattern) (physic.Pattern, error) {
+	if pattern.Type == "" {
+		return nil, nil
+	}
 	switch pattern.Type {
 	case "Checkers":
 		checkersPattern := physic.CheckersPattern{

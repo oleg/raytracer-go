@@ -21,6 +21,5 @@ func Test_refraction_scene(t *testing.T) {
 	b := new(bytes.Buffer)
 	err = png.Encode(b, canvas)
 	assert.NoError(t, err)
-
-	AssertBytesAreEqual(t, "testdata/refraction_scene.png", b.Bytes())
+	AssertBytesAreEqual(t, "testdata/refraction_sample_test.png", b.Bytes())
 }

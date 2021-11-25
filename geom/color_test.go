@@ -1,8 +1,10 @@
 package geom
 
 import (
-	"github.com/stretchr/testify/assert"
+	"image/color"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func Test_color(t *testing.T) {
@@ -49,7 +51,7 @@ func Test_multiply_colors(t *testing.T) {
 }
 
 func Test_RGBA(t *testing.T) {
-	c := Color{1, 0.2, 0.8}
+	var c color.Color = Color{1, 0.2, 0.8}
 
 	r, g, b, a := c.RGBA()
 

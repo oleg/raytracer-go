@@ -9,8 +9,6 @@ import (
 
 //todo: decide if I want to return a pointers or structs?
 //todo add iterate function that accept function?
-const L4 = 4
-
 //todo implement HasTransformation?
 type Matrix struct {
 	Data    matrix4x4
@@ -57,9 +55,9 @@ func NewMatrix(str string) *Matrix {
 
 func (m *Matrix) Multiply(o *Matrix) *Matrix {
 	res := &Matrix{}
-	for i := 0; i < L4; i++ {
-		for j := 0; j < L4; j++ {
-			for k := 0; k < L4; k++ {
+	for i := 0; i < 4; i++ {
+		for j := 0; j < 4; j++ {
+			for k := 0; k < 4; k++ {
 				res.Data[i][j] += m.Data[i][k] * o.Data[k][j]
 			}
 		}
@@ -105,15 +103,10 @@ func (m *Matrix) Inverse() *Matrix {
 	if m.inverse != nil {
 		return m.inverse
 	}
-	determinant := m.Data.determinant()
-	inverse := &Matrix{}
-	for i := 0; i < L4; i++ {
-		for j := 0; j < L4; j++ {
-			inverse.Data[j][i] = m.Data.cofactor(i, j) / determinant
-		}
+	m.inverse = &Matrix{
+		Data:    *m.Data.inverse(),
+		inverse: m,
 	}
-	inverse.inverse = m
-	m.inverse = inverse
 	return m.inverse
 }
 

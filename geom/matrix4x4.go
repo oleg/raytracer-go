@@ -37,3 +37,15 @@ func (m *matrix4x4) submatrix(row, column int) *matrix3x3 {
 	return r
 }
 
+func (m *matrix4x4) inverse() *matrix4x4 {
+	determinant := m.determinant()
+	inverse := &matrix4x4{}
+	for i := 0; i < 4; i++ {
+		for j := 0; j < 4; j++ {
+			inverse[j][i] = m.cofactor(i, j) / determinant
+		}
+	}
+	return inverse
+}
+
+

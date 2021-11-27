@@ -55,11 +55,21 @@ func (m *{{ .Type1 }}) submatrix(row, column int) *{{ .Type2 }} {
 	return r
 }
 
+func (m *{{ .Type1 }}) inverse() *{{ .Type1 }} {
+	determinant := m.determinant()
+	inverse := &{{ .Type1 }}{}
+	for i := 0; i < {{ .Size }}; i++ {
+		for j := 0; j < {{ .Size }}; j++ {
+			inverse[j][i] = m.cofactor(i, j) / determinant
+		}
+	}
+	return inverse
+}
+
+
 `
 
 func main() {
-	log.SetFlags(0)
-
 	vars := []templateVar{
 		{
 			Type1: "matrix4x4",
@@ -74,11 +84,11 @@ func main() {
 	}
 
 	for _, v := range vars {
-		generateSetCode(v)
+		generateCode(v)
 	}
 }
 
-func generateSetCode(vars templateVar) {
+func generateCode(vars templateVar) {
 	filename := fmt.Sprintf("%s.go", strings.ToLower(vars.Type1))
 	tmpl := template.New(filename)
 	tmpl, err := tmpl.Parse(codeTemplate)

@@ -177,7 +177,7 @@ func Test_submatrix_of_4x4_matrix_is_3x3_matrix(t *testing.T) {
 		 | -1 | 0 |  8 | 2 |
 		 | -7 | 1 | -1 | 1 |`)
 
-	r := m.submatrix(2, 1)
+	r := m.Data.submatrix(2, 1)
 	expected := &matrix3x3{
 		{-6, 1, 6},
 		{-8, 8, 6},
@@ -254,7 +254,7 @@ func Test_calculating_determinant_of_4x4_matrix(t *testing.T) {
 		 |  1 |  2 | -9 |  6 |
 		 | -6 |  7 |  7 | -9 |`)
 
-	r := m.determinant()
+	r := m.Data.determinant()
 
 	assert.Equal(t, -4071.0, r)
 }
@@ -266,7 +266,7 @@ func Test_invertible_matrix(t *testing.T) {
 		 |  4 | -9 |  3 | -7 |
 		 |  9 |  1 |  7 | -6 |`)
 
-	r := m.determinant()
+	r := m.Data.determinant()
 
 	assert.Equal(t, -2120.0, r)
 }
@@ -278,7 +278,7 @@ func Test_non_invertible_matrix(t *testing.T) {
 		 |  0 | -5 |  1 | -5 |
 		 |  0 |  0 |  0 |  0 |`)
 
-	r := m.determinant()
+	r := m.Data.determinant()
 
 	assert.Equal(t, 0.0, r)
 }

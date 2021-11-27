@@ -7,34 +7,30 @@ import (
 	"strings"
 )
 
-//todo: decide if I want to return a pointers or structs?
-//todo add iterate function that accept function?
 //todo implement HasTransformation?
 type Matrix struct {
 	Data    matrix4x4
 	inverse *Matrix
 }
 
-var identityMatrixData = matrix4x4{
-	{1, 0, 0, 0},
-	{0, 1, 0, 0},
-	{0, 0, 1, 0},
-	{0, 0, 0, 1},
-}
-
 var identityMatrixRef = createInvertedMatrix()
-
-func createInvertedMatrix() *Matrix {
-	m := &Matrix{Data: identityMatrixData}
-	m.inverse = m
-	return m
-}
 
 func IdentityMatrix() *Matrix {
 	return identityMatrixRef
 }
 
-//todo must?
+func createInvertedMatrix() *Matrix {
+	m := &Matrix{
+		Data: matrix4x4{
+			{1, 0, 0, 0},
+			{0, 1, 0, 0},
+			{0, 0, 1, 0},
+			{0, 0, 0, 1},
+		}}
+	m.Inverse()
+	return m
+}
+
 func NewMatrix(str string) *Matrix {
 	m := &Matrix{}
 	rows := strings.Split(str, "\n")
@@ -54,35 +50,32 @@ func NewMatrix(str string) *Matrix {
 }
 
 func (m *Matrix) Multiply(o *Matrix) *Matrix {
-	res := &Matrix{}
+	result := &Matrix{}
 	for i := 0; i < 4; i++ {
 		for j := 0; j < 4; j++ {
 			for k := 0; k < 4; k++ {
-				res.Data[i][j] += m.Data[i][k] * o.Data[k][j]
+				result.Data[i][j] += m.Data[i][k] * o.Data[k][j]
 			}
 		}
 	}
-	return res
+	return result
 }
 
 func (m *Matrix) MultiplyPoint(t Point) Point {
-	d := m.Data
-	return Point{
-		X: d[0][0]*t.X + d[0][1]*t.Y + d[0][2]*t.Z + d[0][3]*1.,
-		Y: d[1][0]*t.X + d[1][1]*t.Y + d[1][2]*t.Z + d[1][3]*1.,
-		Z: d[2][0]*t.X + d[2][1]*t.Y + d[2][2]*t.Z + d[2][3]*1.,
-	}
+	x, y, z := m.multiply(t.X, t.Y, t.Z, 1.)
+	return Point{X: x, Y: y, Z: z}
 }
 
-//todo: remove duplication
 func (m *Matrix) MultiplyVector(t Vector) Vector {
-	d := m.Data
-	return Vector{
-		X: d[0][0]*t.X + d[0][1]*t.Y + d[0][2]*t.Z + d[0][3]*0.,
-		Y: d[1][0]*t.X + d[1][1]*t.Y + d[1][2]*t.Z + d[1][3]*0.,
-		Z: d[2][0]*t.X + d[2][1]*t.Y + d[2][2]*t.Z + d[2][3]*0.,
-	}
+	x, y, z := m.multiply(t.X, t.Y, t.Z, 0.)
+	return Vector{X: x, Y: y, Z: z}
+}
 
+func (m *Matrix) multiply(x, y, z, w float64) (float64, float64, float64) {
+	d := m.Data
+	return d[0][0]*x + d[0][1]*y + d[0][2]*z + d[0][3]*w,
+		d[1][0]*x + d[1][1]*y + d[1][2]*z + d[1][3]*w,
+		d[2][0]*x + d[2][1]*y + d[2][2]*z + d[2][3]*w
 }
 
 func (m *Matrix) Transpose() *Matrix {

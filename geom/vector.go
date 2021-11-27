@@ -7,7 +7,6 @@ type Vector struct {
 	X, Y, Z float64
 }
 
-//todo: use link?
 func (t Vector) AddVector(o Vector) Vector {
 	return Vector{t.X + o.X, t.Y + o.Y, t.Z + o.Z}
 }

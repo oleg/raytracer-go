@@ -11,10 +11,10 @@ type PatternFinder interface {
 
 type Pattern interface {
 	PatternFinder
-	HasTransformation
+	TransformationProvider
 }
 
-func PatternAtShape(pattern Pattern, shape HasTransformation, worldPoint geom.Point) geom.Color {
+func PatternAtShape(pattern Pattern, shape TransformationProvider, worldPoint geom.Point) geom.Color {
 	objectPoint := shape.Transformation().Inverse().MultiplyPoint(worldPoint)
 	patternPoint := pattern.Transformation().Inverse().MultiplyPoint(objectPoint)
 	return pattern.PatternAt(patternPoint)

@@ -28,8 +28,8 @@ func (w *World) ColorAt(r shapes.Ray, remaining uint8) geom.Color {
 	return geom.Black
 }
 
-func (w *World) Intersect(ray shapes.Ray) shapes.Inters {
-	r := make([]shapes.Inter, 0, 10)
+func (w *World) Intersect(ray shapes.Ray) shapes.Intersections {
+	r := make([]shapes.Intersection, 0, 10)
 	for _, shape := range w.Objects {
 		intersection := shape.Intersect(ray.ToLocal(shape))
 		r = append(r, intersection...)

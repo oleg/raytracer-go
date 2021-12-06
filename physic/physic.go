@@ -2,12 +2,13 @@ package physic
 
 import "github.com/oleg/raytracer-go/geom"
 
-type HasTransformation interface { //todo try to convert to an action
+type TransformationProvider interface { //todo try to convert to an action
 	Transformation() *geom.Matrix //todo add type alias?
 }
 
 var NoTransformation = Transformable{geom.IdentityMatrix()}
 
+// Transformable implements TransformationProvider and could be added to other structs
 type Transformable struct {
 	Transform *geom.Matrix //todo name it rule?
 }
@@ -16,7 +17,7 @@ func (t Transformable) Transformation() *geom.Matrix {
 	return t.Transform
 }
 
-type HasMaterial interface { //todo try to convert to an action
+type MaterialProvider interface { //todo try to convert to an action
 	Material() *Material
 }
 

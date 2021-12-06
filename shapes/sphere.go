@@ -22,7 +22,7 @@ func NewGlassSphere() Sphere {
 }
 
 //todo or Sphere?
-func (sphere Sphere) Intersect(ray Ray) Inters {
+func (sphere Sphere) Intersect(ray Ray) Intersections {
 	sphereToRay := ray.Origin.SubtractPoint(geom.Point{})
 	a := ray.Direction.Dot(ray.Direction)
 	b := 2 * ray.Direction.Dot(sphereToRay)
@@ -30,15 +30,15 @@ func (sphere Sphere) Intersect(ray Ray) Inters {
 
 	discriminant := b*b - 4*a*c
 	if discriminant < 0 {
-		return Inters{}
+		return Intersections{}
 	}
 
 	dSqrt := math.Sqrt(discriminant)
 	t1 := (-b - dSqrt) / (2 * a)
 	t2 := (-b + dSqrt) / (2 * a)
-	return Inters{
-		Inter{t1, sphere},
-		Inter{t2, sphere},
+	return Intersections{
+		Intersection{t1, sphere},
+		Intersection{t2, sphere},
 	}
 }
 

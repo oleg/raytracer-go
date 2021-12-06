@@ -10,8 +10,8 @@ type NormalFinder interface {
 }
 
 type Shape interface {
-	physic.HasTransformation
-	physic.HasMaterial
+	physic.TransformationProvider
+	physic.MaterialProvider
 	Intersecter
 	NormalFinder
 }

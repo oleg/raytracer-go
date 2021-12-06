@@ -166,7 +166,7 @@ func Test_helper_for_producing_sphere_with_glassy_material(t *testing.T) {
 }
 
 //todo updates tests, move ray transformation
-func intersect(shape Shape, ray Ray) Inters {
+func intersect(shape Shape, ray Ray) Intersections {
 	return shape.Intersect(ray.ToLocal(shape))
 }
 

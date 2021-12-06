@@ -15,7 +15,7 @@ type Camera struct {
 	Transform             *geom.Matrix
 }
 
-func NewCamera(hSize, vSize int, fieldOfView float64, sight physic.HasTransformation) *Camera {
+func NewCamera(hSize, vSize int, fieldOfView float64, sight physic.TransformationProvider) *Camera {
 	halfWidth, halfHeight := calcHalfWidthAndHeight(hSize, vSize, fieldOfView)
 	pixelSize := halfWidth * 2 / float64(hSize)
 	return &Camera{hSize, vSize, fieldOfView, halfWidth, halfHeight, pixelSize, sight.Transformation()}

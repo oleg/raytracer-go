@@ -21,7 +21,7 @@ type Computations struct {
 	N2         float64
 }
 
-func NewComputations(i shapes.Inter, r shapes.Ray, xs shapes.Inters) Computations {
+func NewComputations(i shapes.Intersection, r shapes.Ray, xs shapes.Intersections) Computations {
 	comps := Computations{}
 	comps.Distance = i.Distance
 	comps.Object = i.Object
@@ -64,7 +64,7 @@ func Schlick(comps Computations) float64 {
 }
 
 //todo does this method belongs here?
-func calcNs(hit shapes.Inter, xs shapes.Inters) (n1 float64, n2 float64) {
+func calcNs(hit shapes.Intersection, xs shapes.Intersections) (n1 float64, n2 float64) {
 	var shapes = make([]shapes.Shape, 0, 10)
 	for _, i := range xs {
 		if i == hit {
@@ -107,7 +107,7 @@ func remove(s []shapes.Shape, i int) []shapes.Shape {
 	return s[:len(s)-1]
 }
 
-func Hit(xs shapes.Inters) (bool, shapes.Inter) {
+func Hit(xs shapes.Intersections) (bool, shapes.Intersection) {
 	//todo move to constructor
 	sort.Slice(xs, func(i, j int) bool {
 		return xs[i].Distance < xs[j].Distance
@@ -117,5 +117,5 @@ func Hit(xs shapes.Inters) (bool, shapes.Inter) {
 			return true, e
 		}
 	}
-	return false, shapes.Inter{}
+	return false, shapes.Intersection{}
 }

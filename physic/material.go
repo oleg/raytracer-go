@@ -6,7 +6,7 @@ import (
 
 //todo change types?
 //todo reorder members
-//todo implement HasMaterial
+//todo implement MaterialProvider
 type Material struct {
 	Color           geom.Color
 	Pattern         Pattern

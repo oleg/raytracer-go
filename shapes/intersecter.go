@@ -6,7 +6,7 @@ import (
 )
 
 type Intersecter interface {
-	Intersect(ray Ray) Inters //todo fix this
+	Intersect(ray Ray) Intersections //todo fix this
 }
 
 type Ray struct {
@@ -18,7 +18,7 @@ func (ray Ray) Position(distance float64) geom.Point {
 	return ray.Origin.AddVector(ray.Direction.MultiplyScalar(distance))
 }
 
-func (ray Ray) ToLocal(shape physic.HasTransformation) Ray {
+func (ray Ray) ToLocal(shape physic.TransformationProvider) Ray {
 	m := shape.Transformation().Inverse()
 	return Ray{
 		m.MultiplyPoint(ray.Origin),
@@ -26,9 +26,9 @@ func (ray Ray) ToLocal(shape physic.HasTransformation) Ray {
 	}
 }
 
-type Inters []Inter //todo rename
+type Intersections []Intersection //todo rename to Hits
 
-type Inter struct { //todo rename
+type Intersection struct { //todo rename to Hit?
 	Distance float64
 	Object   Shape //todo try to remove shape from this struct
 }

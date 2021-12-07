@@ -136,7 +136,7 @@ func toObjects(objects []Object) ([]shapes.Shape, error) {
 }
 
 func parseObject(v Object) (shapes.Shape, error) {
-	tr := &geom.Matrix{Data: v.Transform}
+	tr := geom.NewMatrix(v.Transform)
 	mt, err := toMaterial(v)
 	if err != nil {
 		return nil, err
@@ -179,7 +179,7 @@ func toPatter(pattern Pattern) (physic.Pattern, error) {
 		checkersPattern := physic.CheckersPattern{
 			A:             toColor(pattern.A),
 			B:             toColor(pattern.B),
-			Transformable: physic.Transformable{Rule: &geom.Matrix{Data: pattern.Transform}},
+			Transformable: physic.Transformable{Rule: geom.NewMatrix(pattern.Transform)},
 		}
 		return checkersPattern, nil
 	default:

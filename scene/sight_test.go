@@ -23,7 +23,7 @@ func Test_transformation_matrix_for_default_orientation(t *testing.T) {
 
 	tr := s.Transformation()
 
-	assert.Equal(t, geom.IdentityMatrix().Data, tr.Data)
+	assert.Equal(t, geom.IdentityMatrix().Data(), tr.Data())
 }
 
 func Test_view_transformation_matrix_looking_in_positive_z_direction(t *testing.T) {
@@ -58,7 +58,7 @@ func Test_arbitrary_view_transformation(t *testing.T) {
 
 	tr := s.Transformation()
 
-	expected := geom.NewMatrix(
+	expected := geom.ParseMatrix(
 		`| -0.50709 | 0.50709 |  0.67612 | -2.36643 |  
 		 |  0.76772 | 0.60609 |  0.12122 | -2.82843 |
 		 | -0.35857 | 0.59761 | -0.71714 |  0.00000 |

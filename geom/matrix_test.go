@@ -7,27 +7,27 @@ import (
 )
 
 func Test_create_matrix(t *testing.T) {
-	m := NewMatrix(
+	m := ParseMatrix(
 		`| 1    | 2    | 3    | 4    |  
 		 | 5.5  | 6.5  | 7.5  | 8.5  |
 		 | 9    | 10   | 11   | 12   |
 		 | 13.5 | 14.5 | 15.5 | 16.5 |`)
 
-	assert.Equal(t, 1., m.Data[0][0])
-	assert.Equal(t, 4., m.Data[0][3])
-	assert.Equal(t, 5.5, m.Data[1][0])
-	assert.Equal(t, 7.5, m.Data[1][2])
-	assert.Equal(t, 13.5, m.Data[3][0])
-	assert.Equal(t, 16.5, m.Data[3][3])
+	assert.Equal(t, 1., m.data[0][0])
+	assert.Equal(t, 4., m.data[0][3])
+	assert.Equal(t, 5.5, m.data[1][0])
+	assert.Equal(t, 7.5, m.data[1][2])
+	assert.Equal(t, 13.5, m.data[3][0])
+	assert.Equal(t, 16.5, m.data[3][3])
 }
 
 func Test_matrices_equal(t *testing.T) {
-	m1 := NewMatrix(
+	m1 := ParseMatrix(
 		`| 1 | 2 | 3 | 4 |
  		 | 5 | 6 | 7 | 8 |
 	     | 9 | 8 | 7 | 6 |
 	     | 5 | 4 | 3 | 2 |`)
-	m2 := NewMatrix(
+	m2 := ParseMatrix(
 		`| 1 | 2 | 3 | 4 |
 	     | 5 | 6 | 7 | 8 |
 	     | 9 | 8 | 7 | 6 |
@@ -37,12 +37,12 @@ func Test_matrices_equal(t *testing.T) {
 }
 
 func Test_matrices_not_equal(t *testing.T) {
-	m1 := NewMatrix(
+	m1 := ParseMatrix(
 		`| 1 | 2 | 3 | 4 |
 	     | 5 | 6 | 7 | 8 |
 	     | 9 | 8 | 7 | 6 |
 	     | 5 | 4 | 3 | 2 |`)
-	m2 := NewMatrix(
+	m2 := ParseMatrix(
 		` | 2 | 3 | 4 | 5 |
 	     | 6 | 7 | 8 | 9 |
 	     | 8 | 7 | 6 | 5 |
@@ -52,12 +52,12 @@ func Test_matrices_not_equal(t *testing.T) {
 }
 
 func Test_multiply_matrices(t *testing.T) {
-	m1 := NewMatrix(
+	m1 := ParseMatrix(
 		`| 1 | 2 | 3 | 4 |
 	     | 5 | 6 | 7 | 8 |
 	     | 9 | 8 | 7 | 6 |
 	     | 5 | 4 | 3 | 2 |`)
-	m2 := NewMatrix(
+	m2 := ParseMatrix(
 		`| -2 | 1 | 2 |  3 |
 	     |  3 | 2 | 1 | -1 |
 	     |  4 | 3 | 6 |  5 |
@@ -65,7 +65,7 @@ func Test_multiply_matrices(t *testing.T) {
 
 	result := m1.Multiply(m2)
 
-	expected := NewMatrix(
+	expected := ParseMatrix(
 		`| 20|  22 |  50 |  48 |
 	     | 44|  54 | 114 | 108 |
 	     | 40|  58 | 110 | 102 |
@@ -75,7 +75,7 @@ func Test_multiply_matrices(t *testing.T) {
 }
 
 func Test_multiply_matrix_and_point(t *testing.T) {
-	m := NewMatrix(
+	m := ParseMatrix(
 		`| 1 | 2 | 3 | 4 |
 	     | 2 | 4 | 4 | 2 |
 	     | 8 | 6 | 4 | 1 |
@@ -89,7 +89,7 @@ func Test_multiply_matrix_and_point(t *testing.T) {
 }
 
 func Test_multiply_matrix_and_vector(t *testing.T) {
-	m := NewMatrix(
+	m := ParseMatrix(
 		`| 1 | 2 | 3 | 4 |
 	     | 2 | 4 | 4 | 2 |
 	     | 8 | 6 | 4 | 1 |
@@ -103,7 +103,7 @@ func Test_multiply_matrix_and_vector(t *testing.T) {
 }
 
 func Test_multiply_matrix_by_identity_matrix(t *testing.T) {
-	m := NewMatrix(
+	m := ParseMatrix(
 		`| 0 | 1 |  2 |  4 |
 		 | 1 | 2 |  4 |  8 |
 		 | 2 | 4 |  8 | 16 |
@@ -123,14 +123,14 @@ func Test_multiply_identity_matrix_by_point(t *testing.T) {
 }
 
 func Test_transpose_matrix(t *testing.T) {
-	m := NewMatrix(
+	m := ParseMatrix(
 		`| 0 | 9 | 3 | 0 |
 		 | 9 | 8 | 0 | 8 |
 		 | 1 | 8 | 5 | 3 |
 		 | 0 | 0 | 5 | 8 |`)
 
 	r := m.Transpose()
-	expected := NewMatrix(
+	expected := ParseMatrix(
 		`| 0 | 9 | 1 | 0 |
 		 | 9 | 8 | 8 | 0 |
 		 | 3 | 0 | 5 | 5 |
@@ -145,11 +145,11 @@ func Test_transpose_does_not_change_original(t *testing.T) {
 		 | 9 | 8 | 0 | 8 |
 		 | 1 | 8 | 5 | 3 |
 		 | 0 | 0 | 5 | 8 |`
-	m := NewMatrix(data)
+	m := ParseMatrix(data)
 
 	m.Transpose()
 
-	expected := NewMatrix(data)
+	expected := ParseMatrix(data)
 	assert.Equal(t, expected, m)
 }
 
@@ -157,7 +157,7 @@ func Test_transpose_identity_matrix(t *testing.T) {
 
 	m := IdentityMatrix().Transpose()
 
-	assert.Equal(t, IdentityMatrix().Data, m.Data)
+	assert.Equal(t, IdentityMatrix().data, m.data)
 }
 
 func Test_calculate_determinant_of_2x2_matrix(t *testing.T) {
@@ -171,13 +171,13 @@ func Test_calculate_determinant_of_2x2_matrix(t *testing.T) {
 }
 
 func Test_submatrix_of_4x4_matrix_is_3x3_matrix(t *testing.T) {
-	m := NewMatrix(
+	m := ParseMatrix(
 		`| -6 | 1 |  1 | 6 |
 		 | -8 | 5 |  8 | 6 |
 		 | -1 | 0 |  8 | 2 |
 		 | -7 | 1 | -1 | 1 |`)
 
-	r := m.Data.submatrix(2, 1)
+	r := m.data.submatrix(2, 1)
 	expected := &matrix3x3{
 		{-6, 1, 6},
 		{-8, 8, 6},
@@ -248,43 +248,43 @@ func Test_calculating_determinant_of_3x3_matrix(t *testing.T) {
 }
 
 func Test_calculating_determinant_of_4x4_matrix(t *testing.T) {
-	m := NewMatrix(
+	m := ParseMatrix(
 		`| -2 | -8 |  3 |  5 |
 		 | -3 |  1 |  7 |  3 |
 		 |  1 |  2 | -9 |  6 |
 		 | -6 |  7 |  7 | -9 |`)
 
-	r := m.Data.determinant()
+	r := m.data.determinant()
 
 	assert.Equal(t, -4071.0, r)
 }
 
 func Test_invertible_matrix(t *testing.T) {
-	m := NewMatrix(
+	m := ParseMatrix(
 		`|  6 |  4 |  4 |  4 |
 		 |  5 |  5 |  7 |  6 |
 		 |  4 | -9 |  3 | -7 |
 		 |  9 |  1 |  7 | -6 |`)
 
-	r := m.Data.determinant()
+	r := m.data.determinant()
 
 	assert.Equal(t, -2120.0, r)
 }
 
 func Test_non_invertible_matrix(t *testing.T) {
-	m := NewMatrix(
+	m := ParseMatrix(
 		`| -4 |  2 | -2 | -3 |
 		 |  9 |  6 |  2 |  6 |
 		 |  0 | -5 |  1 | -5 |
 		 |  0 |  0 |  0 |  0 |`)
 
-	r := m.Data.determinant()
+	r := m.data.determinant()
 
 	assert.Equal(t, 0.0, r)
 }
 
 func Test_calculating_inverse_of_matrix(t *testing.T) {
-	m := NewMatrix(
+	m := ParseMatrix(
 		`| -5 |  2 |  6 | -8 |
 		 |  1 | -5 |  1 |  8 |
 		 |  7 |  7 | -6 | -7 |
@@ -292,7 +292,7 @@ func Test_calculating_inverse_of_matrix(t *testing.T) {
 
 	r := m.Inverse()
 
-	expected := NewMatrix(
+	expected := ParseMatrix(
 		`|  0.21805 |  0.45113 |  0.24060 | -0.04511 |
 		 | -0.80827 | -1.45677 | -0.44361 |  0.52068 |
 		 | -0.07895 | -0.22368 | -0.05263 |  0.19737 |
@@ -301,7 +301,7 @@ func Test_calculating_inverse_of_matrix(t *testing.T) {
 }
 
 func Test_calculating_inverse_of_matrix_case_2(t *testing.T) {
-	m := NewMatrix(
+	m := ParseMatrix(
 		`|  8 | -5 |  9 |  2 |
 		 |  7 |  5 |  6 |  1 |
 		 | -6 |  0 |  9 |  6 |
@@ -309,7 +309,7 @@ func Test_calculating_inverse_of_matrix_case_2(t *testing.T) {
 
 	r := m.Inverse()
 
-	expected := NewMatrix(
+	expected := ParseMatrix(
 		`| -0.15385 | -0.15385 | -0.28205 | -0.53846 |
 		 | -0.07692 |  0.12308 |  0.02564 |  0.03077 |
 		 |  0.35897 |  0.35897 |  0.43590 |  0.92308 |
@@ -318,7 +318,7 @@ func Test_calculating_inverse_of_matrix_case_2(t *testing.T) {
 }
 
 func Test_calculating_inverse_of_matrix_case_3(t *testing.T) {
-	m := NewMatrix(
+	m := ParseMatrix(
 		`|  9 |  3 |  0 |  9 |
 		 | -5 | -2 | -6 | -3 |
 		 | -4 |  9 |  6 |  4 |
@@ -326,7 +326,7 @@ func Test_calculating_inverse_of_matrix_case_3(t *testing.T) {
 
 	r := m.Inverse()
 
-	expected := NewMatrix(
+	expected := ParseMatrix(
 		`| -0.04074 | -0.07778 |  0.14444 | -0.22222 |
 		 | -0.07778 |  0.03333 |  0.36667 | -0.33333 |
 		 | -0.02901 | -0.14630 | -0.10926 |  0.12963 |
@@ -335,12 +335,12 @@ func Test_calculating_inverse_of_matrix_case_3(t *testing.T) {
 }
 
 func Test_multiplying_product_by_its_inverse(t *testing.T) {
-	ma := NewMatrix(
+	ma := ParseMatrix(
 		`|  3 | -9 |  7 |  3 |
 		 |  3 | -8 |  2 | -9 |
 		 | -4 |  4 |  4 |  1 |
 		 | -6 |  5 | -1 |  1 |`)
-	mb := NewMatrix(
+	mb := ParseMatrix(
 		`|  8 |  2 |  2 |  2 |
 		 |  3 | -1 |  7 |  0 |
 		 |  7 |  0 |  5 |  4 |

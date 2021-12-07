@@ -40,7 +40,7 @@ func Test_Computing_point_from_distance(t *testing.T) {
 
 func Test_translating_ray(t *testing.T) {
 	r := Ray{geom.Point{X: 1, Y: 2, Z: 3}, geom.Vector{X: 0, Y: 1, Z: 0}}
-	m := physic.Transformable{Transform: geom.Translation(3, 4, 5).Inverse()}
+	m := physic.Transformable{Rule: geom.Translation(3, 4, 5).Inverse()}
 
 	r2 := r.ToLocal(m)
 
@@ -50,7 +50,7 @@ func Test_translating_ray(t *testing.T) {
 
 func Test_scaling_ray(t *testing.T) {
 	r := Ray{geom.Point{X: 1, Y: 2, Z: 3}, geom.Vector{X: 0, Y: 1, Z: 0}}
-	m := physic.Transformable{Transform: geom.Scaling(2, 3, 4).Inverse()}
+	m := physic.Transformable{Rule: geom.Scaling(2, 3, 4).Inverse()}
 
 	r2 := r.ToLocal(m)
 

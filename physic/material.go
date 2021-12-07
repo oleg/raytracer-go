@@ -4,8 +4,6 @@ import (
 	"github.com/oleg/raytracer-go/geom"
 )
 
-//todo change types?
-//todo reorder members
 //todo implement MaterialProvider
 type Material struct {
 	Color           geom.Color
@@ -30,7 +28,6 @@ func GlassMaterialBuilder() *MaterialBuilder {
 		SetTransparency(1.0)
 }
 
-//todo think about it
 type MaterialBuilder struct {
 	color           geom.Color
 	pattern         Pattern
@@ -53,6 +50,7 @@ func NewMaterialBuilder() *MaterialBuilder {
 		shininess:       200.0,
 	}
 }
+
 func (mb *MaterialBuilder) Build() *Material {
 	return &Material{
 		Color:           mb.color,

@@ -52,7 +52,7 @@ func Test_constructing_ray_with_camera(t *testing.T) {
 			shapes.Ray{Origin: geom.Point{X: 0, Y: 0, Z: 0}, Direction: geom.Vector{X: 0.66519, Y: 0.33259, Z: -0.66851}},
 		},
 		{"Constructing a ray when the camera is transformed",
-			NewCamera(201, 101, math.Pi/2, physic.Transformable{Transform: geom.RotationY(math.Pi / 4).Multiply(geom.Translation(0, -2, 5))}),
+			NewCamera(201, 101, math.Pi/2, physic.Transformable{Rule: geom.RotationY(math.Pi / 4).Multiply(geom.Translation(0, -2, 5))}),
 			100, 50,
 			shapes.Ray{Origin: geom.Point{X: 0, Y: 2, Z: -5}, Direction: geom.Vector{X: math.Sqrt2 / 2, Y: 0, Z: -math.Sqrt2 / 2}},
 		},

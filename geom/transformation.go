@@ -2,7 +2,6 @@ package geom
 
 import "math"
 
-//todo: where to put this methods?
 func Translation(x, y, z float64) *Matrix {
 	return &Matrix{
 		Data: [4][4]float64{

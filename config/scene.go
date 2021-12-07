@@ -179,7 +179,7 @@ func toPatter(pattern Pattern) (physic.Pattern, error) {
 		checkersPattern := physic.CheckersPattern{
 			A:             toColor(pattern.A),
 			B:             toColor(pattern.B),
-			Transformable: physic.Transformable{Transform: &geom.Matrix{Data: pattern.Transform}},
+			Transformable: physic.Transformable{Rule: &geom.Matrix{Data: pattern.Transform}},
 		}
 		return checkersPattern, nil
 	default:

@@ -20,7 +20,7 @@ func Test_plane_scene_sample(t *testing.T) {
 			SetPattern(physic.CheckersPattern{
 				A: geom.Color{R: 0.5, G: 1, B: 0.1},
 				B: geom.Color{R: 0.7, G: 0.3, B: 1},
-				Transformable: physic.Transformable{Transform: geom.Translation(1, 0, 0).
+				Transformable: physic.Transformable{Rule: geom.Translation(1, 0, 0).
 					Multiply(geom.Scaling(0.5, 0.5, 0.5))}}).
 			Build())
 
@@ -32,7 +32,7 @@ func Test_plane_scene_sample(t *testing.T) {
 			SetPattern(physic.RingPattern{
 				A: geom.Color{R: 0.8, G: 0.9, B: 0.5},
 				B: geom.Color{R: 0.5, G: 0.2, B: 0.3},
-				Transformable: physic.Transformable{Transform: geom.Translation(0, 0, 2).
+				Transformable: physic.Transformable{Rule: geom.Translation(0, 0, 2).
 					Multiply(geom.Scaling(0.2, 0.2, 0.2))}}).
 			Build())
 
@@ -43,7 +43,7 @@ func Test_plane_scene_sample(t *testing.T) {
 			SetPattern(physic.GradientPattern{
 				A: geom.Color{R: 0.3, G: 1, B: 0.7},
 				B: geom.Color{R: 0.7, G: 0.3, B: 1},
-				Transformable: physic.Transformable{Transform: geom.Translation(1, 0, 0).
+				Transformable: physic.Transformable{Rule: geom.Translation(1, 0, 0).
 					Multiply(geom.Scaling(2, 1, 1))}}).
 			SetDiffuse(0.7).
 			SetSpecular(0.3).Build())
@@ -61,7 +61,7 @@ func Test_plane_scene_sample(t *testing.T) {
 			SetPattern(physic.StripePattern{
 				A: geom.Color{R: 0.7, G: 0.9, B: 0.8},
 				B: geom.Color{R: 0.2, G: 0.4, B: 0.1},
-				Transformable: physic.Transformable{Transform: geom.RotationZ(math.Pi / 4).
+				Transformable: physic.Transformable{Rule: geom.RotationZ(math.Pi / 4).
 					Multiply(geom.Scaling(0.3, 0.3, 0.3))}}).
 			SetDiffuse(0.7).
 			SetSpecular(0.3).Build())

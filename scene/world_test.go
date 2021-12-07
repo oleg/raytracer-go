@@ -382,7 +382,7 @@ func Test_Lighting_with_pattern_applied(t *testing.T) {
 		SetAmbient(1).
 		SetDiffuse(0).
 		SetSpecular(0).
-		SetPattern(physic.StripePattern{A: geom.White, B: geom.Black, Transformable: physic.Transformable{Transform: geom.IdentityMatrix()}}).
+		SetPattern(physic.StripePattern{A: geom.White, B: geom.Black, Transformable: physic.Transformable{Rule: geom.IdentityMatrix()}}).
 		Build()
 
 	eyeV := geom.Vector{X: 0, Y: 0, Z: -1}

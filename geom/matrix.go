@@ -9,7 +9,7 @@ import (
 
 //todo implement HasTransformation?
 type Matrix struct {
-	Data    matrix4x4
+	Data    matrix4x4 //todo make private
 	inverse *Matrix
 }
 
@@ -47,6 +47,15 @@ func NewMatrix(str string) *Matrix {
 		}
 	}
 	return m
+}
+
+func trimAndParseFloat(s string) float64 {
+	s = strings.Trim(s, " ")
+	val, err := strconv.ParseFloat(s, 64)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return val
 }
 
 func (m *Matrix) Multiply(o *Matrix) *Matrix {
@@ -101,13 +110,4 @@ func (m *Matrix) Inverse() *Matrix {
 		inverse: m,
 	}
 	return m.inverse
-}
-
-func trimAndParseFloat(s string) float64 {
-	s = strings.Trim(s, " ")
-	val, err := strconv.ParseFloat(s, 64)
-	if err != nil {
-		log.Fatal(err)
-	}
-	return val
 }

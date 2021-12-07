@@ -127,7 +127,7 @@ world:
 							A: geom.Color{R: 0.3, G: 0.4, B: 0.5},
 							B: geom.Color{R: 0.6, G: 0.7, B: 0.8},
 							Transformable: physic.Transformable{
-								Transform: &geom.Matrix{
+								Rule: &geom.Matrix{
 									Data: [4][4]float64{
 										{0.1, 0, 0, 1},
 										{0, 0.2, 0, 2},
@@ -157,7 +157,7 @@ world:
 							A: geom.Color{R: 0.3, G: 0.4, B: 0.5},
 							B: geom.Color{R: 0.6, G: 0.7, B: 0.8},
 							Transformable: physic.Transformable{
-								Transform: &geom.Matrix{
+								Rule: &geom.Matrix{
 									Data: [4][4]float64{
 										{0.1, 0, 0, 1},
 										{0, 0.2, 0, 2},
